@@ -1,0 +1,1 @@
+export const testTimeout: number = 240_000

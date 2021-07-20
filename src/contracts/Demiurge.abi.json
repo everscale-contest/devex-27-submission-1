@@ -1,0 +1,77 @@
+{
+	"ABI version": 2,
+	"header": ["time"],
+	"functions": [
+		{
+			"name": "constructor",
+			"inputs": [
+				{"name":"customerCode","type":"cell"},
+				{"name":"vendorCode","type":"cell"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "createCustomer",
+			"inputs": [
+				{"name":"publicKey","type":"uint256"},
+				{"name":"owner","type":"address"},
+				{"name":"deployValue","type":"uint128"}
+			],
+			"outputs": [
+				{"name":"customer","type":"address"}
+			]
+		},
+		{
+			"name": "createVendor",
+			"inputs": [
+				{"name":"publicKey","type":"uint256"},
+				{"name":"owner","type":"address"},
+				{"name":"deployValue","type":"uint128"}
+			],
+			"outputs": [
+				{"name":"vendor","type":"address"}
+			]
+		},
+		{
+			"name": "getCustomerCode",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"code","type":"cell"}
+			]
+		},
+		{
+			"name": "getVendorCode",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"code","type":"cell"}
+			]
+		},
+		{
+			"name": "getCustomerAddress",
+			"inputs": [
+				{"name":"publicKey","type":"uint256"},
+				{"name":"owner","type":"address"}
+			],
+			"outputs": [
+				{"name":"customer","type":"address"}
+			]
+		},
+		{
+			"name": "getVendorAddress",
+			"inputs": [
+				{"name":"publicKey","type":"uint256"},
+				{"name":"owner","type":"address"}
+			],
+			"outputs": [
+				{"name":"vendor","type":"address"}
+			]
+		}
+	],
+	"data": [
+	],
+	"events": [
+	]
+}
