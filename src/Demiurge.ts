@@ -15,11 +15,17 @@ export interface GetCustomerAddressIn {
     owner: string
 }
 
-export interface GetCustomerAddressOut {
-    customer: string
+export interface GetVendorAddressIn {
+    publicKey: number | string
+    owner: string
 }
 
 export class Demiurge extends Contract {
+    public static readonly EXTERNAL = {
+        createCustomer: 'createCustomer',
+        createVendor: 'createVendor'
+    }
+
     public constructor(client: TonClient, timeout: number, keys: KeyPair) {
         super(client, timeout, {
             abi: DemiurgeContract.abi,
@@ -37,10 +43,26 @@ export class Demiurge extends Contract {
         return await super.deploy(input)
     }
 
+
+
+
+
     /***********
      * GETTERS *
      ***********/
-    public async getCustomerAddress(input: GetCustomerAddressIn): Promise<GetCustomerAddressOut> {
-        return (await this.run('getCustomerAddress', input)).value
+    public async getCustomerCode(): Promise<string> {
+        return (await this.run('getCustomerCode')).value.value0
+    }
+
+    public async getVendorCode(): Promise<string> {
+        return (await this.run('getVendorCode')).value.value0
+    }
+
+    public async getCustomerAddress(input: GetCustomerAddressIn): Promise<string> {
+        return (await this.run('getCustomerAddress', input)).value.value0
+    }
+
+    public async getVendorAddress(input: GetVendorAddressIn): Promise<string> {
+        return (await this.run('getVendorAddress', input)).value.value0
     }
 }

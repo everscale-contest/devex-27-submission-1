@@ -237,6 +237,15 @@ export const config: any = {
              *     1
              */
             requiredForDeployment: 0.03
+        },
+        demiurge: {
+            requiredForDeployment: 0.03
+        },
+        customer: {
+            requiredForDeployment: 0.03
+        },
+        vendor: {
+            requiredForDeployment: 0.03
         }
     },
 

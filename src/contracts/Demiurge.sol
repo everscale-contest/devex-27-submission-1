@@ -1,5 +1,6 @@
 pragma ton-solidity >= 0.47.0;
 
+import "interfaces/IDemiurge.sol";
 import "Customer.sol";
 import "Vendor.sol";
 
@@ -12,7 +13,7 @@ import "Vendor.sol";
  * Errors
  *    100 - Define only public key or owner address
  */
-contract Demiurge {
+contract Demiurge is IDemiurge {
     /*************
      * VARIABLES *
      *************/
@@ -51,19 +52,21 @@ contract Demiurge {
     }
 
 
-    /**********
-     * PUBLIC *
-     **********/
+    /************
+     * EXTERNAL *
+     ************/
     /**
        publicKey ...... Public key of owner if the owner is external, zero otherwise.
        owner .......... Address of owner if the owner is internal, zero otherwise.
        deployValue .... Value with which the contract will be deployed.
+       customer ....... Address of customer contract.
      */
     function createCustomer(uint256 publicKey, address owner, uint128 deployValue)
-        public
+        override
+        external
         view
         onlyOneOwner(publicKey, owner)
-        returns(address customer)
+        returns(address)
     {
         TvmCell stateInit = tvm.buildStateInit({
             contr: Vendor,
@@ -87,12 +90,14 @@ contract Demiurge {
        publicKey ...... Public key of owner if the owner is external, zero otherwise.
        owner .......... Address of owner if the owner is internal, zero otherwise.
        deployValue .... Value with which the contract will be deployed.
+       vendor ......... Address of vendor contract.
      */
     function createVendor(uint256 publicKey, address owner, uint128 deployValue)
-        public
+        override
+        external
         view
         onlyOneOwner(publicKey, owner)
-        returns(address vendor)
+        returns(address)
     {
         TvmCell stateInit = tvm.buildStateInit({
             contr: Customer,
@@ -116,15 +121,26 @@ contract Demiurge {
     /***********
      * GETTERS *
      ***********/
-    function getCustomerCode() public view returns (TvmCell code) {
+    /**
+       code .... Code of customer contract.
+     */
+    function getCustomerCode() public view returns (TvmCell) {
         return _customerCode;
     }
 
-    function getVendorCode() public view returns (TvmCell code) {
+    /**
+       code .... Code of vendor contract.
+     */
+    function getVendorCode() public view returns (TvmCell) {
         return _vendorCode;
     }
 
-    function getCustomerAddress(uint256 publicKey, address owner) public view returns (address customer) {
+    /**
+       publicKey ...... Public key of owner if the owner is external, zero otherwise.
+       owner .......... Address of owner if the owner is internal, zero otherwise.
+       customer ....... Address of customer contract.
+     */
+    function getCustomerAddress(uint256 publicKey, address owner) public view returns (address) {
         TvmCell stateInit = tvm.buildStateInit({
             contr: Customer,
             varInit: {
@@ -134,10 +150,15 @@ contract Demiurge {
             pubkey: publicKey,
             code: _customerCode
         });
-        customer = address(tvm.hash(stateInit));
+        return address(tvm.hash(stateInit));
     }
 
-    function getVendorAddress(uint256 publicKey, address owner) public view returns (address vendor) {
+    /**
+       publicKey ...... Public key of owner if the owner is external, zero otherwise.
+       owner .......... Address of owner if the owner is internal, zero otherwise.
+       vendor ......... Address of vendor contract.
+     */
+    function getVendorAddress(uint256 publicKey, address owner) public view returns (address) {
         TvmCell stateInit = tvm.buildStateInit({
             contr: Vendor,
             varInit: {
@@ -147,6 +168,6 @@ contract Demiurge {
             pubkey: publicKey,
             code: _vendorCode
         });
-        vendor = address(tvm.hash(stateInit));
+        return address(tvm.hash(stateInit));
     }
 }
