@@ -2,7 +2,7 @@ import {testTimeout} from './_utils/testTimeout'
 import {prepareGiverV2} from 'jton-contracts/dist/tonlabs/GiverV2'
 import {config} from '../config'
 import {KeyPair} from '@tonclient/core/dist/modules'
-import {AccountType, B, getRandomKeyPair, ZERO_ADDRESS} from 'jton'
+import {B, getRandomKeyPair, ZERO_ADDRESS} from 'jton'
 import {Vendor} from '../src/Vendor'
 import {Demiurge} from '../src/Demiurge'
 
@@ -22,8 +22,12 @@ it('deployFromExternal', async () => {
         dest: await vendor.address(),
         value: config.contracts.vendor.requiredForDeployment * B
     })
-    const deployResult: boolean = await vendor.deploy()
-    expect(deployResult).not.toBeTruthy()
-    expect(await vendor.accountType()).toBe(AccountType.unInit)
+    let errorCode: number = 0
+    try {
+        await vendor.deploy()
+    } catch (e: any) {
+        errorCode = e.data.exit_code ?? e.data.local_error.data.exit_code
+    }
+    expect(errorCode).toBe(100)
     client.close()
 }, testTimeout)
