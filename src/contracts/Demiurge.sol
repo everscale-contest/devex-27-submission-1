@@ -5,13 +5,13 @@ import "Customer.sol";
 import "Vendor.sol";
 
 /**
- * Contract create Vendor and Customer contracts.
- * Contract stores a list of resources, a list of subscriptions and connections between them.
- *    Vendor - contract of the user who creates the subscriptions.
- *    Customer - contract of the user who subscribes to subscriptions.
- *
- * Errors
- *    100 - Define only public key or owner address
+   Contract create Vendor and Customer contracts.
+   Contract stores a list of resources, a list of subscriptions and connections between them.
+      Vendor - contract of the user who creates the subscriptions.
+      Customer - contract of the user who subscribes to subscriptions.
+
+   Errors
+      100 - Define only public key or owner address
  */
 contract Demiurge is IDemiurge {
     /*************

@@ -221,12 +221,12 @@ export const config: any = {
             /**
              * Absolute path to keys file.
              * Examples:
-             *     `${__dirname}/../node_modules/jton-contracts/dist/tonlabs/GiverV2/contract/GiverV2.se.keys.json`
+             *     `${__dirname}/../node_modules/jton-contracts ... GiverV2.se.keys.json`
              *     `${__dirname}/../keys/GiverV2.keys.json`
              *     `/home/user/keys/GiverV2.keys.json`
              */
             keys: {
-                se: `${__dirname}/../node_modules/jton-contracts/dist/tonlabs/GiverV2/2021-04-28T09:41:28Z/contract/GiverV2.se.keys.json`,
+                se: `${__dirname}/../node_modules/jton-contracts/dist/tonlabs/GiverV2/8a2bc005cfec4ecd770d50b074179e525b76513b/contract/GiverV2.se.keys.json`,
                 dev: `${__dirname}/../keys/GiverV2.keys.json`
             },
 
