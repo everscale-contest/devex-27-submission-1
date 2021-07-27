@@ -4,7 +4,7 @@ import "interfaces/IDemiurge.sol";
 import "Customer.sol";
 import "Vendor.sol";
 
-/**
+/*
    Demiurge creates Vendors and Customers
 
    Errors
@@ -26,7 +26,7 @@ contract Demiurge is IDemiurge {
         _;
     }
 
-    /**
+    /*
        publicKey .... Public key of owner if the owner is external, zero otherwise
        owner ........ Address of owner if the owner is internal, zero otherwise
      */
@@ -39,7 +39,7 @@ contract Demiurge is IDemiurge {
     /***************
      * CONSTRUCTOR *
      ***************/
-    /**
+    /*
        vendorCode ...... Code of vendor contract
        customerCode .... Code of customer contract
      */
@@ -52,7 +52,7 @@ contract Demiurge is IDemiurge {
     /************
      * EXTERNAL *
      ************/
-    /**
+    /*
        publicKey ...... Public key of owner if the owner is external, zero otherwise
        owner .......... Address of owner if the owner is internal, zero otherwise
        deployValue .... Value with which the contract will be deployed
@@ -82,7 +82,7 @@ contract Demiurge is IDemiurge {
         }();
     }
 
-   /**
+   /*
        publicKey ...... Public key of owner if the owner is external, zero otherwise
        owner .......... Address of owner if the owner is internal, zero otherwise
        deployValue .... Value with which the contract will be deployed
@@ -124,7 +124,7 @@ contract Demiurge is IDemiurge {
         return { value: 0, bounce: false, flag: 64 } _customerCode;
     }
 
-    /**
+    /*
        publicKey ...... Public key of owner if the owner is external, zero otherwise
        owner .......... Address of owner if the owner is internal, zero otherwise
      */
@@ -141,7 +141,7 @@ contract Demiurge is IDemiurge {
         return { value: 0, bounce: false, flag: 64 } address(tvm.hash(stateInit));
     }
 
-    /**
+    /*
        publicKey ...... Public key of owner if the owner is external, zero otherwise
        owner .......... Address of owner if the owner is internal, zero otherwise
      */

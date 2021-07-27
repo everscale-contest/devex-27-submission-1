@@ -1,7 +1,7 @@
 pragma ton-solidity >= 0.47.0;
 
 interface IDemiurge {
-    /**
+    /*
        publicKey ...... Public key of owner if the owner is external, zero otherwise
        owner .......... Address of owner if the owner is internal, zero otherwise
        deployValue .... Value with which the contract will be deployed
@@ -11,7 +11,7 @@ interface IDemiurge {
         view
         returns(address);
 
-    /**
+    /*
        publicKey ...... Public key of owner if the owner is external, zero otherwise
        owner .......... Address of owner if the owner is internal, zero otherwise
        deployValue .... Value with which the contract will be deployed
@@ -25,13 +25,13 @@ interface IDemiurge {
 
     function getCustomerCode() external view responsible returns (TvmCell);
 
-    /**
+    /*
        publicKey ...... Public key of owner if the owner is external, zero otherwise
        owner .......... Address of owner if the owner is internal, zero otherwise
      */
     function getVendorAddress(uint256 publicKey, address owner) external view responsible returns (address);
 
-    /**
+    /*
        publicKey ...... Public key of owner if the owner is external, zero otherwise
        owner .......... Address of owner if the owner is internal, zero otherwise
      */

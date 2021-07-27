@@ -2,7 +2,7 @@ pragma ton-solidity >= 0.47.0;
 pragma AbiHeader expire;
 pragma AbiHeader pubkey;
 
-/**
+/*
    Created by Demiurge. Manages Resources. Receives request from Subscription and redirect request to Resource
 
    Errors
