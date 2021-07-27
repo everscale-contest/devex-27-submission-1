@@ -36,6 +36,7 @@
 		{
 			"name": "getVendorCode",
 			"inputs": [
+				{"name":"_answer_id","type":"uint32"}
 			],
 			"outputs": [
 				{"name":"value0","type":"cell"}
@@ -44,6 +45,7 @@
 		{
 			"name": "getCustomerCode",
 			"inputs": [
+				{"name":"_answer_id","type":"uint32"}
 			],
 			"outputs": [
 				{"name":"value0","type":"cell"}
@@ -52,6 +54,7 @@
 		{
 			"name": "getVendorAddress",
 			"inputs": [
+				{"name":"_answer_id","type":"uint32"},
 				{"name":"publicKey","type":"uint256"},
 				{"name":"owner","type":"address"}
 			],
@@ -62,6 +65,7 @@
 		{
 			"name": "getCustomerAddress",
 			"inputs": [
+				{"name":"_answer_id","type":"uint32"},
 				{"name":"publicKey","type":"uint256"},
 				{"name":"owner","type":"address"}
 			],

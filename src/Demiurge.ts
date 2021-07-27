@@ -1,4 +1,4 @@
-import {Contract} from 'jton'
+import {Contract, ZERO_ANSWER_ID} from 'jton'
 import {KeyPair, ResultOfProcessMessage} from '@tonclient/core/dist/modules'
 import {TonClient} from '@tonclient/core'
 import DemiurgeContract from './contracts/Demiurge'
@@ -48,18 +48,18 @@ export class Demiurge extends Contract {
      * GETTERS *
      ***********/
     public async getCustomerCode(): Promise<string> {
-        return (await this.run('getCustomerCode')).value.value0
+        return (await this.run('getCustomerCode', ZERO_ANSWER_ID)).value.value0
     }
 
     public async getVendorCode(): Promise<string> {
-        return (await this.run('getVendorCode')).value.value0
+        return (await this.run('getVendorCode', ZERO_ANSWER_ID)).value.value0
     }
 
     public async getCustomerAddress(input: GetCustomerAddressIn): Promise<string> {
-        return (await this.run('getCustomerAddress', input)).value.value0
+        return (await this.run('getCustomerAddress', {...input, ...ZERO_ANSWER_ID})).value.value0
     }
 
     public async getVendorAddress(input: GetVendorAddressIn): Promise<string> {
-        return (await this.run('getVendorAddress', input)).value.value0
+        return (await this.run('getVendorAddress', {...input, ...ZERO_ANSWER_ID})).value.value0
     }
 }

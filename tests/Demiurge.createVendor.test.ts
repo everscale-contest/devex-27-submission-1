@@ -11,7 +11,7 @@ import {SafeMultisigWallet} from 'jton-contracts/dist/tonlabs/SafeMultisigWallet
 const {client, timeout, giver} = prepareGiverV2(config, config.contracts.giver.keys)
 const netConfig: NetConfig = getNetConfig(config)
 
-it('deploy', async () => {
+it('createVendor', async () => {
     const demiurgeKeys: KeyPair = await getRandomKeyPair(client)
     const demiurge: Demiurge = new Demiurge(client, timeout, demiurgeKeys)
     await giver.sendTransaction({

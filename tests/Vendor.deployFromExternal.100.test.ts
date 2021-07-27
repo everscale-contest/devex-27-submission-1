@@ -9,7 +9,7 @@ import {Demiurge} from '../src/Demiurge'
 const {client, timeout, giver} = prepareGiverV2(config, config.contracts.giver.keys)
 const deployTimeout: number = 20_000
 
-it('deployFromExternal', async () => {
+it('deployFromExternal.101', async () => {
     const demiurgeKeys: KeyPair = await getRandomKeyPair(client)
     const demiurge: Demiurge = new Demiurge(client, timeout, demiurgeKeys)
 

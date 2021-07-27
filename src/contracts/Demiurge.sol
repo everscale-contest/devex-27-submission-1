@@ -116,19 +116,19 @@ contract Demiurge is IDemiurge {
     /***********
      * GETTERS *
      ***********/
-    function getVendorCode() public view returns (TvmCell) {
-        return _vendorCode;
+    function getVendorCode() override external view responsible returns (TvmCell) {
+        return { value: 0, bounce: false, flag: 64 } _vendorCode;
     }
 
-    function getCustomerCode() public view returns (TvmCell) {
-        return _customerCode;
+    function getCustomerCode() override external view responsible returns (TvmCell) {
+        return { value: 0, bounce: false, flag: 64 } _customerCode;
     }
 
     /**
        publicKey ...... Public key of owner if the owner is external, zero otherwise
        owner .......... Address of owner if the owner is internal, zero otherwise
      */
-    function getVendorAddress(uint256 publicKey, address owner) public view returns (address) {
+    function getVendorAddress(uint256 publicKey, address owner) override external view responsible returns (address) {
         TvmCell stateInit = tvm.buildStateInit({
             contr: Vendor,
             varInit: {
@@ -138,14 +138,14 @@ contract Demiurge is IDemiurge {
             pubkey: publicKey,
             code: _vendorCode
         });
-        return address(tvm.hash(stateInit));
+        return { value: 0, bounce: false, flag: 64 } address(tvm.hash(stateInit));
     }
 
     /**
        publicKey ...... Public key of owner if the owner is external, zero otherwise
        owner .......... Address of owner if the owner is internal, zero otherwise
      */
-    function getCustomerAddress(uint256 publicKey, address owner) public view returns (address) {
+    function getCustomerAddress(uint256 publicKey, address owner) override external view responsible returns (address) {
         TvmCell stateInit = tvm.buildStateInit({
             contr: Customer,
             varInit: {
@@ -155,6 +155,6 @@ contract Demiurge is IDemiurge {
             pubkey: publicKey,
             code: _customerCode
         });
-        return address(tvm.hash(stateInit));
+        return { value: 0, bounce: false, flag: 64 } address(tvm.hash(stateInit));
     }
 }
