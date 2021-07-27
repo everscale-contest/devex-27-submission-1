@@ -17,8 +17,8 @@ contract Demiurge is IDemiurge {
     /*************
      * VARIABLES *
      *************/
-    TvmCell private _customerCode;
     TvmCell private _vendorCode;
+    TvmCell private _customerCode;
 
 
     /*************
@@ -43,10 +43,10 @@ contract Demiurge is IDemiurge {
      * CONSTRUCTOR *
      ***************/
     /**
-       customerCode .... Code of customer contract.
        vendorCode ...... Code of vendor contract.
+       customerCode .... Code of customer contract.
      */
-    constructor(TvmCell customerCode, TvmCell vendorCode) public accept {
+    constructor(TvmCell vendorCode, TvmCell customerCode) public accept {
         _customerCode = customerCode;
         _vendorCode = vendorCode;
     }
@@ -59,38 +59,6 @@ contract Demiurge is IDemiurge {
        publicKey ...... Public key of owner if the owner is external, zero otherwise.
        owner .......... Address of owner if the owner is internal, zero otherwise.
        deployValue .... Value with which the contract will be deployed.
-       customer ....... Address of customer contract.
-     */
-    function createCustomer(uint256 publicKey, address owner, uint128 deployValue)
-        override
-        external
-        view
-        onlyOneOwner(publicKey, owner)
-        returns(address)
-    {
-        TvmCell stateInit = tvm.buildStateInit({
-            contr: Vendor,
-            varInit: {
-                _demiurge: address(this),
-                _owner: owner
-            },
-            pubkey: publicKey,
-            code: _vendorCode
-        });
-
-        return new Vendor{
-            stateInit: stateInit,
-            value: deployValue,
-            wid: address(this).wid,
-            flag: 1
-        }();
-    }
-
-    /**
-       publicKey ...... Public key of owner if the owner is external, zero otherwise.
-       owner .......... Address of owner if the owner is internal, zero otherwise.
-       deployValue .... Value with which the contract will be deployed.
-       vendor ......... Address of vendor contract.
      */
     function createVendor(uint256 publicKey, address owner, uint128 deployValue)
         override
@@ -117,46 +85,51 @@ contract Demiurge is IDemiurge {
         }();
     }
 
-
-    /***********
-     * GETTERS *
-     ***********/
-    /**
-       code .... Code of customer contract.
-     */
-    function getCustomerCode() public view returns (TvmCell) {
-        return _customerCode;
-    }
-
-    /**
-       code .... Code of vendor contract.
-     */
-    function getVendorCode() public view returns (TvmCell) {
-        return _vendorCode;
-    }
-
-    /**
+   /**
        publicKey ...... Public key of owner if the owner is external, zero otherwise.
        owner .......... Address of owner if the owner is internal, zero otherwise.
-       customer ....... Address of customer contract.
+       deployValue .... Value with which the contract will be deployed.
      */
-    function getCustomerAddress(uint256 publicKey, address owner) public view returns (address) {
+    function createCustomer(uint256 publicKey, address owner, uint128 deployValue)
+        override
+        external
+        view
+        onlyOneOwner(publicKey, owner)
+        returns(address)
+    {
         TvmCell stateInit = tvm.buildStateInit({
-            contr: Customer,
+            contr: Vendor,
             varInit: {
                 _demiurge: address(this),
                 _owner: owner
             },
             pubkey: publicKey,
-            code: _customerCode
+            code: _vendorCode
         });
-        return address(tvm.hash(stateInit));
+
+        return new Vendor{
+            stateInit: stateInit,
+            value: deployValue,
+            wid: address(this).wid,
+            flag: 1
+        }();
+    }
+
+
+    /***********
+     * GETTERS *
+     ***********/
+    function getVendorCode() public view returns (TvmCell) {
+        return _vendorCode;
+    }
+
+    function getCustomerCode() public view returns (TvmCell) {
+        return _customerCode;
     }
 
     /**
        publicKey ...... Public key of owner if the owner is external, zero otherwise.
        owner .......... Address of owner if the owner is internal, zero otherwise.
-       vendor ......... Address of vendor contract.
      */
     function getVendorAddress(uint256 publicKey, address owner) public view returns (address) {
         TvmCell stateInit = tvm.buildStateInit({
@@ -167,6 +140,23 @@ contract Demiurge is IDemiurge {
             },
             pubkey: publicKey,
             code: _vendorCode
+        });
+        return address(tvm.hash(stateInit));
+    }
+
+    /**
+       publicKey ...... Public key of owner if the owner is external, zero otherwise.
+       owner .......... Address of owner if the owner is internal, zero otherwise.
+     */
+    function getCustomerAddress(uint256 publicKey, address owner) public view returns (address) {
+        TvmCell stateInit = tvm.buildStateInit({
+            contr: Customer,
+            varInit: {
+                _demiurge: address(this),
+                _owner: owner
+            },
+            pubkey: publicKey,
+            code: _customerCode
         });
         return address(tvm.hash(stateInit));
     }

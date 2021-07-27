@@ -1,13 +1,13 @@
 import {Contract} from 'jton'
-import {KeyPair} from '@tonclient/core/dist/modules'
+import {KeyPair, ResultOfProcessMessage} from '@tonclient/core/dist/modules'
 import {TonClient} from '@tonclient/core'
 import DemiurgeContract from './contracts/Demiurge'
 
 export {DemiurgeContract}
 
 export interface DeployIn {
-    customerCode: string,
-    vendorCode: string
+    vendorCode: string,
+    customerCode: string
 }
 
 export interface GetCustomerAddressIn {
@@ -39,12 +39,9 @@ export class Demiurge extends Contract {
     /**********
      * DEPLOY *
      **********/
-    public async deploy(input: DeployIn): Promise<boolean> {
-        return await super.deploy(input)
+    public async deploy(input: DeployIn, timeout?: number): Promise<ResultOfProcessMessage> {
+        return await super.deploy(input, timeout)
     }
-
-
-
 
 
     /***********

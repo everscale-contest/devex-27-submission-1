@@ -5,21 +5,10 @@
 		{
 			"name": "constructor",
 			"inputs": [
-				{"name":"customerCode","type":"cell"},
-				{"name":"vendorCode","type":"cell"}
+				{"name":"vendorCode","type":"cell"},
+				{"name":"customerCode","type":"cell"}
 			],
 			"outputs": [
-			]
-		},
-		{
-			"name": "createCustomer",
-			"inputs": [
-				{"name":"publicKey","type":"uint256"},
-				{"name":"owner","type":"address"},
-				{"name":"deployValue","type":"uint128"}
-			],
-			"outputs": [
-				{"name":"value0","type":"address"}
 			]
 		},
 		{
@@ -34,11 +23,14 @@
 			]
 		},
 		{
-			"name": "getCustomerCode",
+			"name": "createCustomer",
 			"inputs": [
+				{"name":"publicKey","type":"uint256"},
+				{"name":"owner","type":"address"},
+				{"name":"deployValue","type":"uint128"}
 			],
 			"outputs": [
-				{"name":"value0","type":"cell"}
+				{"name":"value0","type":"address"}
 			]
 		},
 		{
@@ -50,7 +42,15 @@
 			]
 		},
 		{
-			"name": "getCustomerAddress",
+			"name": "getCustomerCode",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"value0","type":"cell"}
+			]
+		},
+		{
+			"name": "getVendorAddress",
 			"inputs": [
 				{"name":"publicKey","type":"uint256"},
 				{"name":"owner","type":"address"}
@@ -60,7 +60,7 @@
 			]
 		},
 		{
-			"name": "getVendorAddress",
+			"name": "getCustomerAddress",
 			"inputs": [
 				{"name":"publicKey","type":"uint256"},
 				{"name":"owner","type":"address"}
