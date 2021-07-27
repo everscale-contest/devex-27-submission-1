@@ -5,10 +5,7 @@ import "Customer.sol";
 import "Vendor.sol";
 
 /**
-   Contract create Vendor and Customer contracts.
-   Contract stores a list of resources, a list of subscriptions and connections between them.
-      Vendor - contract of the user who creates the subscriptions.
-      Customer - contract of the user who subscribes to subscriptions.
+   Demiurge creates Vendors and Customers
 
    Errors
       100 - Define only public key or owner address
@@ -30,8 +27,8 @@ contract Demiurge is IDemiurge {
     }
 
     /**
-       publicKey .... Public key of owner if the owner is external, zero otherwise.
-       owner ........ Address of owner if the owner is internal, zero otherwise.
+       publicKey .... Public key of owner if the owner is external, zero otherwise
+       owner ........ Address of owner if the owner is internal, zero otherwise
      */
     modifier onlyOneOwner(uint256 publicKey, address owner) {
         require((publicKey == 0 && owner.value != 0) || (publicKey != 0 && owner.value == 0), 100);
@@ -43,8 +40,8 @@ contract Demiurge is IDemiurge {
      * CONSTRUCTOR *
      ***************/
     /**
-       vendorCode ...... Code of vendor contract.
-       customerCode .... Code of customer contract.
+       vendorCode ...... Code of vendor contract
+       customerCode .... Code of customer contract
      */
     constructor(TvmCell vendorCode, TvmCell customerCode) public accept {
         _customerCode = customerCode;
@@ -56,9 +53,9 @@ contract Demiurge is IDemiurge {
      * EXTERNAL *
      ************/
     /**
-       publicKey ...... Public key of owner if the owner is external, zero otherwise.
-       owner .......... Address of owner if the owner is internal, zero otherwise.
-       deployValue .... Value with which the contract will be deployed.
+       publicKey ...... Public key of owner if the owner is external, zero otherwise
+       owner .......... Address of owner if the owner is internal, zero otherwise
+       deployValue .... Value with which the contract will be deployed
      */
     function createVendor(uint256 publicKey, address owner, uint128 deployValue)
         override
@@ -86,9 +83,9 @@ contract Demiurge is IDemiurge {
     }
 
    /**
-       publicKey ...... Public key of owner if the owner is external, zero otherwise.
-       owner .......... Address of owner if the owner is internal, zero otherwise.
-       deployValue .... Value with which the contract will be deployed.
+       publicKey ...... Public key of owner if the owner is external, zero otherwise
+       owner .......... Address of owner if the owner is internal, zero otherwise
+       deployValue .... Value with which the contract will be deployed
      */
     function createCustomer(uint256 publicKey, address owner, uint128 deployValue)
         override
@@ -128,8 +125,8 @@ contract Demiurge is IDemiurge {
     }
 
     /**
-       publicKey ...... Public key of owner if the owner is external, zero otherwise.
-       owner .......... Address of owner if the owner is internal, zero otherwise.
+       publicKey ...... Public key of owner if the owner is external, zero otherwise
+       owner .......... Address of owner if the owner is internal, zero otherwise
      */
     function getVendorAddress(uint256 publicKey, address owner) public view returns (address) {
         TvmCell stateInit = tvm.buildStateInit({
@@ -145,8 +142,8 @@ contract Demiurge is IDemiurge {
     }
 
     /**
-       publicKey ...... Public key of owner if the owner is external, zero otherwise.
-       owner .......... Address of owner if the owner is internal, zero otherwise.
+       publicKey ...... Public key of owner if the owner is external, zero otherwise
+       owner .......... Address of owner if the owner is internal, zero otherwise
      */
     function getCustomerAddress(uint256 publicKey, address owner) public view returns (address) {
         TvmCell stateInit = tvm.buildStateInit({
