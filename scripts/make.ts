@@ -9,6 +9,6 @@ make({
         'src/contracts/Vendor',
     ],
     compiler: '0.47.0',
-    linker: '0.11.86',
+    linker: '0.11.87',
     stdlib: '0.47.0'
 }).then().catch((e: any) => console.log(e))
