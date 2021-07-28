@@ -2,7 +2,17 @@ import {testTimeout} from './_utils/testTimeout'
 import {prepareGiverV2} from 'jton-contracts/dist/tonlabs/GiverV2'
 import {config} from '../config'
 import {KeyPair} from '@tonclient/core/dist/modules'
-import {AccountType, B, getNetConfig, getRandomKeyPair, NetConfig, x0, ZERO_KEY_PAIR, ZERO_UINT256} from 'jton'
+import {
+    AccountType,
+    B,
+    getNetConfig,
+    getRandomKeyPair,
+    NetConfig,
+    x0,
+    ZERO_ADDRESS,
+    ZERO_KEY_PAIR,
+    ZERO_UINT256
+} from 'jton'
 import {Demiurge, DemiurgeContract} from '../src/Demiurge'
 import {Customer, CustomerContract} from '../src/Customer'
 import {VendorContract} from '../src/Vendor'
@@ -41,7 +51,8 @@ it('createCustomer', async () => {
         {
             publicKey: ZERO_UINT256,
             owner: await safeMultisigWallet.address(),
-            deployValue: config.contracts.customer.requiredForDeployment * B
+            deployValue: config.contracts.customer.requiredForDeployment * B,
+            gasBackAddress: ZERO_ADDRESS
         }
     )
     const customer: Customer = new Customer(client, timeout, ZERO_KEY_PAIR, {

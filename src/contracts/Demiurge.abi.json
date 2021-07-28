@@ -16,7 +16,8 @@
 			"inputs": [
 				{"name":"publicKey","type":"uint256"},
 				{"name":"owner","type":"address"},
-				{"name":"deployValue","type":"uint128"}
+				{"name":"deployValue","type":"uint128"},
+				{"name":"gasBackAddress","type":"address"}
 			],
 			"outputs": [
 				{"name":"value0","type":"address"}
@@ -27,7 +28,8 @@
 			"inputs": [
 				{"name":"publicKey","type":"uint256"},
 				{"name":"owner","type":"address"},
-				{"name":"deployValue","type":"uint128"}
+				{"name":"deployValue","type":"uint128"},
+				{"name":"gasBackAddress","type":"address"}
 			],
 			"outputs": [
 				{"name":"value0","type":"address"}

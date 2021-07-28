@@ -2,7 +2,17 @@ import {testTimeout} from './_utils/testTimeout'
 import {prepareGiverV2} from 'jton-contracts/dist/tonlabs/GiverV2'
 import {config} from '../config'
 import {KeyPair} from '@tonclient/core/dist/modules'
-import {AccountType, B, getNetConfig, getRandomKeyPair, NetConfig, x0, ZERO_KEY_PAIR, ZERO_UINT256} from 'jton'
+import {
+    AccountType,
+    B,
+    getNetConfig,
+    getRandomKeyPair,
+    NetConfig,
+    x0,
+    ZERO_ADDRESS,
+    ZERO_KEY_PAIR,
+    ZERO_UINT256
+} from 'jton'
 import {Demiurge, DemiurgeContract} from '../src/Demiurge'
 import {CustomerContract} from '../src/Customer'
 import {Vendor, VendorContract} from '../src/Vendor'
@@ -25,7 +35,10 @@ it('createVendor', async () => {
 
     const safeMultisigWalletKeys: KeyPair = await getRandomKeyPair(client)
     const safeMultisigWallet: SafeMultisigWallet = new SafeMultisigWallet(client, timeout, safeMultisigWalletKeys)
-    await giver.sendTransaction({dest: await safeMultisigWallet.address(), value: 0.2 * B})
+    await giver.sendTransaction({
+        dest: await safeMultisigWallet.address(),
+        value: 0.2 * B
+    })
     await safeMultisigWallet.deploy({
         owners: [x0(safeMultisigWalletKeys.public)],
         reqConfirms: 1
@@ -41,7 +54,8 @@ it('createVendor', async () => {
         {
             publicKey: ZERO_UINT256,
             owner: await safeMultisigWallet.address(),
-            deployValue: config.contracts.vendor.requiredForDeployment * B
+            deployValue: config.contracts.vendor.requiredForDeployment * B,
+            gasBackAddress: ZERO_ADDRESS
         }
     )
     const vendor: Vendor = new Vendor(client, timeout, ZERO_KEY_PAIR, {

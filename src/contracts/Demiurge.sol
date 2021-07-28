@@ -53,41 +53,12 @@ contract Demiurge is IDemiurge {
      * EXTERNAL *
      ************/
     /*
-       publicKey ...... Public key of owner if the owner is external, zero otherwise
-       owner .......... Address of owner if the owner is internal, zero otherwise
-       deployValue .... Value with which the contract will be deployed
+       publicKey ......... Public key of owner if the owner is external, zero otherwise
+       owner ............. Address of owner if the owner is internal, zero otherwise
+       deployValue ....... Value with which the contract will be deployed
+       gasBackAddress .... Receiver the remaining balance after deployment. msg.sender by default
      */
-    function createVendor(uint256 publicKey, address owner, uint128 deployValue)
-        override
-        external
-        view
-        onlyOneOwner(publicKey, owner)
-        returns(address)
-    {
-        TvmCell stateInit = tvm.buildStateInit({
-            contr: Customer,
-            varInit: {
-                _demiurge: address(this),
-                _owner: owner
-            },
-            pubkey: publicKey,
-            code: _vendorCode
-        });
-
-        return new Customer{
-            stateInit: stateInit,
-            value: deployValue,
-            wid: address(this).wid,
-            flag: 1
-        }();
-    }
-
-   /*
-       publicKey ...... Public key of owner if the owner is external, zero otherwise
-       owner .......... Address of owner if the owner is internal, zero otherwise
-       deployValue .... Value with which the contract will be deployed
-     */
-    function createCustomer(uint256 publicKey, address owner, uint128 deployValue)
+    function createVendor(uint256 publicKey, address owner, uint128 deployValue, address gasBackAddress)
         override
         external
         view
@@ -104,12 +75,57 @@ contract Demiurge is IDemiurge {
             code: _vendorCode
         });
 
-        return new Vendor{
+        address vendor = new Vendor{
             stateInit: stateInit,
             value: deployValue,
             wid: address(this).wid,
             flag: 1
         }();
+
+        if (gasBackAddress.value != 0)
+            gasBackAddress.transfer({ value: 0, flag: 128 });
+        else
+            msg.sender.transfer({ value: 0, flag: 128 });
+
+        return vendor;
+    }
+
+    /*
+       publicKey ......... Public key of owner if the owner is external, zero otherwise
+       owner ............. Address of owner if the owner is internal, zero otherwise
+       deployValue ....... Value with which the contract will be deployed
+       gasBackAddress .... Receiver the remaining balance after deployment. msg.sender by default
+     */
+    function createCustomer(uint256 publicKey, address owner, uint128 deployValue, address gasBackAddress)
+        override
+        external
+        view
+        onlyOneOwner(publicKey, owner)
+        returns(address)
+    {
+        TvmCell stateInit = tvm.buildStateInit({
+            contr: Customer,
+            varInit: {
+                _demiurge: address(this),
+                _owner: owner
+            },
+            pubkey: publicKey,
+            code: _customerCode
+        });
+
+        address customer = new Customer{
+            stateInit: stateInit,
+            value: deployValue,
+            wid: address(this).wid,
+            flag: 1
+        }();
+
+        if (gasBackAddress.value != 0)
+            gasBackAddress.transfer({ value: 0, flag: 128 });
+        else
+            msg.sender.transfer({ value: 0, flag: 128 });
+
+        return customer;
     }
 
 
