@@ -21,11 +21,6 @@ contract Demiurge is IDemiurge {
     /*************
      * MODIFIERS *
      *************/
-    modifier accept {
-        tvm.accept();
-        _;
-    }
-
     /*
        publicKey .... Public key of owner if the owner is external, zero otherwise
        owner ........ Address of owner if the owner is internal, zero otherwise
@@ -34,12 +29,6 @@ contract Demiurge is IDemiurge {
         require((publicKey == 0 && owner.value != 0) || (publicKey != 0 && owner.value == 0), 100);
         _;
     }
-
-
-    /***************
-     * CONSTRUCTOR *
-     ***************/
-    constructor() public accept {}
 
 
     /************

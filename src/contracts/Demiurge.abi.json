@@ -3,13 +3,6 @@
 	"header": ["time"],
 	"functions": [
 		{
-			"name": "constructor",
-			"inputs": [
-			],
-			"outputs": [
-			]
-		},
-		{
 			"name": "createVendor",
 			"inputs": [
 				{"name":"publicKey","type":"uint256"},
@@ -71,6 +64,13 @@
 			],
 			"outputs": [
 				{"name":"value0","type":"address"}
+			]
+		},
+		{
+			"name": "constructor",
+			"inputs": [
+			],
+			"outputs": [
 			]
 		},
 		{

@@ -6,11 +6,6 @@ const DemiurgeContract = {
         ],
         "functions": [
             {
-                "name": "constructor",
-                "inputs": [],
-                "outputs": []
-            },
-            {
                 "name": "createVendor",
                 "inputs": [
                     {
@@ -139,6 +134,11 @@ const DemiurgeContract = {
                         "type": "address"
                     }
                 ]
+            },
+            {
+                "name": "constructor",
+                "inputs": [],
+                "outputs": []
             },
             {
                 "name": "_vendorCode",
