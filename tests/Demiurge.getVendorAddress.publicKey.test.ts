@@ -11,16 +11,16 @@ const {client, timeout, giver} = prepareGiverV2(config, config.contracts.giver.k
 
 it('getVendorAddress.publicKey', async () => {
     const demiurgeKeys: KeyPair = await getRandomKeyPair(client)
-    const demiurge: Demiurge = new Demiurge(client, timeout, demiurgeKeys)
+    const demiurge: Demiurge = new Demiurge(client, timeout, demiurgeKeys, {
+        _vendorCode: VendorContract.code,
+        _customerCode: CustomerContract.code
+    })
     const VendorKeys: KeyPair = await getRandomKeyPair(client)
     await giver.sendTransaction({
         dest: await demiurge.address(),
         value: config.contracts.demiurge.requiredForDeployment * B
     })
-    await demiurge.deploy({
-        customerCode: CustomerContract.code,
-        vendorCode: VendorContract.code,
-    })
+    await demiurge.deploy()
     const vendorAddress: string = await demiurge.getVendorAddress({
         publicKey: x0(VendorKeys.public),
         owner: ZERO_ADDRESS

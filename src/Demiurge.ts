@@ -5,9 +5,9 @@ import DemiurgeContract from './contracts/Demiurge'
 
 export {DemiurgeContract}
 
-export interface DeployIn {
-    vendorCode: string,
-    customerCode: string
+export interface InitialData {
+    _vendorCode: string
+    _customerCode: string
 }
 
 export interface GetCustomerAddressIn {
@@ -26,11 +26,11 @@ export class Demiurge extends Contract {
         createVendor: 'createVendor'
     }
 
-    public constructor(client: TonClient, timeout: number, keys: KeyPair) {
+    public constructor(client: TonClient, timeout: number, keys: KeyPair, initialData: InitialData) {
         super(client, timeout, {
             abi: DemiurgeContract.abi,
             tvc: DemiurgeContract.tvc,
-            initialData: {},
+            initialData: initialData,
             keys: keys
         })
     }
@@ -39,8 +39,8 @@ export class Demiurge extends Contract {
     /**********
      * DEPLOY *
      **********/
-    public async deploy(input: DeployIn, timeout?: number): Promise<ResultOfProcessMessage> {
-        return await super.deploy(input, timeout)
+    public async deploy(timeout?: number): Promise<ResultOfProcessMessage> {
+        return await super.deploy(timeout)
     }
 
 

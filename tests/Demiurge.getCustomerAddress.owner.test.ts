@@ -12,17 +12,17 @@ const {client, timeout, giver} = prepareGiverV2(config, config.contracts.giver.k
 
 it('getCustomerAddress.owner', async () => {
     const demiurgeKeys: KeyPair = await getRandomKeyPair(client)
-    const demiurge: Demiurge = new Demiurge(client, timeout, demiurgeKeys)
+    const demiurge: Demiurge = new Demiurge(client, timeout, demiurgeKeys, {
+        _vendorCode: VendorContract.code,
+        _customerCode: CustomerContract.code
+    })
     const safeMultisigWalletKeys: KeyPair = await getRandomKeyPair(client)
     const safeMultisigWallet: SafeMultisigWallet = new SafeMultisigWallet(client, timeout, safeMultisigWalletKeys)
     await giver.sendTransaction({
         dest: await demiurge.address(),
         value: config.contracts.demiurge.requiredForDeployment * B
     })
-    await demiurge.deploy({
-        customerCode: CustomerContract.code,
-        vendorCode: VendorContract.code,
-    })
+    await demiurge.deploy()
     const customerAddress: string = await demiurge.getCustomerAddress({
         publicKey: ZERO_UINT256,
         owner: await safeMultisigWallet.address()

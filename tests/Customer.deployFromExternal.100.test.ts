@@ -3,15 +3,19 @@ import {prepareGiverV2} from 'jton-contracts/dist/tonlabs/GiverV2'
 import {config} from '../config'
 import {KeyPair} from '@tonclient/core/dist/modules'
 import {B, getRandomKeyPair, ZERO_ADDRESS} from 'jton'
-import {Customer} from '../src/Customer'
+import {Customer, CustomerContract} from '../src/Customer'
 import {Demiurge} from '../src/Demiurge'
+import {VendorContract} from '../src/Vendor'
 
 const {client, timeout, giver} = prepareGiverV2(config, config.contracts.giver.keys)
 const deployTimeout: number = 20_000
 
 it('deployFromExternal', async () => {
     const demiurgeKeys: KeyPair = await getRandomKeyPair(client)
-    const demiurge: Demiurge = new Demiurge(client, timeout, demiurgeKeys)
+    const demiurge: Demiurge = new Demiurge(client, timeout, demiurgeKeys, {
+        _vendorCode: VendorContract.code,
+        _customerCode: CustomerContract.code
+    })
 
     const customerKeys: KeyPair = await getRandomKeyPair(client)
     const customer: Customer = new Customer(client, deployTimeout, customerKeys, {

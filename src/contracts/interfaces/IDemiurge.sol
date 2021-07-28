@@ -1,6 +1,9 @@
 pragma ton-solidity >= 0.47.0;
 
 interface IDemiurge {
+    /************
+     * EXTERNAL *
+     ************/
     /*
        publicKey ......... Public key of owner if the owner is external, zero otherwise
        owner ............. Address of owner if the owner is internal, zero otherwise
@@ -23,6 +26,10 @@ interface IDemiurge {
         view
         returns(address);
 
+
+    /***********
+     * GETTERS *
+     ***********/
     function getVendorCode() external view responsible returns (TvmCell);
 
     function getCustomerCode() external view responsible returns (TvmCell);

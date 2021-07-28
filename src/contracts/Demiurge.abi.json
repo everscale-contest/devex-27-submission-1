@@ -5,8 +5,6 @@
 		{
 			"name": "constructor",
 			"inputs": [
-				{"name":"vendorCode","type":"cell"},
-				{"name":"customerCode","type":"cell"}
 			],
 			"outputs": [
 			]
@@ -74,9 +72,27 @@
 			"outputs": [
 				{"name":"value0","type":"address"}
 			]
+		},
+		{
+			"name": "_vendorCode",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"_vendorCode","type":"cell"}
+			]
+		},
+		{
+			"name": "_customerCode",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"_customerCode","type":"cell"}
+			]
 		}
 	],
 	"data": [
+		{"key":1,"name":"_vendorCode","type":"cell"},
+		{"key":2,"name":"_customerCode","type":"cell"}
 	],
 	"events": [
 	]

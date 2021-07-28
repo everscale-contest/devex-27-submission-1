@@ -11,11 +11,11 @@ import "Vendor.sol";
       100 - Define only public key or owner address
  */
 contract Demiurge is IDemiurge {
-    /*************
-     * VARIABLES *
-     *************/
-    TvmCell private _vendorCode;
-    TvmCell private _customerCode;
+    /**********
+     * STATIC *
+     **********/
+    TvmCell public static _vendorCode;
+    TvmCell public static _customerCode;
 
 
     /*************
@@ -39,14 +39,7 @@ contract Demiurge is IDemiurge {
     /***************
      * CONSTRUCTOR *
      ***************/
-    /*
-       vendorCode ...... Code of vendor contract
-       customerCode .... Code of customer contract
-     */
-    constructor(TvmCell vendorCode, TvmCell customerCode) public accept {
-        _customerCode = customerCode;
-        _vendorCode = vendorCode;
-    }
+    constructor() public accept {}
 
 
     /************

@@ -23,15 +23,15 @@ const netConfig: NetConfig = getNetConfig(config)
 
 it('createCustomer', async () => {
     const demiurgeKeys: KeyPair = await getRandomKeyPair(client)
-    const demiurge: Demiurge = new Demiurge(client, timeout, demiurgeKeys)
+    const demiurge: Demiurge = new Demiurge(client, timeout, demiurgeKeys, {
+        _vendorCode: VendorContract.code,
+        _customerCode: CustomerContract.code
+    })
     await giver.sendTransaction({
         dest: await demiurge.address(),
         value: config.contracts.demiurge.requiredForDeployment * B
     })
-    await demiurge.deploy({
-        customerCode: CustomerContract.code,
-        vendorCode: VendorContract.code,
-    })
+    await demiurge.deploy()
 
     const safeMultisigWalletKeys: KeyPair = await getRandomKeyPair(client)
     const safeMultisigWallet: SafeMultisigWallet = new SafeMultisigWallet(client, timeout, safeMultisigWalletKeys)
