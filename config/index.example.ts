@@ -246,6 +246,9 @@ export const config: any = {
         },
         vendor: {
             requiredForDeployment: 0.03
+        },
+        crystalStorageRoot: {
+            requiredForDeployment: 0.03
         }
     },
 

@@ -1,0 +1,43 @@
+{
+	"ABI version": 2,
+	"header": ["time", "expire"],
+	"functions": [
+		{
+			"name": "create",
+			"inputs": [
+				{"name":"value","type":"uint128"},
+				{"name":"root","type":"address"},
+				{"name":"deployValue","type":"uint128"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "onCreate",
+			"inputs": [
+				{"name":"storageAddress","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "getStorageAddress",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"value0","type":"address"}
+			]
+		},
+		{
+			"name": "constructor",
+			"inputs": [
+			],
+			"outputs": [
+			]
+		}
+	],
+	"data": [
+	],
+	"events": [
+	]
+}
