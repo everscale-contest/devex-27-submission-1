@@ -7,11 +7,11 @@ import {Demiurge} from '../src/Demiurge'
 import {Customer, CustomerContract} from '../src/Customer'
 import {VendorContract} from '../src/Vendor'
 
-const {client, timeout, giver} = prepareGiverV2(config, config.contracts.giver.keys)
+const {client, giver} = prepareGiverV2(config, config.contracts.giver.keys)
 
 it('getCustomerAddress.publicKey', async () => {
     const demiurgeKeys: KeyPair = await getRandomKeyPair(client)
-    const demiurge: Demiurge = new Demiurge(client, timeout, demiurgeKeys, {
+    const demiurge: Demiurge = new Demiurge(client, demiurgeKeys, {
         _vendorCode: VendorContract.code,
         _customerCode: CustomerContract.code
     })
@@ -25,7 +25,7 @@ it('getCustomerAddress.publicKey', async () => {
         publicKey: x0(customerKeys.public),
         owner: ZERO_ADDRESS
     })
-    const customer: Customer = new Customer(client, timeout, customerKeys, {
+    const customer: Customer = new Customer(client, customerKeys, {
         _demiurge: await demiurge.address(),
         _owner: ZERO_ADDRESS
     })

@@ -6,11 +6,11 @@ import {AccountType, B, getRandomKeyPair} from 'jton'
 import {CrystalStorageContract} from '../src/CrystalStorage'
 import {CrystalStorageRoot} from '../src/CrystalStorageRoot'
 
-const {client, timeout, giver} = prepareGiverV2(config, config.contracts.giver.keys)
+const {client, giver} = prepareGiverV2(config, config.contracts.giver.keys)
 
 it('deploy', async () => {
     const crystalStorageRootKeys: KeyPair = await getRandomKeyPair(client)
-    const crystalStorageRoot: CrystalStorageRoot = new CrystalStorageRoot(client, timeout, crystalStorageRootKeys, {
+    const crystalStorageRoot: CrystalStorageRoot = new CrystalStorageRoot(client, crystalStorageRootKeys, {
         _code: CrystalStorageContract.code,
     })
     await giver.sendTransaction({

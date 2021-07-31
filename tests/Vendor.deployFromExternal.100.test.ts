@@ -7,18 +7,18 @@ import {Vendor, VendorContract} from '../src/Vendor'
 import {Demiurge} from '../src/Demiurge'
 import {CustomerContract} from '../src/Customer'
 
-const {client, timeout, giver} = prepareGiverV2(config, config.contracts.giver.keys)
-const deployTimeout: number = 20_000
+const {client, giver} = prepareGiverV2(config, config.contracts.giver.keys)
+const deployTimeout: number = 15_000
 
 it('deployFromExternal.101', async () => {
     const demiurgeKeys: KeyPair = await getRandomKeyPair(client)
-    const demiurge: Demiurge = new Demiurge(client, timeout, demiurgeKeys, {
+    const demiurge: Demiurge = new Demiurge(client, demiurgeKeys, {
         _vendorCode: VendorContract.code,
         _customerCode: CustomerContract.code
     })
 
     const vendorKeys: KeyPair = await getRandomKeyPair(client)
-    const vendor: Vendor = new Vendor(client, deployTimeout, vendorKeys, {
+    const vendor: Vendor = new Vendor(client, vendorKeys, {
         _demiurge: await demiurge.address(),
         _owner: ZERO_ADDRESS
     })
@@ -28,9 +28,9 @@ it('deployFromExternal.101', async () => {
     })
     let errorCode: number = 0
     try {
-        await vendor.deploy()
+        await vendor.deploy({}, deployTimeout)
     } catch (e: any) {
-        errorCode = e.data.exit_code ?? e.data.local_error.data.exit_code
+        errorCode = e.data?.exit_code ?? e.data?.local_error?.data?.exit_code
     }
     expect(errorCode).toBe(100)
     client.close()

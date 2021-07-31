@@ -7,17 +7,17 @@ import {CrystalStorage, CrystalStorageContract} from '../src/CrystalStorage'
 import {CrystalStorageRoot} from '../src/CrystalStorageRoot'
 import {CrystalStorageOwner} from './_src/CrystalStorageOwner'
 
-const {client, timeout, giver} = prepareGiverV2(config, config.contracts.giver.keys)
+const {client, giver} = prepareGiverV2(config, config.contracts.giver.keys)
 
 it('create', async () => {
     const crystalStorageRootKeys: KeyPair = await getRandomKeyPair(client)
-    const crystalStorageRoot: CrystalStorageRoot = new CrystalStorageRoot(client, timeout, crystalStorageRootKeys, {
+    const crystalStorageRoot: CrystalStorageRoot = new CrystalStorageRoot(client, crystalStorageRootKeys, {
             _code: CrystalStorageContract.code
         }
     )
     const crystalStorageOwnerKeys: KeyPair = await getRandomKeyPair(client)
-    const crystalStorageOwner: CrystalStorageOwner = new CrystalStorageOwner(client, timeout, crystalStorageOwnerKeys)
-    const crystalStorage: CrystalStorage = new CrystalStorage(client, timeout, ZERO_KEY_PAIR, {
+    const crystalStorageOwner: CrystalStorageOwner = new CrystalStorageOwner(client, crystalStorageOwnerKeys)
+    const crystalStorage: CrystalStorage = new CrystalStorage(client, ZERO_KEY_PAIR, {
         _root: await crystalStorageRoot.address(),
         _owner: await crystalStorageOwner.address()
     })

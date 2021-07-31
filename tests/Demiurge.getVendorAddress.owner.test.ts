@@ -8,16 +8,16 @@ import {CustomerContract} from '../src/Customer'
 import {Vendor, VendorContract} from '../src/Vendor'
 import {SafeMultisigWallet} from 'jton-contracts/dist/tonlabs/SafeMultisigWallet'
 
-const {client, timeout, giver} = prepareGiverV2(config, config.contracts.giver.keys)
+const {client, giver} = prepareGiverV2(config, config.contracts.giver.keys)
 
 it('getVendorAddress.owner', async () => {
     const demiurgeKeys: KeyPair = await getRandomKeyPair(client)
-    const demiurge: Demiurge = new Demiurge(client, timeout, demiurgeKeys, {
+    const demiurge: Demiurge = new Demiurge(client, demiurgeKeys, {
         _vendorCode: VendorContract.code,
         _customerCode: CustomerContract.code
     })
     const safeMultisigWalletKeys: KeyPair = await getRandomKeyPair(client)
-    const safeMultisigWallet: SafeMultisigWallet = new SafeMultisigWallet(client, timeout, safeMultisigWalletKeys)
+    const safeMultisigWallet: SafeMultisigWallet = new SafeMultisigWallet(client, safeMultisigWalletKeys)
     await giver.sendTransaction({
         dest: await demiurge.address(),
         value: config.contracts.demiurge.requiredForDeployment * B
@@ -27,7 +27,7 @@ it('getVendorAddress.owner', async () => {
         publicKey: ZERO_UINT256,
         owner: await safeMultisigWallet.address()
     })
-    const vendor: Vendor = new Vendor(client, timeout, ZERO_KEY_PAIR, {
+    const vendor: Vendor = new Vendor(client, ZERO_KEY_PAIR, {
         _demiurge: await demiurge.address(),
         _owner: await safeMultisigWallet.address()
     })

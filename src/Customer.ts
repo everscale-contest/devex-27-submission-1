@@ -11,12 +11,12 @@ export interface InitialData {
 }
 
 export class Customer extends Contract {
-    public constructor(client: TonClient, timeout: number, keys: KeyPair, initialData: InitialData) {
-        super(client, timeout, {
+    public constructor(client: TonClient, keys: KeyPair, initialData: InitialData, timeout?: number) {
+        super(client, {
             abi: CustomerContract.abi,
             tvc: CustomerContract.tvc,
             initialData: initialData,
             keys: keys
-        })
+        }, timeout)
     }
 }

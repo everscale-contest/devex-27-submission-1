@@ -12,13 +12,13 @@ export interface CreateIn {
 }
 
 export class CrystalStorageOwner extends Contract {
-    public constructor(client: TonClient, timeout: number, keys: KeyPair) {
-        super(client, timeout, {
+    public constructor(client: TonClient, keys: KeyPair, timeout?: number) {
+        super(client, {
             abi: CrystalStorageOwnerContract.abi,
             tvc: CrystalStorageOwnerContract.tvc,
             initialData: {},
             keys: keys
-        })
+        }, timeout)
     }
 
 

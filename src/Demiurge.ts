@@ -26,13 +26,13 @@ export class Demiurge extends Contract {
         createVendor: 'createVendor'
     }
 
-    public constructor(client: TonClient, timeout: number, keys: KeyPair, initialData: InitialData) {
-        super(client, timeout, {
+    public constructor(client: TonClient, keys: KeyPair, initialData: InitialData, timeout?: number) {
+        super(client, {
             abi: DemiurgeContract.abi,
             tvc: DemiurgeContract.tvc,
             initialData: initialData,
             keys: keys
-        })
+        }, timeout)
     }
 
 
