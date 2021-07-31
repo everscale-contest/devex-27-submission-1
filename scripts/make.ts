@@ -14,6 +14,6 @@ make({
         'tests/_src/contracts/CrystalStorageOwner'
     ],
     compiler: '0.47.0',
-    linker: '0.11.87',
+    linker: '0.11.90',
     stdlib: '0.47.0'
 }).then().catch((e: any) => console.log(e))
