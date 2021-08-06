@@ -28,7 +28,7 @@ export const contracts: any = {
     vendor: {
         requiredForDeployment: 0.03
     },
-    crystalStorageRoot: {
+    crystalAssetRoot: {
         requiredForDeployment: 0.03
     }
 }

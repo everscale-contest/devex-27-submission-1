@@ -1,11 +1,11 @@
 pragma ton-solidity >= 0.47.0;
 
-interface ICrystalStorageRoot {
+interface ICrystalAssetRoot {
     /************
      * EXTERNAL *
      ************/
     /*
-       owner ............. Address of storage owner
+       owner ............. Address of asset owner
        deployValue ....... How much crystals send to wallet on deployment
      */
     function create(address owner, uint128 deployValue)

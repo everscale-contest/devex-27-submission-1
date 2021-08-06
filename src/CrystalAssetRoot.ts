@@ -1,9 +1,9 @@
 import {Contract, ZERO_ANSWER_ID} from 'jton'
 import {KeyPair} from '@tonclient/core/dist/modules'
 import {TonClient} from '@tonclient/core'
-import CrystalStorageRootContract from './contracts/storages/crystal/CrystalStorageRoot'
+import CrystalAssetRootContract from './contracts/assets/crystal/CrystalAssetRoot'
 
-export {CrystalStorageRootContract}
+export {CrystalAssetRootContract}
 
 export interface InitialData {
     _code: string
@@ -13,15 +13,15 @@ export interface GetAddressIn {
     owner: string
 }
 
-export class CrystalStorageRoot extends Contract {
+export class CrystalAssetRoot extends Contract {
     public static readonly EXTERNAL = {
         create: 'create'
     }
 
     public constructor(client: TonClient, keys: KeyPair, initialData: InitialData, timeout?: number) {
         super(client, {
-            abi: CrystalStorageRootContract.abi,
-            tvc: CrystalStorageRootContract.tvc,
+            abi: CrystalAssetRootContract.abi,
+            tvc: CrystalAssetRootContract.tvc,
             initialData: initialData,
             keys: keys
         }, timeout)

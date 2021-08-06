@@ -15,13 +15,13 @@
 		{
 			"name": "onCreate",
 			"inputs": [
-				{"name":"storageAddress","type":"address"}
+				{"name":"assetAddress","type":"address"}
 			],
 			"outputs": [
 			]
 		},
 		{
-			"name": "getStorageAddress",
+			"name": "getAssetAddress",
 			"inputs": [
 			],
 			"outputs": [

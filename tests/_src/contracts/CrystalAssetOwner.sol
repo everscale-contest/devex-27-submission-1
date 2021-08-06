@@ -1,13 +1,13 @@
 pragma ton-solidity >= 0.47.0;
 pragma AbiHeader expire;
 
-import "../../../src/contracts/storages/crystal/interfaces/ICrystalStorageRoot.sol";
+import "../../../src/contracts/assets/crystal/interfaces/ICrystalAssetRoot.sol";
 
-contract CrystalStorageOwner {
+contract CrystalAssetOwner {
     /*************
      * VARIABLES *
      *************/
-    address private _storageAddress;
+    address private _assetAddress;
 
 
     /************
@@ -15,29 +15,29 @@ contract CrystalStorageOwner {
      ************/
     /*
        value ............. How much crystals send total
-       root .............. Address of CrystalStorage root
+       root .............. Address of CrystalAsset root
        deployValue ....... How much crystals send to wallet on deployment
      */
     function create(uint128 value, address root, uint128 deployValue) public pure {
         tvm.accept();
-        ICrystalStorageRoot(root).create{value: value, callback: CrystalStorageOwner.onCreate}(
+        ICrystalAssetRoot(root).create{value: value, callback: CrystalAssetOwner.onCreate}(
             address(this),
             deployValue
         );
     }
 
     /*
-       storageAddress .... Address of storage
+       assetAddress .... Address of asset
      */
-    function onCreate(address storageAddress) external {
-        _storageAddress = storageAddress;
+    function onCreate(address assetAddress) external {
+        _assetAddress = assetAddress;
     }
 
 
     /***********
      * GETTERS *
      ***********/
-    function getStorageAddress() public view returns(address) {
-        return _storageAddress;
+    function getAssetAddress() public view returns(address) {
+        return _assetAddress;
     }
 }

@@ -1,10 +1,10 @@
 pragma ton-solidity >= 0.47.0;
 pragma AbiHeader expire;
 
-import "./CrystalStorage.sol";
-import "./interfaces/ICrystalStorageRoot.sol";
+import "./CrystalAsset.sol";
+import "./interfaces/ICrystalAssetRoot.sol";
 
-contract CrystalStorageRoot is ICrystalStorageRoot {
+contract CrystalAssetRoot is ICrystalAssetRoot {
     /**********
     * STATIC *
     **********/
@@ -15,7 +15,7 @@ contract CrystalStorageRoot is ICrystalStorageRoot {
      * EXTERNAL *
      ************/
     /*
-       owner ............. Address of storage owner
+       owner ............. Address of asset owner
        deployValue ....... How much crystals send to wallet on deployment
      */
     function create(address owner, uint128 deployValue)
@@ -27,7 +27,7 @@ contract CrystalStorageRoot is ICrystalStorageRoot {
     {
         tvm.rawReserve(address(this).balance - msg.value, 2);
         TvmCell stateInit = tvm.buildStateInit({
-            contr: CrystalStorage,
+            contr: CrystalAsset,
             varInit: {
                 _root: address(this),
                 _owner: owner
@@ -35,7 +35,7 @@ contract CrystalStorageRoot is ICrystalStorageRoot {
             pubkey: 0,
             code: _code
         });
-        return { value: 0, bounce: false, flag: 128 } new CrystalStorage{
+        return { value: 0, bounce: false, flag: 128 } new CrystalAsset{
             stateInit: stateInit,
             value: deployValue,
             wid: address(this).wid,
@@ -56,7 +56,7 @@ contract CrystalStorageRoot is ICrystalStorageRoot {
      */
     function getAddress(address owner) override external view responsible returns(address) {
         TvmCell stateInit = tvm.buildStateInit({
-            contr: CrystalStorage,
+            contr: CrystalAsset,
             varInit: {
                 _root: address(this),
                 _owner: owner

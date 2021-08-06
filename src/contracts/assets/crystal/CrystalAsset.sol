@@ -1,9 +1,9 @@
 pragma ton-solidity >= 0.47.0;
 pragma AbiHeader expire;
 
-import "./interfaces/ICrystalStorage.sol";
+import "./interfaces/ICrystalAsset.sol";
 
-contract CrystalStorage is ICrystalStorage {
+contract CrystalAsset is ICrystalAsset {
     /**********
      * STATIC *
      **********/

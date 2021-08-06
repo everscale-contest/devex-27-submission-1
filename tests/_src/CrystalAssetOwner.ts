@@ -1,9 +1,9 @@
 import {Contract, ResultOfCall} from 'jton'
 import {KeyPair} from '@tonclient/core/dist/modules'
 import {TonClient} from '@tonclient/core'
-import CrystalStorageOwnerContract from './contracts/CrystalStorageOwner'
+import CrystalAssetOwnerContract from './contracts/CrystalAssetOwner'
 
-export {CrystalStorageOwnerContract}
+export {CrystalAssetOwnerContract}
 
 export interface CreateIn {
     value: number | string
@@ -11,11 +11,11 @@ export interface CreateIn {
     deployValue: number | string
 }
 
-export class CrystalStorageOwner extends Contract {
+export class CrystalAssetOwner extends Contract {
     public constructor(client: TonClient, keys: KeyPair, timeout?: number) {
         super(client, {
-            abi: CrystalStorageOwnerContract.abi,
-            tvc: CrystalStorageOwnerContract.tvc,
+            abi: CrystalAssetOwnerContract.abi,
+            tvc: CrystalAssetOwnerContract.tvc,
             initialData: {},
             keys: keys
         }, timeout)
@@ -33,7 +33,7 @@ export class CrystalStorageOwner extends Contract {
     /***********
      * GETTERS *
      ***********/
-    public async getStorageAddress(): Promise<string> {
-        return (await this.run('getStorageAddress')).value.value0
+    public async getAssetAddress(): Promise<string> {
+        return (await this.run('getAssetAddress')).value.value0
     }
 }
