@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/kokkekpek/subscription-smart-contracts#readme",
   "dependencies": {
-    "jton": "^0.10.2",
+    "jton": "^0.10.3",
     "jton-contracts": "^0.9.3"
   },
   "devDependencies": {

@@ -2287,10 +2287,10 @@ jton@^0.10.1:
     fast-glob "^3.2.7"
     tondev "^0.8.1"
 
-jton@^0.10.2:
-  version "0.10.2"
-  resolved "https://registry.yarnpkg.com/jton/-/jton-0.10.2.tgz#72430402c1d8ee52c0f77c63e67c7819063fd1a6"
-  integrity sha512-XnMnfYA+gvWfxGqfhjRsJWowm3JmoZwTktaiCpN2e4TqAldjjjAIru67LKt1rUfc0S3SEEkByIMoDrNLh3FZ/A==
+jton@^0.10.3:
+  version "0.10.3"
+  resolved "https://registry.yarnpkg.com/jton/-/jton-0.10.3.tgz#1e0e9ff05cbfd8728e6f0214a000964e444e3db7"
+  integrity sha512-UaPNyoWpZDjw5Gap7IauapM4DJ2/zu1L6VKEu9OV2PXTL1Oi3NCbaaPQpM33AMXMXZEzpDCrxifxDOtcMJOH1Q==
   dependencies:
     "@tonclient/core" "^1.20.0"
     colors "^1.4.0"
