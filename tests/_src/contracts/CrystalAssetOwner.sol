@@ -1,4 +1,4 @@
-pragma ton-solidity >= 0.47.0;
+pragma ton-solidity >= 0.48.0;
 pragma AbiHeader expire;
 
 import "../../../src/contracts/assets/crystal/interfaces/ICrystalAssetRoot.sol";

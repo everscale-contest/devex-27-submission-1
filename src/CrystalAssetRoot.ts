@@ -1,4 +1,4 @@
-import {Contract, ZERO_ANSWER_ID} from 'jton'
+import {Contract, ZERO_ANSWER_ID_V2} from 'jton'
 import {KeyPair} from '@tonclient/core/dist/modules'
 import {TonClient} from '@tonclient/core'
 import CrystalAssetRootContract from './contracts/assets/crystal/CrystalAssetRoot'
@@ -32,10 +32,10 @@ export class CrystalAssetRoot extends Contract {
      * GETTERS *
      ***********/
     public async getCode(): Promise<string> {
-        return (await this.run('getCode', ZERO_ANSWER_ID)).value.value0
+        return (await this.run('getCode', ZERO_ANSWER_ID_V2)).value.value0
     }
 
     public async getAddress(input: GetAddressIn): Promise<string> {
-        return (await this.run('getAddress', {...input, ...ZERO_ANSWER_ID})).value.value0
+        return (await this.run('getAddress', {...input, ...ZERO_ANSWER_ID_V2})).value.value0
     }
 }

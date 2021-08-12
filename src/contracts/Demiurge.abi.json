@@ -1,5 +1,6 @@
 {
 	"ABI version": 2,
+	"version": "2.1",
 	"header": ["time"],
 	"functions": [
 		{
@@ -29,7 +30,7 @@
 		{
 			"name": "getVendorCode",
 			"inputs": [
-				{"name":"_answer_id","type":"uint32"}
+				{"name":"answerId","type":"uint32"}
 			],
 			"outputs": [
 				{"name":"value0","type":"cell"}
@@ -38,7 +39,7 @@
 		{
 			"name": "getCustomerCode",
 			"inputs": [
-				{"name":"_answer_id","type":"uint32"}
+				{"name":"answerId","type":"uint32"}
 			],
 			"outputs": [
 				{"name":"value0","type":"cell"}
@@ -47,7 +48,7 @@
 		{
 			"name": "getVendorAddress",
 			"inputs": [
-				{"name":"_answer_id","type":"uint32"},
+				{"name":"answerId","type":"uint32"},
 				{"name":"publicKey","type":"uint256"},
 				{"name":"owner","type":"address"}
 			],
@@ -58,7 +59,7 @@
 		{
 			"name": "getCustomerAddress",
 			"inputs": [
-				{"name":"_answer_id","type":"uint32"},
+				{"name":"answerId","type":"uint32"},
 				{"name":"publicKey","type":"uint256"},
 				{"name":"owner","type":"address"}
 			],
@@ -95,5 +96,12 @@
 		{"key":2,"name":"_customerCode","type":"cell"}
 	],
 	"events": [
+	],
+	"fields": [
+		{"name":"_pubkey","type":"uint256"},
+		{"name":"_timestamp","type":"uint64"},
+		{"name":"_constructorFlag","type":"bool"},
+		{"name":"_vendorCode","type":"cell"},
+		{"name":"_customerCode","type":"cell"}
 	]
 }

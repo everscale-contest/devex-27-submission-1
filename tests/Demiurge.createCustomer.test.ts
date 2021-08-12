@@ -5,7 +5,8 @@ import {KeyPair} from '@tonclient/core/dist/modules'
 import {
     AccountType,
     B,
-    getNetConfig, getPayload,
+    getNetConfig,
+    getPayload,
     getRandomKeyPair,
     NetConfig,
     x0,

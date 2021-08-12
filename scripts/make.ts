@@ -13,7 +13,7 @@ make({
         // Tests
         'tests/_src/contracts/CrystalAssetOwner'
     ],
-    compiler: '0.47.0',
-    linker: '0.13.2',
-    stdlib: '0.47.0'
+    compiler: '0.48.0',
+    linker: '0.13.9',
+    stdlib: '0.48.0'
 }).then().catch((e: any) => console.log(e))

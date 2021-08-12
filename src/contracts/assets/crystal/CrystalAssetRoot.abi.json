@@ -1,11 +1,12 @@
 {
 	"ABI version": 2,
+	"version": "2.1",
 	"header": ["time", "expire"],
 	"functions": [
 		{
 			"name": "create",
 			"inputs": [
-				{"name":"_answer_id","type":"uint32"},
+				{"name":"answerId","type":"uint32"},
 				{"name":"owner","type":"address"},
 				{"name":"deployValue","type":"uint128"}
 			],
@@ -16,7 +17,7 @@
 		{
 			"name": "getCode",
 			"inputs": [
-				{"name":"_answer_id","type":"uint32"}
+				{"name":"answerId","type":"uint32"}
 			],
 			"outputs": [
 				{"name":"value0","type":"cell"}
@@ -25,7 +26,7 @@
 		{
 			"name": "getAddress",
 			"inputs": [
-				{"name":"_answer_id","type":"uint32"},
+				{"name":"answerId","type":"uint32"},
 				{"name":"owner","type":"address"}
 			],
 			"outputs": [
@@ -52,5 +53,11 @@
 		{"key":1,"name":"_code","type":"cell"}
 	],
 	"events": [
+	],
+	"fields": [
+		{"name":"_pubkey","type":"uint256"},
+		{"name":"_timestamp","type":"uint64"},
+		{"name":"_constructorFlag","type":"bool"},
+		{"name":"_code","type":"cell"}
 	]
 }

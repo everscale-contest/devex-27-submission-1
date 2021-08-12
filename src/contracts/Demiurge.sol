@@ -1,4 +1,4 @@
-pragma ton-solidity >= 0.47.0;
+pragma ton-solidity >= 0.48.0;
 
 import "interfaces/IDemiurge.sol";
 import "Customer.sol";
