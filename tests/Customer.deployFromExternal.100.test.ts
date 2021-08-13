@@ -8,7 +8,6 @@ import {Demiurge} from '../src/Demiurge'
 import {VendorContract} from '../src/Vendor'
 
 const {client, giver} = prepareGiverV2(config, config.contracts.giver.keys)
-const deployTimeout: number = 15_000
 
 it('deployFromExternal', async () => {
     const demiurgeKeys: KeyPair = await getRandomKeyPair(client)
@@ -28,7 +27,7 @@ it('deployFromExternal', async () => {
     })
     let errorCode: number = 0
     try {
-        await customer.deploy({}, deployTimeout)
+        await customer.deploy()
     } catch (e: any) {
         errorCode = e.data?.exit_code ?? e.data?.local_error?.data?.exit_code
     }

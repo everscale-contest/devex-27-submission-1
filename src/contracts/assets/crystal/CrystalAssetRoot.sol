@@ -15,15 +15,19 @@ contract CrystalAssetRoot is ICrystalAssetRoot {
      * EXTERNAL *
      ************/
     /*
-       owner ............. Address of asset owner
-       deployValue ....... How much crystals send to wallet on deployment
+       owner .......... Address of asset owner
+       deployValue .... How much crystals send to wallet on deployment
+       gasReceiver .... Remaining balance receiver. msg.sender by default
      */
-    function create(address owner, uint128 deployValue)
+    function create(address owner, uint128 deployValue, address gasReceiver)
         override
         external
         view
         responsible
-        returns(address)
+        returns(
+            address asset,
+            address receiver
+        )
     {
         tvm.rawReserve(address(this).balance - msg.value, 2);
         TvmCell stateInit = tvm.buildStateInit({
@@ -35,12 +39,15 @@ contract CrystalAssetRoot is ICrystalAssetRoot {
             pubkey: 0,
             code: _code
         });
-        return { value: 0, bounce: false, flag: 128 } new CrystalAsset{
-            stateInit: stateInit,
-            value: deployValue,
-            wid: address(this).wid,
-            flag: 1
-        }();
+        return { value: 0, bounce: false, flag: 128 } (
+            new CrystalAsset {
+                stateInit: stateInit,
+                value: deployValue,
+                wid: address(this).wid,
+                flag: 1
+            }(),
+            gasReceiver
+        );
     }
 
 

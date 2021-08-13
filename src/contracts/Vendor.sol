@@ -3,8 +3,6 @@ pragma AbiHeader expire;
 pragma AbiHeader pubkey;
 
 /*
-   Created by Demiurge. Manages Resources. Receives request from Resource and redirect to Service
-
    Errors
       100 - Demiurge must be the creator of the contract
  */

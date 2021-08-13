@@ -8,9 +8,9 @@ interface IDemiurge {
        publicKey ......... Public key of owner if the owner is external, zero otherwise
        owner ............. Address of owner if the owner is internal, zero otherwise
        deployValue ....... Value with which the contract will be deployed
-       gasBackAddress .... Receiver the remaining balance after deployment. msg.sender by default
+       gasReceiver ....... Remaining balance receiver. msg.sender by default
      */
-    function createVendor(uint256 publicKey, address owner, uint128 deployValue, address gasBackAddress)
+    function createVendor(uint256 publicKey, address owner, uint128 deployValue, address gasReceiver)
         external
         view
         returns(address);
@@ -19,9 +19,9 @@ interface IDemiurge {
        publicKey ......... Public key of owner if the owner is external, zero otherwise
        owner ............. Address of owner if the owner is internal, zero otherwise
        deployValue ....... Value with which the contract will be deployed
-       gasBackAddress .... Receiver the remaining balance after deployment. msg.sender by default
+       gasReceiver ....... Remaining balance receiver. msg.sender by default
      */
-    function createCustomer(uint256 publicKey, address owner, uint128 deployValue, address gasBackAddress)
+    function createCustomer(uint256 publicKey, address owner, uint128 deployValue, address gasReceiver)
         external
         view
         returns(address);

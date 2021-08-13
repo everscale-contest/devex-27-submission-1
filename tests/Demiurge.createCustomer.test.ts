@@ -51,7 +51,7 @@ it('createCustomer', async () => {
             publicKey: ZERO_UINT256,
             owner: await safeMultisigWallet.address(),
             deployValue: config.contracts.customer.requiredForDeployment * B,
-            gasBackAddress: ZERO_ADDRESS
+            gasReceiver: ZERO_ADDRESS
         })
     })
     const customer: Customer = new Customer(client, ZERO_KEY_PAIR, {

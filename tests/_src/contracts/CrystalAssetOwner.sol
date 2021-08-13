@@ -7,37 +7,42 @@ contract CrystalAssetOwner {
     /*************
      * VARIABLES *
      *************/
-    address private _assetAddress;
+    address private _asset;
+    address private _gasReceiver;
 
 
     /************
      * EXTERNAL *
      ************/
     /*
-       value ............. How much crystals send total
-       root .............. Address of CrystalAsset root
-       deployValue ....... How much crystals send to wallet on deployment
+       value .......... How much crystals send total
+       root ........... Address of CrystalAsset root
+       deployValue .... How much crystals send to wallet on deployment
+       gasReceiver .... Remaining balance receiver. msg.sender by default
      */
-    function create(uint128 value, address root, uint128 deployValue) public pure {
+    function create(uint128 value, address root, uint128 deployValue, address gasReceiver) public pure {
         tvm.accept();
         ICrystalAssetRoot(root).create{value: value, callback: CrystalAssetOwner.onCreate}(
             address(this),
-            deployValue
+            deployValue,
+            gasReceiver
         );
     }
 
     /*
        assetAddress .... Address of asset
      */
-    function onCreate(address assetAddress) external {
-        _assetAddress = assetAddress;
+    function onCreate(address asset, address gasReceiver) external {
+        _asset = asset;
+        _gasReceiver = gasReceiver;
     }
 
 
     /***********
      * GETTERS *
      ***********/
-    function getAssetAddress() public view returns(address) {
-        return _assetAddress;
+    function getInfo() public view returns(address asset, address gasReceiver) {
+        asset = _asset;
+        gasReceiver = _gasReceiver;
     }
 }

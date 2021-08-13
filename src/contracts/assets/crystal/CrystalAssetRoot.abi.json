@@ -8,10 +8,12 @@
 			"inputs": [
 				{"name":"answerId","type":"uint32"},
 				{"name":"owner","type":"address"},
-				{"name":"deployValue","type":"uint128"}
+				{"name":"deployValue","type":"uint128"},
+				{"name":"gasReceiver","type":"address"}
 			],
 			"outputs": [
-				{"name":"value0","type":"address"}
+				{"name":"asset","type":"address"},
+				{"name":"receiver","type":"address"}
 			]
 		},
 		{

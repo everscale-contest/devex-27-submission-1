@@ -1,16 +1,15 @@
 pragma ton-solidity >= 0.48.0;
 
 import "interfaces/IDemiurge.sol";
+import "utils/GasSender.sol";
 import "Customer.sol";
 import "Vendor.sol";
 
 /*
-   Demiurge creates Vendors and Customers
-
    Errors
       100 - Define only public key or owner address
  */
-contract Demiurge is IDemiurge {
+contract Demiurge is IDemiurge, GasSender {
     /**********
      * STATIC *
      **********/
@@ -38,9 +37,9 @@ contract Demiurge is IDemiurge {
        publicKey ......... Public key of owner if the owner is external, zero otherwise
        owner ............. Address of owner if the owner is internal, zero otherwise
        deployValue ....... Value with which the contract will be deployed
-       gasBackAddress .... Receiver the remaining balance after deployment. msg.sender by default
+       gasReceiver ....... Remaining balance receiver. msg.sender by default
      */
-    function createVendor(uint256 publicKey, address owner, uint128 deployValue, address gasBackAddress)
+    function createVendor(uint256 publicKey, address owner, uint128 deployValue, address gasReceiver)
         override
         external
         view
@@ -63,12 +62,7 @@ contract Demiurge is IDemiurge {
             wid: address(this).wid,
             flag: 1
         }();
-
-        if (gasBackAddress.value != 0)
-            gasBackAddress.transfer({ value: 0, flag: 128 });
-        else
-            msg.sender.transfer({ value: 0, flag: 128 });
-
+        _sendGas(gasReceiver);
         return vendor;
     }
 
@@ -76,9 +70,9 @@ contract Demiurge is IDemiurge {
        publicKey ......... Public key of owner if the owner is external, zero otherwise
        owner ............. Address of owner if the owner is internal, zero otherwise
        deployValue ....... Value with which the contract will be deployed
-       gasBackAddress .... Receiver the remaining balance after deployment. msg.sender by default
+       gasReceiver ....... Remaining balance receiver. msg.sender by default
      */
-    function createCustomer(uint256 publicKey, address owner, uint128 deployValue, address gasBackAddress)
+    function createCustomer(uint256 publicKey, address owner, uint128 deployValue, address gasReceiver)
         override
         external
         view
@@ -101,12 +95,7 @@ contract Demiurge is IDemiurge {
             wid: address(this).wid,
             flag: 1
         }();
-
-        if (gasBackAddress.value != 0)
-            gasBackAddress.transfer({ value: 0, flag: 128 });
-        else
-            msg.sender.transfer({ value: 0, flag: 128 });
-
+        _sendGas(gasReceiver);
         return customer;
     }
 

@@ -9,6 +9,12 @@ export interface CreateIn {
     value: number | string
     root: string
     deployValue: number | string
+    gasReceiver: string
+}
+
+export interface GetInfoOut {
+    asset: string
+    gasReceiver: string
 }
 
 export class CrystalAssetOwner extends Contract {
@@ -33,7 +39,7 @@ export class CrystalAssetOwner extends Contract {
     /***********
      * GETTERS *
      ***********/
-    public async getAssetAddress(): Promise<string> {
-        return (await this.run('getAssetAddress')).value.value0
+    public async getInfo(): Promise<GetInfoOut> {
+        return (await this.run('getInfo')).value
     }
 }

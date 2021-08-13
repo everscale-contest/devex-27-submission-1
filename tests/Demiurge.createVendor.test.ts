@@ -54,7 +54,7 @@ it('createVendor', async () => {
             publicKey: ZERO_UINT256,
             owner: await safeMultisigWallet.address(),
             deployValue: config.contracts.vendor.requiredForDeployment * B,
-            gasBackAddress: ZERO_ADDRESS
+            gasReceiver: ZERO_ADDRESS
         })
     })
     const vendor: Vendor = new Vendor(client, ZERO_KEY_PAIR, {

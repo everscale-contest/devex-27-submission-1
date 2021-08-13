@@ -2,15 +2,16 @@ import {testTimeout} from './_utils/testTimeout'
 import {prepareGiverV2} from 'jton-contracts/dist/tonlabs/GiverV2'
 import {config} from '../config'
 import {KeyPair} from '@tonclient/core/dist/modules'
-import {AccountType, B, getRandomKeyPair, ZERO_ADDRESS, ZERO_KEY_PAIR} from 'jton'
-import {CrystalAsset, CrystalAssetContract} from '../src/CrystalAsset'
+import {B, getNetConfig, getRandomKeyPair, ZERO_ADDRESS, ZERO_KEY_PAIR} from 'jton'
+import {CrystalAsset, CrystalAssetContract, GetDetailsOut} from '../src/CrystalAsset'
 import {CrystalAssetRoot} from '../src/CrystalAssetRoot'
-import {CrystalAssetOwner, GetInfoOut} from './_src/CrystalAssetOwner'
+import {CrystalAssetOwner} from './_src/CrystalAssetOwner'
+import {NetConfig} from 'jton/src/config/index'
 
 const {client, giver} = prepareGiverV2(config, config.contracts.giver.keys)
+const netConfig: NetConfig = getNetConfig(config)
 
-it('create', async () => {
-    const gasReceiver: string = ZERO_ADDRESS
+it('getDetails', async () => {
     const crystalAssetRootKeys: KeyPair = await getRandomKeyPair(client)
     const crystalAssetRoot: CrystalAssetRoot = new CrystalAssetRoot(client, crystalAssetRootKeys, {
             _code: CrystalAssetContract.code
@@ -36,13 +37,17 @@ it('create', async () => {
         value: 0.5 * B,
         root: await crystalAssetRoot.address(),
         deployValue: 0.2 * B,
-        gasReceiver: gasReceiver
+        gasReceiver: ZERO_ADDRESS
     })
-    await crystalAssetOwner.waitForTransaction()
     await crystalAsset.waitForTransaction()
-    const info: GetInfoOut = await crystalAssetOwner.getInfo()
-    expect(await crystalAsset.accountType()).toBe(AccountType.active)
-    expect(info.asset).toBe(await crystalAsset.address())
-    expect(info.gasReceiver).toBe(gasReceiver)
+    const balance: number = parseInt(await crystalAsset.balance())
+    const details: GetDetailsOut = await crystalAsset.getDetails()
+    const detailsBalance: number = parseInt(details.balance)
+    expect(details.root).toBe(await crystalAssetRoot.address())
+    expect(details.owner).toBe(await crystalAssetOwner.address())
+    expect(
+        detailsBalance > balance - netConfig.transactions.tolerance &&
+        detailsBalance < balance + netConfig.transactions.tolerance
+    ).toBeTruthy()
     client.close()
 }, testTimeout)
