@@ -18,11 +18,6 @@ contract CrystalAsset is ICrystalAsset {
     /*************
      * MODIFIERS *
      *************/
-    modifier accept {
-        tvm.accept();
-        _;
-    }
-
     modifier rootIsCreator {
         require(_root == msg.sender, 100);
         _;
@@ -32,7 +27,7 @@ contract CrystalAsset is ICrystalAsset {
     /***************
      * CONSTRUCTOR *
      ***************/
-    constructor() public rootIsCreator accept {}
+    constructor() public rootIsCreator {}
 
 
     /************

@@ -17,11 +17,6 @@ contract Vendor {
     /*************
      * MODIFIERS *
      *************/
-    modifier accept {
-        tvm.accept();
-        _;
-    }
-
     modifier demiurgeIsCreator {
         require(_demiurge == msg.sender, 100);
         _;
@@ -31,5 +26,5 @@ contract Vendor {
     /***************
      * CONSTRUCTOR *
      ***************/
-    constructor() public demiurgeIsCreator accept {}
+    constructor() public demiurgeIsCreator {}
 }
