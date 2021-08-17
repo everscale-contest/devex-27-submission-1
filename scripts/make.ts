@@ -9,7 +9,8 @@ make({
         'src/contracts/Vendor',
         'src/contracts/assets/crystal/CrystalAssetRoot',
         'src/contracts/assets/crystal/CrystalAsset',
-        'tests/_src/contracts/CrystalAssetOwner'
+        'tests/_src/contracts/CrystalAssetOwner',
+        'tests/_src/contracts/PayloadGenerator'
     ],
     compiler: '0.48.0',
     linker: '0.13.12',

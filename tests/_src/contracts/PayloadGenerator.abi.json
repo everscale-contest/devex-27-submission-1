@@ -1,0 +1,57 @@
+{
+	"ABI version": 2,
+	"version": "2.1",
+	"header": ["time", "expire"],
+	"functions": [
+		{
+			"name": "toService",
+			"inputs": [
+				{"name":"service","type":"address"},
+				{"name":"payload","type":"cell"},
+				{"name":"gasReceiver","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "toOffer",
+			"inputs": [
+				{"name":"offer","type":"address"},
+				{"name":"payload","type":"cell"},
+				{"name":"gasReceiver","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "offer",
+			"inputs": [
+				{"name":"assetBits","type":"uint32"},
+				{"name":"assetAddress","type":"address"},
+				{"name":"assetValue","type":"uint128"},
+				{"name":"months","type":"uint32"},
+				{"name":"discount","type":"uint32"},
+				{"name":"accepter","type":"address"},
+				{"name":"gasReceiver","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "constructor",
+			"inputs": [
+			],
+			"outputs": [
+			]
+		}
+	],
+	"data": [
+	],
+	"events": [
+	],
+	"fields": [
+		{"name":"_pubkey","type":"uint256"},
+		{"name":"_timestamp","type":"uint64"},
+		{"name":"_constructorFlag","type":"bool"}
+	]
+}

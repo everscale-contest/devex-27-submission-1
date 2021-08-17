@@ -2,6 +2,7 @@ pragma ton-solidity >= 0.48.0;
 
 import "interfaces/IDemiurge.sol";
 import "utils/GasSender.sol";
+import "utils/GasSender128.sol";
 import "Customer.sol";
 import "Vendor.sol";
 
@@ -9,7 +10,7 @@ import "Vendor.sol";
    Errors
       100 - Define only public key or owner address
  */
-contract Demiurge is IDemiurge, GasSender {
+contract Demiurge is IDemiurge, GasSender, GasSender128 {
     /**********
      * STATIC *
      **********/
@@ -46,6 +47,7 @@ contract Demiurge is IDemiurge, GasSender {
         onlyOneOwner(publicKey, owner)
         returns(address)
     {
+        _gasReserve();
         TvmCell stateInit = tvm.buildStateInit({
             contr: Vendor,
             varInit: {
@@ -62,7 +64,7 @@ contract Demiurge is IDemiurge, GasSender {
             wid: address(this).wid,
             flag: 1
         }();
-        _sendGas(gasReceiver);
+        _sendGas128(gasReceiver);
         return vendor;
     }
 
@@ -79,6 +81,7 @@ contract Demiurge is IDemiurge, GasSender {
         onlyOneOwner(publicKey, owner)
         returns(address)
     {
+        _gasReserve();
         TvmCell stateInit = tvm.buildStateInit({
             contr: Customer,
             varInit: {
@@ -95,7 +98,7 @@ contract Demiurge is IDemiurge, GasSender {
             wid: address(this).wid,
             flag: 1
         }();
-        _sendGas(gasReceiver);
+        _sendGas128(gasReceiver);
         return customer;
     }
 

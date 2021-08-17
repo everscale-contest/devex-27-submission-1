@@ -7,10 +7,7 @@ contract GasSender {
     /*
        gasReceiver ....... Remaining balance receiver. msg.sender by default
      */
-    function _sendGas(address gasReceiver) internal pure {
-        if (gasReceiver.value != 0)
-            gasReceiver.transfer({ value: 0, flag: 128 });
-        else
-            msg.sender.transfer({ value: 0, flag: 128 });
+    function _gasReserve() internal view {
+        tvm.rawReserve(address(this).balance - msg.value, 2);
     }
 }

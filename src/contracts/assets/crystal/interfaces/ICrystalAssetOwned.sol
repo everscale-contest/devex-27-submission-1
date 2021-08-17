@@ -7,16 +7,15 @@ interface ICrystalAssetOwned {
     /*
        to ............. Destination asset address
        value .......... How much grams to transfer from
+       bounce ......... Bounce flag. Set true if need to transfer grams to existing account
        gasReceiver .... Remaining balance receiver
-       payload ........ Information for destination contract
      */
-    function transfer(address to, uint128 value, address gasReceiver, TvmCell payload) external view;
+    function withdraw(address to, uint128 value, bool bounce, address gasReceiver) external view;
 
     /*
        to ............. Destination asset address
-       value .......... How much grams to transfer from
+       bounce ......... Bounce flag. Set true if need to transfer grams to existing account
        gasReceiver .... Remaining balance receiver
-       all ............ Set true if need to transfer all remaining balance
      */
-    function withdraw(address to, uint128 value, address gasReceiver, bool all) external view;
+    function withdrawAll(address to, bool bounce, address gasReceiver) external view;
 }

@@ -9,7 +9,7 @@ import {CrystalAssetOwner} from './_src/CrystalAssetOwner'
 
 const {client, giver} = prepareGiverV2(config, config.contracts.giver.keys)
 
-it('create', async () => {
+it('getters', async () => {
     const crystalAssetRootKeys: KeyPair = await getRandomKeyPair(client)
     const crystalAssetRoot: CrystalAssetRoot = new CrystalAssetRoot(client, crystalAssetRootKeys, {
             _code: CrystalAssetContract.code

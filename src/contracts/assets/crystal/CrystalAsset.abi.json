@@ -11,6 +11,48 @@
 			]
 		},
 		{
+			"name": "transfer",
+			"inputs": [
+				{"name":"to","type":"address"},
+				{"name":"value","type":"uint128"},
+				{"name":"gasReceiver","type":"address"},
+				{"name":"payload","type":"cell"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "internalTransfer",
+			"inputs": [
+				{"name":"value","type":"uint128"},
+				{"name":"gasReceiver","type":"address"},
+				{"name":"payload","type":"cell"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "withdraw",
+			"inputs": [
+				{"name":"to","type":"address"},
+				{"name":"value","type":"uint128"},
+				{"name":"bounce","type":"bool"},
+				{"name":"gasReceiver","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "withdrawAll",
+			"inputs": [
+				{"name":"to","type":"address"},
+				{"name":"bounce","type":"bool"},
+				{"name":"gasReceiver","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
 			"name": "getDetails",
 			"inputs": [
 				{"name":"answerId","type":"uint32"}

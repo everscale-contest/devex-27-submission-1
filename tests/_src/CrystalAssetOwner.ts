@@ -15,6 +15,8 @@ export interface CreateIn {
 export interface GetInfoOut {
     asset: string
     gasReceiver: string
+    service: string
+    payload: string
 }
 
 export class CrystalAssetOwner extends Contract {

@@ -24,12 +24,24 @@
 			]
 		},
 		{
+			"name": "toService",
+			"inputs": [
+				{"name":"service","type":"address"},
+				{"name":"payload","type":"cell"},
+				{"name":"gasReceiver","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
 			"name": "getInfo",
 			"inputs": [
 			],
 			"outputs": [
 				{"name":"asset","type":"address"},
-				{"name":"gasReceiver","type":"address"}
+				{"name":"gasReceiver","type":"address"},
+				{"name":"service","type":"address"},
+				{"name":"payload","type":"cell"}
 			]
 		},
 		{
@@ -49,6 +61,8 @@
 		{"name":"_timestamp","type":"uint64"},
 		{"name":"_constructorFlag","type":"bool"},
 		{"name":"_asset","type":"address"},
-		{"name":"_gasReceiver","type":"address"}
+		{"name":"_gasReceiver","type":"address"},
+		{"name":"_service","type":"address"},
+		{"name":"_payload","type":"cell"}
 	]
 }

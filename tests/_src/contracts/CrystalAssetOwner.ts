@@ -44,6 +44,24 @@ const CrystalAssetOwnerContract = {
                 "outputs": []
             },
             {
+                "name": "toService",
+                "inputs": [
+                    {
+                        "name": "service",
+                        "type": "address"
+                    },
+                    {
+                        "name": "payload",
+                        "type": "cell"
+                    },
+                    {
+                        "name": "gasReceiver",
+                        "type": "address"
+                    }
+                ],
+                "outputs": []
+            },
+            {
                 "name": "getInfo",
                 "inputs": [],
                 "outputs": [
@@ -54,6 +72,14 @@ const CrystalAssetOwnerContract = {
                     {
                         "name": "gasReceiver",
                         "type": "address"
+                    },
+                    {
+                        "name": "service",
+                        "type": "address"
+                    },
+                    {
+                        "name": "payload",
+                        "type": "cell"
                     }
                 ]
             },
@@ -85,11 +111,19 @@ const CrystalAssetOwnerContract = {
             {
                 "name": "_gasReceiver",
                 "type": "address"
+            },
+            {
+                "name": "_service",
+                "type": "address"
+            },
+            {
+                "name": "_payload",
+                "type": "cell"
             }
         ]
     },
-    tvc: "te6ccgECFAEAAp4AAgE0AwEBAcACAEPQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgBCSK7VMg4wMgwP/jAiDA/uMC8gsRBQQTAprtRNDXScMB+GYh2zzTAAGfgQIA1xgg+QFY+EL5EPKo3tM/AfhDIbnytCD4I4ED6KiCCBt3QKC58rT4Y9MfAfgjvPK50x8B2zz4R27yfAsGA1DtRNDXScMB+GYi0NcLA6k4ANwhxwDjAiHXDR/yvCHjAwHbPPhHbvJ8EBAGBFAgghBcsuAAuuMCIIIQaLVfP7rjAiCCEHlsWVq64wIgghB5vT02uuMCDQoIBwJQMPhG8uBM+EJu4wD6QZXU0dD6QN/6QZXU0dD6QN/RAfhq+GvbPH/4ZwwOA3gw+Eby4Ez4Qm7jANHbPCKOIyTQ0wH6QDAxyM+HIM5xzwthAsjPk+WxZWrOAcjOzc3JcPsAkVvi4wB/+GcMCQ4ACPhK+EsCJDD4Qm7jAPhG8nPR+ADbPH/4ZwsOAdbtRNDXScIBio5gcO1E0PQFjQhgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE+GqNCGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAT4a4BA9A7yvdcL//hicPhj4gwANO1E0NP/0z/TADH6QNTR0PpA0fhr+Gr4Y/hiAlgw+Eby4EzTf/pBldTR0PpA39cNf5XU0dDTf9/6QZXU0dD6QN/R2zzjAH/4Zw8OAC74S/hK+EP4QsjL/8s/z4POAcjOzcntVABi+ABTAfgoXybIz4WIzgH6AnHPC2pVIMjPkPhSaK7Pkeb09NrOy38ByM7Nzclw+wBfBAAK+Eby4EwCCvSkIPShExIAFHNvbCAwLjQ4LjAAAA==",
-    code: "te6ccgECEQEAAnEABCSK7VMg4wMgwP/jAiDA/uMC8gsOAgEQAprtRNDXScMB+GYh2zzTAAGfgQIA1xgg+QFY+EL5EPKo3tM/AfhDIbnytCD4I4ED6KiCCBt3QKC58rT4Y9MfAfgjvPK50x8B2zz4R27yfAgDA1DtRNDXScMB+GYi0NcLA6k4ANwhxwDjAiHXDR/yvCHjAwHbPPhHbvJ8DQ0DBFAgghBcsuAAuuMCIIIQaLVfP7rjAiCCEHlsWVq64wIgghB5vT02uuMCCgcFBAJQMPhG8uBM+EJu4wD6QZXU0dD6QN/6QZXU0dD6QN/RAfhq+GvbPH/4ZwkLA3gw+Eby4Ez4Qm7jANHbPCKOIyTQ0wH6QDAxyM+HIM5xzwthAsjPk+WxZWrOAcjOzc3JcPsAkVvi4wB/+GcJBgsACPhK+EsCJDD4Qm7jAPhG8nPR+ADbPH/4ZwgLAdbtRNDXScIBio5gcO1E0PQFjQhgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE+GqNCGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAT4a4BA9A7yvdcL//hicPhj4gkANO1E0NP/0z/TADH6QNTR0PpA0fhr+Gr4Y/hiAlgw+Eby4EzTf/pBldTR0PpA39cNf5XU0dDTf9/6QZXU0dD6QN/R2zzjAH/4ZwwLAC74S/hK+EP4QsjL/8s/z4POAcjOzcntVABi+ABTAfgoXybIz4WIzgH6AnHPC2pVIMjPkPhSaK7Pkeb09NrOy38ByM7Nzclw+wBfBAAK+Eby4EwCCvSkIPShEA8AFHNvbCAwLjQ4LjAAAA==",
-    codeHash: "f480d2a87fcf57fdbc9c67e35692391b00743784e0ff7be8bfb2d7d9c08c8d74",
+    tvc: "te6ccgECGAEAA7UAAgE0AwEBAcACAEPQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgBCSK7VMg4wMgwP/jAiDA/uMC8gsVBQQXAprtRNDXScMB+GYh2zzTAAGfgQIA1xgg+QFY+EL5EPKo3tM/AfhDIbnytCD4I4ED6KiCCBt3QKC58rT4Y9MfAfgjvPK50x8B2zz4R27yfAoGA1DtRNDXScMB+GYi0NcLA6k4ANwhxwDjAiHXDR/yvCHjAwHbPPhHbvJ8FBQGAiggghBotV8/u+MCIIIQeb09NrrjAggHAlAw+Eby4Ez4Qm7jAPpBldTR0PpA3/pBldTR0PpA39EB+Gr4a9s8f/hnExEEUCCCEAyZoFu64wIgghAaZIHhuuMCIIIQXLLgALrjAiCCEGi1Xz+64wIQDw0JAiQw+EJu4wD4RvJz0fgA2zx/+GcKEQIW7UTQ10nCAYqOgOITCwL+cO1E0PQFjQhgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE+GqNCGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAT4a40IYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABPhsiPhtgED0DhcMABTyvdcL//hicPhjAlgw+Eby4EzTf/pBldTR0PpA39cNf5XU0dDTf9/6QZXU0dD6QN/R2zzjAH/4Zw4RAGL4AFMB+ChfJsjPhYjOAfoCcc8LalUgyM+Q+FJors+R5vT02s7LfwHIzs3NyXD7AF8EAnYw+Eby4Ez4Qm7jAPpBldTR0PpA3yDXS8ABAcAAsJPU0dDe1PpBldTR0PpA39Ei+GwB+G34azDbPH/4ZxMRA4gw+Eby4Ez4Qm7jANHbPCSOKibQ0wH6QDAxyM+HIM5xzwthXjDIz5IyZoFuzlUgyM5ZyM7Mzc3NyXD7AJJfBOLjAH/4ZxMSEQBC+E34TPhL+Er4Q/hCyMv/yz/Pg85VIMjOWcjOzM3Nye1UAe6NCGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASNCGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASNCGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASIXwT4SvhL+Ez4TRcASO1E0NP/0z/TADH6QNTR0PpA1NHQ+kDU0fht+Gz4a/hq+GP4YgAK+Eby4EwCCvSkIPShFxYAFHNvbCAwLjQ4LjAAAA==",
+    code: "te6ccgECFQEAA4gABCSK7VMg4wMgwP/jAiDA/uMC8gsSAgEUAprtRNDXScMB+GYh2zzTAAGfgQIA1xgg+QFY+EL5EPKo3tM/AfhDIbnytCD4I4ED6KiCCBt3QKC58rT4Y9MfAfgjvPK50x8B2zz4R27yfAcDA1DtRNDXScMB+GYi0NcLA6k4ANwhxwDjAiHXDR/yvCHjAwHbPPhHbvJ8EREDAiggghBotV8/u+MCIIIQeb09NrrjAgUEAlAw+Eby4Ez4Qm7jAPpBldTR0PpA3/pBldTR0PpA39EB+Gr4a9s8f/hnEA4EUCCCEAyZoFu64wIgghAaZIHhuuMCIIIQXLLgALrjAiCCEGi1Xz+64wINDAoGAiQw+EJu4wD4RvJz0fgA2zx/+GcHDgIW7UTQ10nCAYqOgOIQCAL+cO1E0PQFjQhgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE+GqNCGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAT4a40IYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABPhsiPhtgED0DhQJABTyvdcL//hicPhjAlgw+Eby4EzTf/pBldTR0PpA39cNf5XU0dDTf9/6QZXU0dD6QN/R2zzjAH/4ZwsOAGL4AFMB+ChfJsjPhYjOAfoCcc8LalUgyM+Q+FJors+R5vT02s7LfwHIzs3NyXD7AF8EAnYw+Eby4Ez4Qm7jAPpBldTR0PpA3yDXS8ABAcAAsJPU0dDe1PpBldTR0PpA39Ei+GwB+G34azDbPH/4ZxAOA4gw+Eby4Ez4Qm7jANHbPCSOKibQ0wH6QDAxyM+HIM5xzwthXjDIz5IyZoFuzlUgyM5ZyM7Mzc3NyXD7AJJfBOLjAH/4ZxAPDgBC+E34TPhL+Er4Q/hCyMv/yz/Pg85VIMjOWcjOzM3Nye1UAe6NCGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASNCGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASNCGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASIXwT4SvhL+Ez4TRQASO1E0NP/0z/TADH6QNTR0PpA1NHQ+kDU0fht+Gz4a/hq+GP4YgAK+Eby4EwCCvSkIPShFBMAFHNvbCAwLjQ4LjAAAA==",
+    codeHash: "41d6e0086cd010548602d8df0f87c7b339a9a85fc13b4a299aae9453fb908b26",
 };
 export default CrystalAssetOwnerContract;
