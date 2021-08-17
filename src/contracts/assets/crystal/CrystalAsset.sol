@@ -48,7 +48,7 @@ contract CrystalAsset is
 
     /***************
      * CONSTRUCTOR *
-     **********_owner*****/
+     ***************/
     constructor() public rootIsCreator {}
 
 
