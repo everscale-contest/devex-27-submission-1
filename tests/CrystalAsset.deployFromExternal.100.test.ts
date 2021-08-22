@@ -7,6 +7,14 @@ import {CrystalAsset, CrystalAssetContract} from '../src/CrystalAsset'
 import {CrystalAssetRoot} from '../src/CrystalAssetRoot'
 
 const {client, giver} = prepareGiverV2(config, config.contracts.giver.keys)
+const values = {
+    giver: {
+        crystalAsset: config.contracts.crystalAsset.requiredForDeployment * B
+    },
+    crystalAsset: {
+        balanceAfterDeployment: 0.001 * B
+    }
+}
 
 it('deployFromExternal.101', async () => {
     const crystalAssetRootKeys: KeyPair = await getRandomKeyPair(client)
@@ -25,7 +33,10 @@ it('deployFromExternal.101', async () => {
     })
     let errorCode: number = 0
     try {
-        await crystalAsset.deploy()
+        await crystalAsset.deploy({
+            balanceAfterDeployment: values.crystalAsset.balanceAfterDeployment,
+            gasReceiver: await giver.address()
+        })
     } catch (e: any) {
         errorCode = e.data?.exit_code ?? e.data?.local_error?.data?.exit_code
     }

@@ -5,11 +5,12 @@ interface ICrystalAssetRoot {
      * EXTERNAL *
      ************/
     /*
-       owner .......... Address of asset owner
-       deployValue .... How much crystals send to wallet on deployment
-       gasReceiver .... Remaining balance receiver. msg.sender by default
+       owner ..................... Address of asset owner
+       deploymentValue ........... How much crystals send to asset on deployment
+       balanceAfterDeployment .... How much crystals will remain after deployment
+       gasReceiver ............... Remaining balance receiver. msg.sender by default
      */
-    function create(address owner, uint128 deployValue, address gasReceiver)
+    function create(address owner, uint128 deploymentValue, uint128 balanceAfterDeployment, address gasReceiver)
         external
         view
         responsible

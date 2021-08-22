@@ -5,12 +5,9 @@ import {KeyPair} from '@tonclient/core/dist/modules'
 import {
     AccountType,
     B,
-    getNetConfig,
     getPayload,
     getRandomKeyPair,
-    NetConfig,
     x0,
-    ZERO_ADDRESS,
     ZERO_KEY_PAIR,
     ZERO_UINT256
 } from 'jton'
@@ -20,7 +17,19 @@ import {VendorContract} from '../src/Vendor'
 import {SafeMultisigWallet} from 'jton-contracts/dist/tonlabs/SafeMultisigWallet'
 
 const {client, giver} = prepareGiverV2(config, config.contracts.giver.keys)
-const netConfig: NetConfig = getNetConfig(config)
+const values = {
+    giver: {
+        demiurge: config.contracts.demiurge.requiredForDeployment * B,
+        safeMultisigWallet: 0.2 * B
+    },
+    safeMultisigWallet: {
+        createCustomer: {
+            value: 0.12 * B,
+            deployValue: 0.08 * B,
+            balanceAfterDeployment: config.contracts.customer.requiredForDeployment * B
+        }
+    }
+}
 
 it('createCustomer', async () => {
     const demiurgeKeys: KeyPair = await getRandomKeyPair(client)
@@ -30,29 +39,37 @@ it('createCustomer', async () => {
     })
     await giver.sendTransaction({
         dest: await demiurge.address(),
-        value: config.contracts.demiurge.requiredForDeployment * B
+        value: values.giver.demiurge
     })
     await demiurge.deploy()
 
     const safeMultisigWalletKeys: KeyPair = await getRandomKeyPair(client)
     const safeMultisigWallet: SafeMultisigWallet = new SafeMultisigWallet(client, safeMultisigWalletKeys)
-    await giver.sendTransaction({dest: await safeMultisigWallet.address(), value: 0.2 * B})
+    await giver.sendTransaction({
+        dest: await safeMultisigWallet.address(),
+        value: values.giver.safeMultisigWallet
+    })
     await safeMultisigWallet.deploy({
         owners: [x0(safeMultisigWalletKeys.public)],
         reqConfirms: 1
     })
-    const safeMultisigWalletBalanceAfter: number = parseInt(await safeMultisigWallet.balance())
     await safeMultisigWallet.sendTransaction({
         dest: await demiurge.address(),
-        value: safeMultisigWalletBalanceAfter - netConfig.transactions.fee * B,
+        value: values.safeMultisigWallet.createCustomer.value,
         bounce: true,
         flags: 1,
-        payload: await getPayload(client, DemiurgeContract.abi, Demiurge.EXTERNAL.createCustomer, {
-            publicKey: ZERO_UINT256,
-            owner: await safeMultisigWallet.address(),
-            deployValue: config.contracts.customer.requiredForDeployment * B,
-            gasReceiver: ZERO_ADDRESS
-        })
+        payload: await getPayload(
+            client,
+            DemiurgeContract.abi,
+            Demiurge.EXTERNAL.createCustomer,
+            {
+                publicKey: ZERO_UINT256,
+                owner: await safeMultisigWallet.address(),
+                deployValue: values.safeMultisigWallet.createCustomer.deployValue,
+                balanceAfterDeployment: values.safeMultisigWallet.createCustomer.balanceAfterDeployment,
+                gasReceiver: await safeMultisigWallet.address()
+            }
+        )
     })
     const customer: Customer = new Customer(client, ZERO_KEY_PAIR, {
         _demiurge: await demiurge.address(),

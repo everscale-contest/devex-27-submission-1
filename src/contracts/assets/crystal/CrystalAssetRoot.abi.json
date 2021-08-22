@@ -8,7 +8,8 @@
 			"inputs": [
 				{"name":"answerId","type":"uint32"},
 				{"name":"owner","type":"address"},
-				{"name":"deployValue","type":"uint128"},
+				{"name":"deploymentValue","type":"uint128"},
+				{"name":"balanceAfterDeployment","type":"uint128"},
 				{"name":"gasReceiver","type":"address"}
 			],
 			"outputs": [

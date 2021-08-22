@@ -8,6 +8,14 @@ import {Demiurge} from '../src/Demiurge'
 import {CustomerContract} from '../src/Customer'
 
 const {client, giver} = prepareGiverV2(config, config.contracts.giver.keys)
+const values = {
+    giver: {
+        vendor: config.contracts.vendor.requiredForDeployment * B
+    },
+    vendor: {
+        balanceAfterDeployment: 0.01 * B
+    }
+}
 
 it('deployFromExternal.101', async () => {
     const demiurgeKeys: KeyPair = await getRandomKeyPair(client)
@@ -23,11 +31,14 @@ it('deployFromExternal.101', async () => {
     })
     await giver.sendTransaction({
         dest: await vendor.address(),
-        value: config.contracts.vendor.requiredForDeployment * B
+        value: values.giver.vendor
     })
     let errorCode: number = 0
     try {
-        await vendor.deploy()
+        await vendor.deploy({
+            balanceAfterDeployment: values.vendor.balanceAfterDeployment,
+            gasReceiver: await giver.address()
+        })
     } catch (e: any) {
         errorCode = e.data?.exit_code ?? e.data?.local_error?.data?.exit_code
     }

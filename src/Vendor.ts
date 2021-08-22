@@ -1,5 +1,5 @@
 import {Contract} from 'jton'
-import {KeyPair} from '@tonclient/core/dist/modules'
+import {KeyPair, ResultOfProcessMessage} from '@tonclient/core/dist/modules'
 import {TonClient} from '@tonclient/core'
 import VendorContract from './contracts/Vendor'
 
@@ -10,6 +10,11 @@ export interface InitialData {
     _owner: string
 }
 
+export interface DeployIn {
+    balanceAfterDeployment: number | string
+    gasReceiver: string
+}
+
 export class Vendor extends Contract {
     public constructor(client: TonClient, keys: KeyPair, initialData: InitialData, timeout?: number) {
         super(client, {
@@ -18,5 +23,13 @@ export class Vendor extends Contract {
             initialData: initialData,
             keys: keys
         }, timeout)
+    }
+
+
+    /**********
+     * DEPLOY *
+     **********/
+    public async deploy(input: DeployIn, timeout?: number): Promise<ResultOfProcessMessage> {
+        return await super.deploy(input, timeout)
     }
 }

@@ -49,7 +49,14 @@ contract CrystalAsset is
     /***************
      * CONSTRUCTOR *
      ***************/
-    constructor() public rootIsCreator {}
+    /*
+       balanceAfterDeployment .... How much crystals will remain after deployment
+       gasReceiver ............... Remaining balance receiver. msg.sender by default
+     */
+    constructor(uint128 balanceAfterDeployment, address gasReceiver) public rootIsCreator {
+        tvm.rawReserve(balanceAfterDeployment, 2);
+        _sendGas128(gasReceiver);
+    }
 
 
     /************

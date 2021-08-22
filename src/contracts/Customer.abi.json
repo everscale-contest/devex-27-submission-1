@@ -6,6 +6,8 @@
 		{
 			"name": "constructor",
 			"inputs": [
+				{"name":"balanceAfterDeployment","type":"uint128"},
+				{"name":"gasReceiver","type":"address"}
 			],
 			"outputs": [
 			]

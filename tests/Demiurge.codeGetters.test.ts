@@ -8,6 +8,14 @@ import {CustomerContract} from '../src/Customer'
 import {VendorContract} from '../src/Vendor'
 
 const {client, giver} = prepareGiverV2(config, config.contracts.giver.keys)
+const values = {
+    giver: {
+        demiurge: config.contracts.demiurge.requiredForDeployment * B
+    },
+    customer: {
+        balanceAfterDeployment: 0.01 * B
+    }
+}
 
 it('codeGetters', async () => {
     const demiurgeKeys: KeyPair = await getRandomKeyPair(client)
@@ -17,7 +25,7 @@ it('codeGetters', async () => {
     })
     await giver.sendTransaction({
         dest: await demiurge.address(),
-        value: config.contracts.demiurge.requiredForDeployment * B
+        value: values.giver.demiurge
     })
     await demiurge.deploy()
     expect(await demiurge.getCustomerCode()).toBe(CustomerContract.code)

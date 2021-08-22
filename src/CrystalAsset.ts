@@ -1,5 +1,5 @@
 import {Contract, ZERO_ANSWER_ID_V2} from 'jton'
-import {KeyPair} from '@tonclient/core/dist/modules'
+import {KeyPair, ResultOfProcessMessage} from '@tonclient/core/dist/modules'
 import {TonClient} from '@tonclient/core'
 import CrystalAssetContract from './contracts/assets/crystal/CrystalAsset'
 
@@ -10,6 +10,11 @@ export interface InitialData {
     _owner: string
 }
 
+export interface DeployIn {
+    balanceAfterDeployment: number | string
+    gasReceiver: string
+}
+
 export interface GetDetailsOut {
     root: string
     owner: string
@@ -17,6 +22,12 @@ export interface GetDetailsOut {
 }
 
 export class CrystalAsset extends Contract {
+    public static readonly EXTERNAL = {
+        transfer: 'transfer',
+        withdraw: 'withdraw',
+        withdrawAll: 'withdrawAll'
+    }
+
     public constructor(client: TonClient, keys: KeyPair, initialData: InitialData, timeout?: number) {
         super(client, {
             abi: CrystalAssetContract.abi,
@@ -24,6 +35,14 @@ export class CrystalAsset extends Contract {
             initialData: initialData,
             keys: keys
         }, timeout)
+    }
+
+
+    /**********
+     * DEPLOY *
+     **********/
+    public async deploy(input: DeployIn, timeout?: number): Promise<ResultOfProcessMessage> {
+        return await super.deploy(input, timeout)
     }
 
 

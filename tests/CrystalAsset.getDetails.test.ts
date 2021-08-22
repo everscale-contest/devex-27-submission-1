@@ -10,6 +10,19 @@ import {NetConfig} from 'jton/src/config/index'
 
 const {client, giver} = prepareGiverV2(config, config.contracts.giver.keys)
 const netConfig: NetConfig = getNetConfig(config)
+const values = {
+    giver: {
+        crystalAssetOwner: config.contracts.crystalAssetRoot.requiredForDeployment * B
+    },
+    crystalAssetOwner: {
+        requiredForDeployment: 0.8 * B,
+        create: {
+            value: 0.5 * B,
+            deploymentValue: 0.3 * B,
+            balanceAfterDeployment: 0.1 * B
+        }
+    }
+}
 
 it('getDetails', async () => {
     const crystalAssetRootKeys: KeyPair = await getRandomKeyPair(client)
@@ -25,29 +38,29 @@ it('getDetails', async () => {
     })
     await giver.sendTransaction({
         dest: await crystalAssetRoot.address(),
-        value: config.contracts.crystalAssetRoot.requiredForDeployment * B
+        value: values.giver.crystalAssetOwner
     })
     await crystalAssetRoot.deploy()
     await giver.sendTransaction({
         dest: await crystalAssetOwner.address(),
-        value: 0.8 * B
+        value: values.crystalAssetOwner.requiredForDeployment
     })
     await crystalAssetOwner.deploy()
     await crystalAssetOwner.create({
-        value: 0.5 * B,
+        value: values.crystalAssetOwner.create.value,
         root: await crystalAssetRoot.address(),
-        deployValue: 0.2 * B,
+        deploymentValue: values.crystalAssetOwner.create.deploymentValue,
+        balanceAfterDeployment: values.crystalAssetOwner.create.balanceAfterDeployment,
         gasReceiver: ZERO_ADDRESS
     })
     await crystalAsset.waitForTransaction()
     const balance: number = parseInt(await crystalAsset.balance())
     const details: GetDetailsOut = await crystalAsset.getDetails()
     const detailsBalance: number = parseInt(details.balance)
+    const balanceDiff: number = detailsBalance - balance
     expect(details.root).toBe(await crystalAssetRoot.address())
     expect(details.owner).toBe(await crystalAssetOwner.address())
-    expect(
-        detailsBalance > balance - netConfig.transactions.tolerance &&
-        detailsBalance < balance + netConfig.transactions.tolerance
-    ).toBeTruthy()
+    expect(Math.abs(balanceDiff) < netConfig.transactions.tolerance).toBeTruthy()
+    expect(1).toBe(1)
     client.close()
 }, testTimeout)

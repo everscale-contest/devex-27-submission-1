@@ -7,7 +7,11 @@ import {CrystalAssetContract} from '../src/CrystalAsset'
 import {CrystalAssetRoot} from '../src/CrystalAssetRoot'
 
 const {client, giver} = prepareGiverV2(config, config.contracts.giver.keys)
-
+const values = {
+    giver: {
+        crystalAssetRoot: config.contracts.crystalAssetRoot.requiredForDeployment * B
+    }
+}
 it('deploy', async () => {
     const crystalAssetRootKeys: KeyPair = await getRandomKeyPair(client)
     const crystalAssetRoot: CrystalAssetRoot = new CrystalAssetRoot(client, crystalAssetRootKeys, {
@@ -15,7 +19,7 @@ it('deploy', async () => {
     })
     await giver.sendTransaction({
         dest: await crystalAssetRoot.address(),
-        value: config.contracts.crystalAssetRoot.requiredForDeployment * B
+        value: values.giver.crystalAssetRoot
     })
     await crystalAssetRoot.deploy()
     expect((await crystalAssetRoot.accountType())).toBe(AccountType.active)

@@ -7,14 +7,40 @@ import {B, getPayload, getRandomKeyPair, x0, ZERO_ADDRESS, ZERO_ANSWER_ID_V2, ZE
 import {KeyPair} from '@tonclient/core/dist/modules'
 import {SafeMultisigWallet} from 'jton-contracts/dist/tonlabs/SafeMultisigWallet'
 import {CrystalAssetOwner, GetInfoOut} from './_src/CrystalAssetOwner'
-import {PayloadGeneratorContract} from './_src/PayloadGenerator'
+import {PayloadGenerator, PayloadGeneratorContract} from './_src/PayloadGenerator'
 
 const {client, giver} = prepareGiverV2(config, config.contracts.giver.keys)
+const values = {
+    giver: {
+        crystalAssetRoot: config.contracts.crystalAssetRoot.requiredForDeployment * B,
+        safeMultisigWallet: 2 * B,
+        crystalAssetOwner: 0.8 * B
+    },
+    safeMultisigWallet: {
+        create: {
+            value: 0.5 * B,
+            deploymentValue: 0.2 * B,
+            balanceAfterDeployment: 0.1 * B
+        },
+        transfer: {
+            value: 0.5 * B
+        }
+    },
+    crystalAssetOwner: {
+        create: {
+            value: 0.5 * B,
+            deploymentValue: 0.2 * B,
+            balanceAfterDeployment: 0.1 * B
+        }
+    },
+    offerPayload: {
+        offer: 0.009 * B
+    }
+}
+const transferValue: number = 0.2 * B
+const payloadTransferValue: number = 0.2 * B
 
-it('transfer.notEnoughtBalance', async () => {
-    const deployValue: number = 0.3 * B
-    const transferValue: number = 0.4 * B
-
+it('transfer.notEnoughBalance', async () => {
     // CrystalAssetRoot
     const crystalAssetRootKeys: KeyPair = await getRandomKeyPair(client)
     const crystalAssetRoot: CrystalAssetRoot = new CrystalAssetRoot(client, crystalAssetRootKeys, {
@@ -23,17 +49,16 @@ it('transfer.notEnoughtBalance', async () => {
     )
     await giver.sendTransaction({
         dest: await crystalAssetRoot.address(),
-        value: config.contracts.crystalAssetRoot.requiredForDeployment * B
+        value: values.giver.crystalAssetRoot
     })
     await crystalAssetRoot.deploy()
-
 
     // SafeMultisigWallet (Customer)
     const safeMultisigWalletKeys: KeyPair = await getRandomKeyPair(client)
     const safeMultisigWallet: SafeMultisigWallet = new SafeMultisigWallet(client, safeMultisigWalletKeys)
     await giver.sendTransaction({
         dest: await safeMultisigWallet.address(),
-        value: 2 * B
+        value: values.giver.safeMultisigWallet
     })
     await safeMultisigWallet.deploy({
         owners: [x0(safeMultisigWalletKeys.public)],
@@ -48,17 +73,18 @@ it('transfer.notEnoughtBalance', async () => {
     })
     await safeMultisigWallet.sendTransaction({
         dest: await crystalAssetRoot.address(),
-        value: 0.5 * B,
+        value: values.safeMultisigWallet.create.value,
         bounce: false,
         flags: 1,
         payload: await getPayload(
             client,
             CrystalAssetRootContract.abi,
-            'create',
+            CrystalAssetRoot.EXTERNAL.create,
             {
                 ...ZERO_ANSWER_ID_V2,
                 owner: await safeMultisigWallet.address(),
-                deployValue: deployValue,
+                deploymentValue: values.safeMultisigWallet.create.deploymentValue,
+                balanceAfterDeployment: values.safeMultisigWallet.create.balanceAfterDeployment,
                 gasReceiver: await safeMultisigWallet.address()
             }
         )
@@ -71,7 +97,7 @@ it('transfer.notEnoughtBalance', async () => {
     const crystalAssetOwner: CrystalAssetOwner = new CrystalAssetOwner(client, crystalAssetOwnerKeys)
     await giver.sendTransaction({
         dest: await crystalAssetOwner.address(),
-        value: 0.8 * B
+        value: values.giver.crystalAssetOwner
     })
     await crystalAssetOwner.deploy()
 
@@ -82,9 +108,10 @@ it('transfer.notEnoughtBalance', async () => {
         _owner: await crystalAssetOwner.address()
     })
     await crystalAssetOwner.create({
-        value: 0.5 * B,
+        value: values.crystalAssetOwner.create.value,
         root: await crystalAssetRoot.address(),
-        deployValue: 0.2 * B,
+        deploymentValue: values.crystalAssetOwner.create.deploymentValue,
+        balanceAfterDeployment: values.crystalAssetOwner.create.balanceAfterDeployment,
         gasReceiver: await crystalAssetOwner.address()
     })
     await vendorCrystalAsset.waitForTransaction()
@@ -94,13 +121,13 @@ it('transfer.notEnoughtBalance', async () => {
     const offerPayload: string = await getPayload(
         client,
         PayloadGeneratorContract.abi,
-        'offer',
+        PayloadGenerator.EXTERNAL.offer,
         {
-            assetBits: 256 + 128,
+            assetBits: 267 + 128, // address + uint128
             assetAddress: await vendorCrystalAsset.address(),
-            assetValue: transferValue,
+            assetValue: payloadTransferValue,
             months: 1,
-            discount: 100,
+            withDiscount: 900, // 0.9 = 90%
             accepter: await safeMultisigWallet.address(),
             gasReceiver: await safeMultisigWallet.address()
         }
@@ -108,7 +135,7 @@ it('transfer.notEnoughtBalance', async () => {
     const servicePayload: string = await getPayload(
         client,
         PayloadGeneratorContract.abi,
-        'toOffer',
+        PayloadGenerator.EXTERNAL.toOffer,
         {
             offer: await safeMultisigWallet.address(),
             payload: offerPayload,
@@ -118,7 +145,7 @@ it('transfer.notEnoughtBalance', async () => {
     const vendorPayload: string = await getPayload(
         client,
         PayloadGeneratorContract.abi,
-        'toService',
+        PayloadGenerator.EXTERNAL.toService,
         {
             service: await safeMultisigWallet.address(),
             payload: servicePayload,
@@ -127,13 +154,13 @@ it('transfer.notEnoughtBalance', async () => {
     )
     await safeMultisigWallet.sendTransaction({
         dest: await customerCrystalAsset.address(),
-        value: 0.5 * B,
+        value: values.safeMultisigWallet.transfer.value,
         bounce: false,
         flags: 1,
         payload: await getPayload(
             client,
             CrystalAssetContract.abi,
-            'transfer',
+            CrystalAsset.EXTERNAL.transfer,
             {
                 to: await vendorCrystalAsset.address(),
                 value: transferValue,

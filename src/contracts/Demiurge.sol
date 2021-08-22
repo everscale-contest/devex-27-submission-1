@@ -35,12 +35,19 @@ contract Demiurge is IDemiurge, GasSender, GasSender128 {
      * EXTERNAL *
      ************/
     /*
-       publicKey ......... Public key of owner if the owner is external, zero otherwise
-       owner ............. Address of owner if the owner is internal, zero otherwise
-       deployValue ....... Value with which the contract will be deployed
-       gasReceiver ....... Remaining balance receiver. msg.sender by default
+       publicKey ................. Public key of owner if the owner is external, zero otherwise
+       owner ..................... Address of owner if the owner is internal, zero otherwise
+       deployValue ............... Value with which the contract will be deployed
+       balanceAfterDeployment ..... How much crystals will remain after deployment
+       gasReceiver ............... Remaining balance receiver. msg.sender by default
      */
-    function createVendor(uint256 publicKey, address owner, uint128 deployValue, address gasReceiver)
+    function createVendor(
+        uint256 publicKey,
+        address owner,
+        uint128 deployValue,
+        uint128 balanceAfterDeployment,
+        address gasReceiver
+    )
         override
         external
         view
@@ -63,18 +70,25 @@ contract Demiurge is IDemiurge, GasSender, GasSender128 {
             value: deployValue,
             wid: address(this).wid,
             flag: 1
-        }();
+        }(balanceAfterDeployment, gasReceiver);
         _sendGas128(gasReceiver);
         return vendor;
     }
 
     /*
-       publicKey ......... Public key of owner if the owner is external, zero otherwise
-       owner ............. Address of owner if the owner is internal, zero otherwise
-       deployValue ....... Value with which the contract will be deployed
-       gasReceiver ....... Remaining balance receiver. msg.sender by default
+       publicKey ................. Public key of owner if the owner is external, zero otherwise
+       owner ..................... Address of owner if the owner is internal, zero otherwise
+       deployValue ............... Value with which the contract will be deployed
+       balanceAfterDeployment ..... How much crystals will remain after deployment
+       gasReceiver ............... Remaining balance receiver. msg.sender by default
      */
-    function createCustomer(uint256 publicKey, address owner, uint128 deployValue, address gasReceiver)
+    function createCustomer(
+        uint256 publicKey,
+        address owner,
+        uint128 deployValue,
+        uint128 balanceAfterDeployment,
+        address gasReceiver
+    )
         override
         external
         view
@@ -97,7 +111,7 @@ contract Demiurge is IDemiurge, GasSender, GasSender128 {
             value: deployValue,
             wid: address(this).wid,
             flag: 1
-        }();
+        }(balanceAfterDeployment, gasReceiver);
         _sendGas128(gasReceiver);
         return customer;
     }

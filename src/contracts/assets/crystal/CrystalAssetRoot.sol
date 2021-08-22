@@ -6,8 +6,8 @@ import "./interfaces/ICrystalAssetRoot.sol";
 
 contract CrystalAssetRoot is ICrystalAssetRoot {
     /**********
-    * STATIC *
-    **********/
+     * STATIC *
+     **********/
     TvmCell public static _code;
 
 
@@ -15,11 +15,12 @@ contract CrystalAssetRoot is ICrystalAssetRoot {
      * EXTERNAL *
      ************/
     /*
-       owner .......... Address of asset owner
-       deployValue .... How much crystals send to wallet on deployment
-       gasReceiver .... Remaining balance receiver. msg.sender by default
+       owner ..................... Address of asset owner
+       deploymentValue ........... How much crystals send to asset on deployment
+       balanceAfterDeployment .... How much crystals will remain after deployment
+       gasReceiver ............... Remaining balance receiver. msg.sender by default
      */
-    function create(address owner, uint128 deployValue, address gasReceiver)
+    function create(address owner, uint128 deploymentValue, uint128 balanceAfterDeployment, address gasReceiver)
         override
         external
         view
@@ -42,10 +43,10 @@ contract CrystalAssetRoot is ICrystalAssetRoot {
         return { value: 0, bounce: false, flag: 128 } (
             new CrystalAsset {
                 stateInit: stateInit,
-                value: deployValue,
+                value: deploymentValue,
                 wid: address(this).wid,
                 flag: 1
-            }(),
+            }(balanceAfterDeployment, gasReceiver),
             gasReceiver
         );
     }
