@@ -24,7 +24,7 @@ contract PayloadGenerator is IServiceToOffer, IVendorToService {
        assetAddress .... Address of vendor asset contract
        assetValue ...... Value of asset that was sent to the vendor
        months .......... Customer subscription data
-       discount ........ Service data that calculated in service contract
+       withDiscount .... Service data that calculated in service contract
        accepter ........ Address of accepter contract
        gasReceiver ..... Remaining balance receiver. msg.sender by default
      */
@@ -33,7 +33,7 @@ contract PayloadGenerator is IServiceToOffer, IVendorToService {
         address assetAddress,
         uint128 assetValue,
         uint32  months,
-        uint32  discount,
+        uint32  withDiscount,
         address accepter,
         address gasReceiver
     )

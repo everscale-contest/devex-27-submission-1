@@ -36,7 +36,7 @@ contract CrystalAsset is
      * MODIFIERS *
      *************/
     modifier rootIsCreator {
-        require(_root == msg.sender, 100);
+        require(msg.sender == _root, 100);
         _;
     }
 
@@ -196,8 +196,10 @@ contract CrystalAsset is
        balance .... How much crystals on contract balance
      */
     function getDetails() override external view responsible returns(address root, address owner, uint128 balance) {
-        root = _root;
-        owner = _owner;
-        balance = address(this).balance - msg.value;
+        return { value: 0, bounce: false, flag: 64 }(
+            _root,
+            _owner,
+            address(this).balance - msg.value
+        );
     }
 }

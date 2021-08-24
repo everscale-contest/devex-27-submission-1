@@ -9,6 +9,10 @@ make({
         'src/contracts/Vendor',
         'src/contracts/assets/crystal/CrystalAssetRoot',
         'src/contracts/assets/crystal/CrystalAsset',
+        'src/contracts/assets/broxusTip3/BroxusTip3Asset',
+        'src/contracts/assets/broxusTip3/BroxusTip3AssetRoot',
+        'tests/_src/contracts/BroxusTip3AssetOwner',
+        'tests/_src/contracts/RootTokenContractOwner',
         'tests/_src/contracts/CrystalAssetOwner',
         'tests/_src/contracts/PayloadGenerator'
     ],

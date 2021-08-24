@@ -1,10 +1,10 @@
 pragma ton-solidity >= 0.48.0;
 pragma AbiHeader expire;
 
-import "../../../src/contracts/assets/crystal/interfaces/ICrystalAssetRoot.sol";
+import "../../../src/contracts/assets/broxusTip3/interfaces/IBroxusTip3AssetRoot.sol";
 import "../../../src/contracts/interfaces/IVendorToService.sol";
 
-contract CrystalAssetOwner is IVendorToService {
+contract BroxusTip3AssetOwner is IVendorToService {
     /*************
      * VARIABLES *
      *************/
@@ -18,26 +18,34 @@ contract CrystalAssetOwner is IVendorToService {
      * EXTERNAL *
      ************/
     /*
-       root ...................... Address of asset root
+       root ...................... Address of asset root contract
        value ..................... How much crystals send total
-       deploymentValue ........... How much crystals send to asset on deployment
+       tip3Root .................. Address of TIP-3 root contract
+       deployValue ............... How much crystals send to asset on deployment
        balanceAfterDeployment .... How much crystals will remain after deployment
+       walletAddress ............. Address of TIP-3 wallet to be deployed
+       deployEmptyWalletGrams .... How much crystals will remain on TIP-3 wallet after deployment
        gasReceiver ............... Remaining balance receiver. msg.sender by default
      */
     function create(
         address root,
         uint128 value,
-        uint128 deploymentValue,
+        address tip3Root,
+        uint128 deployValue,
         uint128 balanceAfterDeployment,
+        address walletAddress,
+        uint128 deployEmptyWalletGrams,
         address gasReceiver
     )
         public pure
     {
         tvm.accept();
-        ICrystalAssetRoot(root).create{value: value, callback: CrystalAssetOwner.onCreate}(
-            address(this),
-            deploymentValue,
+        IBroxusTip3AssetRoot(root).create{value: value, callback: BroxusTip3AssetOwner.onCreate}(
+            tip3Root,
+            deployValue,
             balanceAfterDeployment,
+            walletAddress,
+            deployEmptyWalletGrams,
             gasReceiver
         );
     }

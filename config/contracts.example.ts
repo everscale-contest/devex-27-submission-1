@@ -33,5 +33,17 @@ export const contracts: any = {
     },
     crystalAsset: {
         requiredForDeployment: 0.03
+    },
+    rootTokenContractOwner: {
+        requiredForDeployment: 0.2
+    },
+    rootTokenContract: {
+        requiredForDeployment: 0.2
+    },
+    broxusTip3AssetRoot: {
+        requiredForDeployment: 0.04
+    },
+    broxusTip3Asset: {
+        requiredForDeployment: 0.03
     }
 }

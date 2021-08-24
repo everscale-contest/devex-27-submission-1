@@ -30,7 +30,7 @@
 				{"name":"assetAddress","type":"address"},
 				{"name":"assetValue","type":"uint128"},
 				{"name":"months","type":"uint32"},
-				{"name":"discount","type":"uint32"},
+				{"name":"withDiscount","type":"uint32"},
 				{"name":"accepter","type":"address"},
 				{"name":"gasReceiver","type":"address"}
 			],

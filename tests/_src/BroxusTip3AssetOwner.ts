@@ -1,15 +1,18 @@
 import {Contract, ResultOfCall} from 'jton'
 import {KeyPair} from '@tonclient/core/dist/modules'
 import {TonClient} from '@tonclient/core'
-import CrystalAssetOwnerContract from './contracts/CrystalAssetOwner'
+import BroxusTip3AssetOwnerContract from './contracts/BroxusTip3AssetOwner'
 
-export {CrystalAssetOwnerContract}
+export {BroxusTip3AssetOwnerContract}
 
 export interface CreateIn {
     root: string
     value: number | string
-    deploymentValue: number | string
+    tip3Root: string
+    deployValue: number | string
     balanceAfterDeployment: number | string
+    walletAddress: string
+    deployEmptyWalletGrams: number | string
     gasReceiver: string
 }
 
@@ -20,11 +23,11 @@ export interface GetInfoOut {
     payload: string
 }
 
-export class CrystalAssetOwner extends Contract {
+export class BroxusTip3AssetOwner extends Contract {
     public constructor(client: TonClient, keys: KeyPair, timeout?: number) {
         super(client, {
-            abi: CrystalAssetOwnerContract.abi,
-            tvc: CrystalAssetOwnerContract.tvc,
+            abi: BroxusTip3AssetOwnerContract.abi,
+            tvc: BroxusTip3AssetOwnerContract.tvc,
             initialData: {},
             keys: keys
         }, timeout)

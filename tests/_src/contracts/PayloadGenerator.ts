@@ -63,7 +63,7 @@ const PayloadGeneratorContract = {
                         "type": "uint32"
                     },
                     {
-                        "name": "discount",
+                        "name": "withDiscount",
                         "type": "uint32"
                     },
                     {
