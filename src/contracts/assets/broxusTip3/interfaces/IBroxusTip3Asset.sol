@@ -5,8 +5,6 @@ interface IBroxusTip3Asset {
      * EXTERNAL *
      ************/
     /*
-       Make possible this because setReceiveCallback() method can be aborted for some reasons -
-       not enough money for example.
        gasReceiver .... Remaining balance receiver. msg.sender by default
      */
     function setReceiveCallback(address gasReceiver) external;
@@ -22,6 +20,7 @@ interface IBroxusTip3Asset {
        gasReceiver ............... Remaining balance receiver. msg.sender by default
      */
     function deployWallet(uint128 deployEmptyWalletGrams, address gasReceiver) external;
+
 
     /***********
      * GETTERS *

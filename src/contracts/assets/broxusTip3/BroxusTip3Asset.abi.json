@@ -15,14 +15,6 @@
 			]
 		},
 		{
-			"name": "notifyWalletDeployed",
-			"inputs": [
-				{"name":"root","type":"address"}
-			],
-			"outputs": [
-			]
-		},
-		{
 			"name": "setReceiveCallback",
 			"inputs": [
 				{"name":"gasReceiver","type":"address"}
@@ -44,6 +36,33 @@
 			"inputs": [
 				{"name":"deployEmptyWalletGrams","type":"uint128"},
 				{"name":"gasReceiver","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "transfer",
+			"inputs": [
+				{"name":"to","type":"address"},
+				{"name":"tokens","type":"uint128"},
+				{"name":"gasReceiver","type":"address"},
+				{"name":"payload","type":"cell"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "tokensReceivedCallback",
+			"inputs": [
+				{"name":"token_wallet","type":"address"},
+				{"name":"token_root","type":"address"},
+				{"name":"amount","type":"uint128"},
+				{"name":"sender_public_key","type":"uint256"},
+				{"name":"sender_address","type":"address"},
+				{"name":"sender_wallet","type":"address"},
+				{"name":"original_gas_to","type":"address"},
+				{"name":"updated_balance","type":"uint128"},
+				{"name":"payload","type":"cell"}
 			],
 			"outputs": [
 			]

@@ -70,7 +70,7 @@ contract Demiurge is IDemiurge, GasSender, GasSender128 {
             value: deployValue,
             wid: address(this).wid,
             flag: 1
-        }(balanceAfterDeployment, gasReceiver);
+        } (balanceAfterDeployment, gasReceiver);
         _sendGas128(gasReceiver);
         return vendor;
     }
@@ -111,7 +111,7 @@ contract Demiurge is IDemiurge, GasSender, GasSender128 {
             value: deployValue,
             wid: address(this).wid,
             flag: 1
-        }(balanceAfterDeployment, gasReceiver);
+        } (balanceAfterDeployment, gasReceiver);
         _sendGas128(gasReceiver);
         return customer;
     }

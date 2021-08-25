@@ -103,7 +103,7 @@ it('mint', async () => {
     expect(await tonTokenWallet.accountType()).toBe(AccountType.active)
 
 
-    // deployEmptyWallet
+    // Mint
     await safeMultisigWallet.sendTransaction({
         dest: await rootTokenContractOwner.address(),
         value: values.safeMultisigWallet.mint.value,

@@ -2,6 +2,7 @@ pragma ton-solidity >= 0.48.0;
 pragma AbiHeader expire;
 
 import "../../../src/contracts/assets/broxusTip3/interfaces/IBroxusTip3AssetRoot.sol";
+import "../../../src/contracts/assets/broxusTip3/interfaces/IBroxusTip3Asset.sol";
 import "../../../src/contracts/interfaces/IVendorToService.sol";
 
 contract BroxusTip3AssetOwner is IVendorToService {
@@ -48,6 +49,11 @@ contract BroxusTip3AssetOwner is IVendorToService {
             deployEmptyWalletGrams,
             gasReceiver
         );
+    }
+
+    function setReceiveCallback(uint128 value, address gasReceiver) public {
+        tvm.accept();
+        IBroxusTip3Asset(_asset).setReceiveCallback{ value: value, flag: 64 }(gasReceiver);
     }
 
     /*

@@ -15,6 +15,10 @@ export interface GetAddressIn {
 }
 
 export class BroxusTip3AssetRoot extends Contract {
+    public static readonly EXTERNAL = {
+        create: 'create'
+    }
+
     public constructor(client: TonClient, keys: KeyPair, initialData: InitialData, timeout?: number) {
         super(client, {
             abi: BroxusTip3AssetRootContract.abi,

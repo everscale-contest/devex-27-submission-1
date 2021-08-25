@@ -23,6 +23,11 @@ export interface GetInfoOut {
     payload: string
 }
 
+export interface SetReceiveCallbackIn {
+    value: number | string
+    gasReceiver: string
+}
+
 export class BroxusTip3AssetOwner extends Contract {
     public constructor(client: TonClient, keys: KeyPair, timeout?: number) {
         super(client, {
@@ -39,6 +44,10 @@ export class BroxusTip3AssetOwner extends Contract {
      **********/
     public async create(input: CreateIn): Promise<ResultOfCall> {
         return await this.call('create', input)
+    }
+
+    public async setReceiveCallback(input: SetReceiveCallbackIn): Promise<ResultOfCall> {
+        return await this.call('setReceiveCallback', input)
     }
 
 

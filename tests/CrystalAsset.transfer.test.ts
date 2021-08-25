@@ -117,6 +117,7 @@ it('transfer.notEnoughBalance', async () => {
     await vendorCrystalAsset.waitForTransaction()
     await crystalAssetOwner.waitForTransaction()
 
+
     // Transfer
     const offerPayload: string = await getPayload(
         client,
@@ -170,7 +171,7 @@ it('transfer.notEnoughBalance', async () => {
         )
     })
 
-    await safeMultisigWallet.waitForTransaction()
+    await crystalAssetOwner.waitForTransaction()
     const getInfoOut: GetInfoOut = await crystalAssetOwner.getInfo()
     expect(getInfoOut.service).toBe(await safeMultisigWallet.address())
     expect(getInfoOut.payload).toBe(servicePayload)

@@ -19,6 +19,10 @@ export interface GetDetailsOut {
 }
 
 export class BroxusTip3Asset extends Contract {
+    public static readonly EXTERNAL = {
+        transfer: 'transfer'
+    }
+
     public constructor(client: TonClient, keys: KeyPair, initialData: InitialData, timeout?: number) {
         super(client, {
             abi: BroxusTip3AssetContract.abi,

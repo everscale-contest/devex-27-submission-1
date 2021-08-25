@@ -19,6 +19,15 @@
 			]
 		},
 		{
+			"name": "setReceiveCallback",
+			"inputs": [
+				{"name":"value","type":"uint128"},
+				{"name":"gasReceiver","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
 			"name": "onCreate",
 			"inputs": [
 				{"name":"asset","type":"address"},

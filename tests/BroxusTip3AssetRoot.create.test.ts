@@ -2,13 +2,14 @@ import {testTimeout} from './_utils/testTimeout'
 import {prepareGiverV2} from 'jton-contracts/dist/tonlabs/GiverV2'
 import {config} from '../config'
 import {KeyPair} from '@tonclient/core/dist/modules'
-import {AccountType, B, getRandomKeyPair, stringToHex, ZERO_KEY_PAIR, ZERO_UINT256} from 'jton'
+import {AccountType, B, getRandomKeyPair, stringToHex, ZERO_ADDRESS, ZERO_KEY_PAIR, ZERO_UINT256} from 'jton'
 import {BroxusTip3AssetRoot} from '../src/BroxusTip3AssetRoot'
 import {BroxusTip3Asset, BroxusTip3AssetContract} from '../src/BroxusTip3Asset'
 import {RootTokenContract} from 'jton-contracts/dist/broxus/fungibleToken/RootTokenContract'
 import {TONTokenWallet, TONTokenWalletContract} from 'jton-contracts/dist/broxus/fungibleToken/TONTokenWallet'
 import {RootTokenContractOwner} from './_src/RootTokenContractOwner'
-import {BroxusTip3AssetOwner, GetInfoOut as BroxusTip3AssetOwnerInfo} from './_src/BroxusTip3AssetOwner'
+import {BroxusTip3AssetOwner, GetInfoOut} from './_src/BroxusTip3AssetOwner'
+import {GetDetailsOut} from 'jton-contracts/src/broxus/fungibleToken/TONTokenWallet'
 
 const {client, giver} = prepareGiverV2(config, config.contracts.giver.keys)
 const values = {
@@ -24,6 +25,9 @@ const values = {
             deployValue: 0.7 * B,
             balanceAfterDeployment: 0.2 * B,
             deployEmptyWalletGrams: 0.1 * B
+        },
+        setReceiveCallback: {
+            value: 0.1 * B,
         }
     }
 }
@@ -108,15 +112,34 @@ it('create', async () => {
         gasReceiver: await broxusTip3AssetOwner.address()
     })
     await broxusTip3AssetOwner.waitForTransaction()
-    const broxusTip3AssetOwnerInfo: BroxusTip3AssetOwnerInfo = await broxusTip3AssetOwner.getInfo()
-    expect(broxusTip3AssetOwnerInfo.asset).toBe(await broxusTip3Asset.address())
-    expect(broxusTip3AssetOwnerInfo.gasReceiver).toBe(await broxusTip3AssetOwner.address())
+    await broxusTip3Asset.waitForTransaction()
+    await tonTokenWallet.waitForTransaction()
+
+
+    // Set receive callback
+    await broxusTip3AssetOwner.setReceiveCallback({
+        value: values.broxusTip3AssetOwner.setReceiveCallback.value,
+        gasReceiver: await broxusTip3AssetOwner.address()
+    })
+    await tonTokenWallet.waitForTransaction()
+
+    const info: GetInfoOut = await broxusTip3AssetOwner.getInfo()
+    expect(info.asset).toBe(await broxusTip3Asset.address())
+    expect(info.gasReceiver).toBe(await broxusTip3AssetOwner.address())
 
     await broxusTip3Asset.waitForTransaction()
     expect(await broxusTip3Asset.accountType()).toBe(AccountType.active)
 
     await tonTokenWallet.waitForTransaction()
+    const details: GetDetailsOut = await tonTokenWallet.getDetails()
     expect(await tonTokenWallet.accountType()).toBe(AccountType.active)
+    expect(details.balance).toBe('0')
+    expect(details.allow_non_notifiable).toBe(true)
+    expect(details.owner_address).toBe(await broxusTip3Asset.address())
+    expect(details.root_address).toBe(await rootTokenContract.address())
+    expect(details.wallet_public_key).toBe(ZERO_UINT256)
+    expect(details.bounced_callback).toBe(ZERO_ADDRESS)
+    expect(details.receive_callback).toBe(await broxusTip3Asset.address())
 
     client.close()
 }, testTimeout)

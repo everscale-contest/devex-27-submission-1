@@ -2,9 +2,12 @@ pragma ton-solidity >= 0.48.0;
 pragma AbiHeader expire;
 
 import "./interfaces/IBroxusTip3Asset.sol";
+import "./interfaces/IBroxusTip3AssetTransfer.sol";
 import "./interfaces/ITONTokenWallet.sol";
-import "./interfaces/ITokenWalletDeployedCallback.sol";
+import "./interfaces/ITokensReceivedCallback.sol";
 import "./interfaces/IRootTokenContract.sol";
+import "../../interfaces/IVendorToService.sol";
+import "../../interfaces/IServiceToOffer.sol";
 import "../../utils/GasSender.sol";
 import "../../utils/GasSender64.sol";
 import "../../utils/GasSender128.sol";
@@ -15,7 +18,14 @@ import "../../utils/GasSender128.sol";
       101 - Method for the owner only
       102 - Method for the wallet only
  */
-contract BroxusTip3Asset is ITokenWalletDeployedCallback, IBroxusTip3Asset, GasSender, GasSender64, GasSender128 {
+contract BroxusTip3Asset is
+    ITokensReceivedCallback,
+    IBroxusTip3Asset,
+    IBroxusTip3AssetTransfer,
+    GasSender,
+    GasSender64,
+    GasSender128
+{
     /**********
      * STATIC *
      **********/
@@ -81,15 +91,6 @@ contract BroxusTip3Asset is ITokenWalletDeployedCallback, IBroxusTip3Asset, GasS
      * EXTERNAL *
      ************/
     /*
-        root .... Address of TIP-3 root contract
-     */
-    function notifyWalletDeployed(address root) override external onlyWallet(root) accept {
-        ITONTokenWallet(_wallet).setReceiveCallback(address(this), true);
-    }
-
-    /*
-       Make possible this because setReceiveCallback() method can be aborted for some reasons -
-       not enough money for example.
        gasReceiver .... Remaining balance receiver. msg.sender by default
      */
     function setReceiveCallback(address gasReceiver) override external onlyOwner accept {
@@ -116,6 +117,80 @@ contract BroxusTip3Asset is ITokenWalletDeployedCallback, IBroxusTip3Asset, GasS
         _deployWallet(deployEmptyWalletGrams, gasReceiver, 64);
     }
 
+    /*
+       to ............. Address of TIP-3 wallet
+       tokens ......... How much crystals send to wallet
+       gasReceiver .... Remaining balance receiver. msg.sender by default
+       payload ........ Information for destination contract
+     */
+    function transfer(
+        address to,
+        uint128 tokens,
+        address gasReceiver,
+        TvmCell payload
+    ) override external {
+        ITONTokenWallet(_wallet).transfer { flag: 64 } (to, tokens, 0, gasReceiver, true, payload);
+    }
+
+    /*
+       Method decode and check data in payload.
+       It's like scanning baggage at an airport.
+       The baggage is not yours, but you can check what is in it.
+
+       ITokensReceivedCallback
+     */
+    function tokensReceivedCallback(
+        address token_wallet,
+        address token_root,
+        uint128 amount,
+        uint256 sender_public_key,
+        address sender_address,
+        address sender_wallet,
+        address original_gas_to,
+        uint128 updated_balance,
+        TvmCell payload
+    ) override external {
+        // Vendor
+        address service;
+        TvmCell servicePayload;
+        address gasReceiverInVendor;
+        TvmSlice vendorSlice = payload.toSlice();
+        vendorSlice.decode(uint32);
+        (
+            service,
+            servicePayload,
+            gasReceiverInVendor
+        ) = vendorSlice.decodeFunctionParams(IVendorToService.toService);
+
+        // Service
+        address offer;
+        TvmCell offerPayload;
+        address gasReceiverInService;
+        TvmSlice serviceSlice = servicePayload.toSlice();
+        serviceSlice.decode(uint32);
+        (
+            offer,
+            offerPayload,
+            gasReceiverInService
+        ) = serviceSlice.decodeFunctionParams(IServiceToOffer.toOffer);
+
+        // Offer
+        TvmSlice offerSlice = offerPayload.toSlice();
+        offerSlice.decode(uint32); // functionId
+        offerSlice.decode(uint32); // assetBits
+        address offerAsset = offerSlice.decode(address);
+        uint128 offerValue = offerSlice.decode(uint128);
+
+        // Return gas if data not valid
+        if (offerAsset != address(this) || offerValue != amount) {
+            _sendGas64(original_gas_to);
+            return;
+        }
+
+        // Transfer payload
+        _owner.transfer(0, true, 64, payload);
+    }
+
 
     /***********
      * GETTERS *
@@ -132,7 +207,7 @@ contract BroxusTip3Asset is ITokenWalletDeployedCallback, IBroxusTip3Asset, GasS
             address wallet
         )
     {
-        return { value: 0, bounce: false, flag: 64 }(
+        return { value: 0, bounce: false, flag: 64 } (
             _root,
             _owner,
             _tip3Root,
@@ -150,7 +225,7 @@ contract BroxusTip3Asset is ITokenWalletDeployedCallback, IBroxusTip3Asset, GasS
        flags ..................... Sets flag which used to send the internal outbound message.
      */
     function _deployWallet(uint128 deployEmptyWalletGrams, address gasReceiver, uint16 flag) private {
-        IRootTokenContract(_tip3Root).deployEmptyWallet{flag: flag}(
+        IRootTokenContract(_tip3Root).deployEmptyWallet { flag: flag } (
             deployEmptyWalletGrams,
             0x0,
             address(this),

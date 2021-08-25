@@ -46,7 +46,7 @@ contract CrystalAssetRoot is ICrystalAssetRoot {
                 value: deploymentValue,
                 wid: address(this).wid,
                 flag: 1
-            }(balanceAfterDeployment, gasReceiver),
+            } (balanceAfterDeployment, gasReceiver),
             gasReceiver
         );
     }

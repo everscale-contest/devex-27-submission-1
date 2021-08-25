@@ -29,7 +29,7 @@ it('deployFromExternal.101', async () => {
     })
     await giver.sendTransaction({
         dest: await crystalAsset.address(),
-        value: config.contracts.crystalAsset.requiredForDeployment * B
+        value: values.giver.crystalAsset
     })
     let errorCode: number = 0
     try {

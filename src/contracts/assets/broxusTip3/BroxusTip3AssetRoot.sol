@@ -57,7 +57,7 @@ contract BroxusTip3AssetRoot is IBroxusTip3AssetRoot {
                 value: deployValue,
                 wid: address(this).wid,
                 flag: 1
-            }(balanceAfterDeployment, walletAddress, deployEmptyWalletGrams, gasReceiver),
+            } (balanceAfterDeployment, walletAddress, deployEmptyWalletGrams, gasReceiver),
             gasReceiver
         );
     }
