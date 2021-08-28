@@ -1,7 +1,7 @@
 import {Contract, ZERO_ANSWER_ID_V2} from 'jton'
 import {KeyPair, ResultOfProcessMessage} from '@tonclient/core/dist/modules'
 import {TonClient} from '@tonclient/core'
-import CrystalAssetContract from './contracts/assets/crystal/CrystalAsset'
+import CrystalAssetContract from './crystal/CrystalAsset'
 
 export {CrystalAssetContract}
 

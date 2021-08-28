@@ -1,7 +1,7 @@
 import {Contract, ZERO_ANSWER_ID_V2} from 'jton'
 import {KeyPair} from '@tonclient/core/dist/modules'
 import {TonClient} from '@tonclient/core'
-import BroxusTip3AssetContract from './contracts/assets/broxusTip3/BroxusTip3Asset'
+import BroxusTip3AssetContract from './broxusTip3/BroxusTip3Asset'
 
 export {BroxusTip3AssetContract}
 

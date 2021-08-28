@@ -3,8 +3,8 @@ import {prepareGiverV2} from 'jton-contracts/dist/tonlabs/GiverV2'
 import {config} from '../config'
 import {KeyPair} from '@tonclient/core/dist/modules'
 import {B, getRandomKeyPair, ZERO_ADDRESS} from 'jton'
-import {CrystalAsset, CrystalAssetContract} from '../src/CrystalAsset'
-import {CrystalAssetRoot} from '../src/CrystalAssetRoot'
+import {CrystalAsset, CrystalAssetContract} from '../src/contracts/assets/CrystalAsset'
+import {CrystalAssetRoot} from '../src/contracts/assets/CrystalAssetRoot'
 
 const {client, giver} = prepareGiverV2(config, config.contracts.giver.keys)
 const values = {

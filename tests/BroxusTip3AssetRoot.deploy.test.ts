@@ -3,8 +3,8 @@ import {prepareGiverV2} from 'jton-contracts/dist/tonlabs/GiverV2'
 import {config} from '../config'
 import {KeyPair} from '@tonclient/core/dist/modules'
 import {AccountType, B, getRandomKeyPair} from 'jton'
-import {BroxusTip3AssetRoot} from '../src/BroxusTip3AssetRoot'
-import {BroxusTip3AssetContract} from '../src/BroxusTip3Asset'
+import {BroxusTip3AssetRoot} from '../src/contracts/assets/BroxusTip3AssetRoot'
+import {BroxusTip3AssetContract} from '../src/contracts/assets/BroxusTip3Asset'
 
 const {client, giver} = prepareGiverV2(config, config.contracts.giver.keys)
 const values = {

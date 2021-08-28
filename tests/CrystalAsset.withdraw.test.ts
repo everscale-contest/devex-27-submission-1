@@ -13,8 +13,8 @@ import {
     ZERO_ANSWER_ID_V2,
     ZERO_KEY_PAIR
 } from 'jton'
-import {CrystalAssetRoot, CrystalAssetRootContract} from '../src/CrystalAssetRoot'
-import {CrystalAsset, CrystalAssetContract} from '../src/CrystalAsset'
+import {CrystalAssetRoot, CrystalAssetRootContract} from '../src/contracts/assets/CrystalAssetRoot'
+import {CrystalAsset, CrystalAssetContract} from '../src/contracts/assets/CrystalAsset'
 import {SafeMultisigWallet} from 'jton-contracts/dist/tonlabs/SafeMultisigWallet'
 
 const {client, giver} = prepareGiverV2(config, config.contracts.giver.keys)

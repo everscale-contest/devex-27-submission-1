@@ -20,12 +20,12 @@ const {client, giver} = prepareGiverV2(config, config.contracts.giver.keys)
 const values = {
     giver: {
         demiurge: config.contracts.demiurge.requiredForDeployment * B,
-        safeMultisigWallet: 0.2 * B
+        safeMultisigWallet: B
     },
     safeMultisigWallet: {
         createVendor: {
-            value: 0.12 * B,
-            deployValue: 0.08 * B,
+            value: 0.5 * B,
+            deployValue: 0.4 * B,
             balanceAfterDeployment: config.contracts.vendor.requiredForDeployment * B
         }
     }
@@ -61,7 +61,7 @@ it('createVendor', async () => {
         payload: await getPayload(
             client,
             DemiurgeContract.abi,
-            Demiurge.EXTERNAL.createCustomer,
+            Demiurge.EXTERNAL.createVendor,
             {
                 publicKey: ZERO_UINT256,
                 owner: await safeMultisigWallet.address(),

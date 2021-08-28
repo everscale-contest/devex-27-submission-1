@@ -20,7 +20,7 @@ export const contracts: any = {
         requiredForDeployment: 0.03
     },
     demiurge: {
-        requiredForDeployment: 0.04
+        requiredForDeployment: 0.1
     },
     customer: {
         requiredForDeployment: 0.03

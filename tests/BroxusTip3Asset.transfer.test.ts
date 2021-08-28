@@ -13,13 +13,13 @@ import {
     ZERO_KEY_PAIR,
     ZERO_UINT256
 } from 'jton'
-import {BroxusTip3AssetRoot, BroxusTip3AssetRootContract} from '../src/BroxusTip3AssetRoot'
-import {BroxusTip3Asset, BroxusTip3AssetContract} from '../src/BroxusTip3Asset'
+import {BroxusTip3AssetRoot, BroxusTip3AssetRootContract} from '../src/contracts/assets/BroxusTip3AssetRoot'
+import {BroxusTip3Asset, BroxusTip3AssetContract} from '../src/contracts/assets/BroxusTip3Asset'
 import {RootTokenContract, RootTokenContractContract} from 'jton-contracts/dist/broxus/fungibleToken/RootTokenContract'
 import {TONTokenWallet, TONTokenWalletContract} from 'jton-contracts/dist/broxus/fungibleToken/TONTokenWallet'
 import {RootTokenContractOwner} from './_src/RootTokenContractOwner'
 import {SafeMultisigWallet} from 'jton-contracts/dist/tonlabs/SafeMultisigWallet'
-import {BroxusTip3AssetOwner, GetInfoOut} from './_src/BroxusTip3AssetOwner'
+import {BroxusTip3AssetOwner} from './_src/BroxusTip3AssetOwner'
 import {PayloadGenerator, PayloadGeneratorContract} from './_src/PayloadGenerator'
 
 const {client, giver} = prepareGiverV2(config, config.contracts.giver.keys)
@@ -270,9 +270,6 @@ it('create', async () => {
         )
     })
     await vendor.waitForTransaction()
-    const vendorInfo: GetInfoOut = await vendor.getInfo()
-    console.log(vendorInfo)
-    console.log(await customerTONTokenWallet.getDetails())
-    console.log(await vendorTONTokenWallet.getDetails())
+    expect((await vendorTONTokenWallet.getDetails()).balance).toBe(tokens)
     client.close()
 }, testTimeout)

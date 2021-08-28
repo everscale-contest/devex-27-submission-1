@@ -1,4 +1,5 @@
 pragma ton-solidity >= 0.48.0;
+pragma AbiHeader expire;
 
 import "interfaces/IDemiurge.sol";
 import "utils/GasSender.sol";
@@ -38,7 +39,7 @@ contract Demiurge is IDemiurge, GasSender, GasSender128 {
        publicKey ................. Public key of owner if the owner is external, zero otherwise
        owner ..................... Address of owner if the owner is internal, zero otherwise
        deployValue ............... Value with which the contract will be deployed
-       balanceAfterDeployment ..... How much crystals will remain after deployment
+       balanceAfterDeployment .... How much crystals will remain after deployment
        gasReceiver ............... Remaining balance receiver. msg.sender by default
      */
     function createVendor(
@@ -79,7 +80,7 @@ contract Demiurge is IDemiurge, GasSender, GasSender128 {
        publicKey ................. Public key of owner if the owner is external, zero otherwise
        owner ..................... Address of owner if the owner is internal, zero otherwise
        deployValue ............... Value with which the contract will be deployed
-       balanceAfterDeployment ..... How much crystals will remain after deployment
+       balanceAfterDeployment .... How much crystals will remain after deployment
        gasReceiver ............... Remaining balance receiver. msg.sender by default
      */
     function createCustomer(
