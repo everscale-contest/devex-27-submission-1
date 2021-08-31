@@ -11,7 +11,7 @@ contract PeriodSubscription is GasSender128 {
     /**********
      * STATIC *
      **********/
-    address public static _root;
+    address public static _service;
     address public static _owner;
 
 
@@ -25,8 +25,8 @@ contract PeriodSubscription is GasSender128 {
     /*************
      * MODIFIERS *
      *************/
-    modifier rootIsCreator {
-        require(msg.sender == _root, 100);
+    modifier serviceIsCreator {
+        require(msg.sender == _service, 100);
         _;
     }
 
@@ -35,7 +35,7 @@ contract PeriodSubscription is GasSender128 {
        balanceAfterDeployment .... How much crystals will remain after deployment
        gasReceiver ............... Remaining balance receiver. msg.sender by default
      */
-    constructor(uint128 balanceAfterDeployment, address gasReceiver) public rootIsCreator {
+    constructor(uint128 balanceAfterDeployment, address gasReceiver) public serviceIsCreator {
         tvm.rawReserve(balanceAfterDeployment, 2);
         _sendGas128(gasReceiver);
     }

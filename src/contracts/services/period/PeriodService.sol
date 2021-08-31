@@ -90,7 +90,7 @@ contract PeriodService is IPeriodService, GasSender, GasSender128, GasSender64 {
         TvmCell stateInit = tvm.buildStateInit({
             contr: PeriodSubscription,
             varInit: {
-                _root: address(this),
+                _service: address(this),
                 _owner: msg.sender
             },
             pubkey: 0,
@@ -225,7 +225,7 @@ contract PeriodService is IPeriodService, GasSender, GasSender128, GasSender64 {
         TvmCell stateInit = tvm.buildStateInit({
             contr: PeriodSubscription,
             varInit: {
-                _root: address(this),
+                _service: address(this),
                 _owner: owner
             },
             pubkey: 0,

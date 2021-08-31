@@ -17,6 +17,7 @@ import {PeriodCrystalOfferRoot, PeriodCrystalOfferRootContract} from '../src/con
 import PeriodCrystalOfferContract from '../src/contracts/services/period/offers/crystal/PeriodCrystalOffer'
 import PeriodCrystalAccepterContract from '../src/contracts/services/period/offers/crystal/PeriodCrystalAccepter'
 import {PeriodCrystalOffer} from '../src/contracts/services/PeriodCrystalOffer'
+import {PeriodSubscription} from '../src/contracts/services/PeriodSubscription'
 
 const {client, giver} = prepareGiverV2(config, config.contracts.giver.keys)
 const values = {
@@ -61,6 +62,11 @@ const values = {
             deploymentValue: 0.2 * B,
             balanceAfterDeployment: 0.1 * B
         },
+        createSubscription: {
+            value: 0.5 * B,
+            deploymentValue: 0.3 * B,
+            balanceAfterDeployment: 0.2 * B
+        }
     }
 }
 
@@ -372,6 +378,47 @@ it('createVendor', async () => {
         await customer.waitForTransaction()
         expect(await customerCrystalAsset.accountType()).toBe(AccountType.active)
         expect((await customer.getDetails()).assets).toStrictEqual([await customerCrystalAsset.address()])
+
+
+        // Subscription
+        const periodSubscription: PeriodSubscription = new PeriodSubscription(client, ZERO_KEY_PAIR, {
+            _service: await periodService.address(),
+            _owner: await customer.address()
+        })
+        await customerSafeMultisigWallet.sendTransaction({
+            dest: await customer.address(),
+            value: values.customerSafeMultisigWallet.createSubscription.value,
+            bounce: false,
+            flags: 1,
+            payload: await getPayload(
+                client,
+                CustomerContract.abi,
+                Customer.EXTERNAL.createSubscription,
+                {
+                    root: await periodService.address(),
+                    payload: await getPayload(
+                        client,
+                        PeriodServiceContract.abi,
+                        PeriodService.EXTERNAL.createSubscription,
+                        {
+                            answerId: await customer.getOnCreateSubscriptionFunction(),
+                            deploymentValue: values.customerSafeMultisigWallet.createAsset.deploymentValue,
+                            balanceAfterDeployment: values.customerSafeMultisigWallet.createAsset.balanceAfterDeployment,
+                            gasReceiver: await customerSafeMultisigWallet.address()
+                        }
+                    ),
+                    timeout: 20 * 60
+                }
+            )
+        })
+        await periodService.waitForTransaction()
+        await periodSubscription.waitForTransaction()
+        await customer.waitForTransaction()
+        expect(await periodSubscription.accountType()).toBe(AccountType.active)
+        expect((await customer.getDetails()).subscriptions).toStrictEqual(
+            [await periodSubscription.address()]
+        )
+
 
         client.close()
     },

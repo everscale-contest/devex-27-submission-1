@@ -12,7 +12,7 @@ import "utils/GasSender64.sol";
       101 - Define only public key or owner address
       102 - Method for the owner only
       103 - Method for the asset root only
-      104 - Method for the service root only
+      104 - Method for the subscription root only
  */
 contract Customer is ICustomer, GasSender128, GasSender64 {
     /**********
@@ -26,9 +26,9 @@ contract Customer is ICustomer, GasSender128, GasSender64 {
      * VARIABLES *
      *************/
     mapping(address => Sender) _assetRoots;
-    mapping(address => Sender) _serviceRoots;
+    mapping(address => Sender) _subscriptionRoots;
     mapping(address => bool) _assets;
-    mapping(address => bool) _services;
+    mapping(address => bool) _subscriptions;
 
 
     /*************
@@ -54,8 +54,8 @@ contract Customer is ICustomer, GasSender128, GasSender64 {
         _;
     }
 
-    modifier onlyServiceRoot {
-        require(_serviceRoots.exists(msg.sender), 104);
+    modifier onlySubscriptionRoot {
+        require(_subscriptionRoots.exists(msg.sender), 104);
         _;
     }
 
@@ -88,13 +88,13 @@ contract Customer is ICustomer, GasSender128, GasSender64 {
     }
 
     /*
-       root ....... Address of service root contract
+       root ....... Address of subscription root contract
        payload .... Information for destination contract
        timeout .... How long wait answer from root. Time in seconds
      */
-    function createService(address root, TvmCell payload, uint32 timeout) override external onlyOwner {
-        _clearServiceRoots();
-        _addServiceRoot(root, timeout);
+    function createSubscription(address root, TvmCell payload, uint32 timeout) override external onlyOwner {
+        _clearSubscriptionRoots();
+        _addSubscriptionRoot(root, timeout);
         root.transfer({ value: 0, bounce: false, flag: 64, body: payload });
     }
 
@@ -112,8 +112,8 @@ contract Customer is ICustomer, GasSender128, GasSender64 {
        Call this if something with roots goes wrong.
        gasReceiver .... Remaining balance receiver. msg.sender by default
      */
-    function clearServiceRoots(address gasReceiver) override external onlyOwner {
-        _clearServiceRoots();
+    function clearSubscriptionRoots(address gasReceiver) override external onlyOwner {
+        _clearSubscriptionRoots();
         _sendGas64(gasReceiver);
     }
 
@@ -131,11 +131,11 @@ contract Customer is ICustomer, GasSender128, GasSender64 {
     /*
        Additional function.
        Call this if something with roots goes wrong.
-       service ........ Address of service
-       gasReceiver .... Remaining balance receiver. msg.sender by default
+       subscription .... Address of subscription
+       gasReceiver ..... Remaining balance receiver. msg.sender by default
      */
-    function addService(address service, address gasReceiver) override external onlyOwner {
-         _services.getSet(service, true);
+    function addSubscription(address subscription, address gasReceiver) override external onlyOwner {
+         _subscriptions.getSet(subscription, true);
         _sendGas64(gasReceiver);
     }
 
@@ -150,18 +150,19 @@ contract Customer is ICustomer, GasSender128, GasSender64 {
     }
 
     /*
-       service ........ Address of service
-       gasReceiver .... Remaining balance receiver. msg.sender by default
+       subscription .... Address of subscription
+       gasReceiver ..... Remaining balance receiver. msg.sender by default
      */
-    function removeService(address service, address gasReceiver) override external onlyOwner {
-        if (_services.exists(service))
-            delete _services[service];
+    function removeSubscription(address subscription, address gasReceiver) override external onlyOwner {
+        if (_subscriptions.exists(subscription))
+            delete _subscriptions[subscription];
         _sendGas64(gasReceiver);
     }
 
     /*
        asset ...... Address of asset
        payload .... Information for destination contract
+       gasReceiver .... Remaining balance receiver. msg.sender by default
      */
     function callAsset(address asset, TvmCell payload, address gasReceiver) override external onlyOwner {
         if (_assets.exists(asset))
@@ -171,12 +172,13 @@ contract Customer is ICustomer, GasSender128, GasSender64 {
     }
 
     /*
-       service .... Address of service
-       payload .... Information for destination contract
+       subscription .... Address of subscription
+       payload ......... Information for destination contract
+       gasReceiver .... Remaining balance receiver. msg.sender by default
      */
-    function callService(address service, TvmCell payload, address gasReceiver) override external onlyOwner {
-        if (_services.exists(service))
-            service.transfer({ value: 0, bounce: false, flag: 64, body: payload });
+    function callSubscription(address subscription, TvmCell payload, address gasReceiver) override external onlyOwner {
+        if (_subscriptions.exists(subscription))
+            subscription.transfer({ value: 0, bounce: false, flag: 64, body: payload });
         else
             _sendGas64(gasReceiver);
     }
@@ -196,16 +198,16 @@ contract Customer is ICustomer, GasSender128, GasSender64 {
     }
 
 
-    /********************************
-     * EXTERNAL * ONLY SERVICE ROOT *
-     ********************************/
+    /*************************************
+     * EXTERNAL * ONLY SUBSCRIPTION ROOT *
+     *************************************/
     /*
        root ........... Address of asset
        gasReceiver .... Remaining balance receiver. msg.sender by default
      */
-    function onCreateService(address addr, address gasReceiver) override external onlyServiceRoot {
-        _removeServiceRoot(addr);
-        _services[addr] = true;
+    function onCreateSubscription(address addr, address gasReceiver) override external onlySubscriptionRoot {
+        _removeSubscriptionRoot(addr);
+        _subscriptions[addr] = true;
         _sendGas64(gasReceiver);
     }
 
@@ -217,22 +219,22 @@ contract Customer is ICustomer, GasSender128, GasSender64 {
             address demiurge,
             address owner,
             mapping(address => Sender) assetRoots,
-            mapping(address => Sender) serviceRoots,
+            mapping(address => Sender) subscriptionRoots,
             address[] assets,
-            address[] services
+            address[] subscriptions
         )
     {
         for((address addr, ) : _assets)
             assets.push(addr);
-        for((address addr, ) : _services)
-            services.push(addr);
+        for((address addr, ) : _subscriptions)
+            subscriptions.push(addr);
         return { value: 0, bounce: false, flag: 64 } (
             _demiurge,
             _owner,
             _assetRoots,
-            _serviceRoots,
+            _subscriptionRoots,
             assets,
-            services
+            subscriptions
         );
     }
 
@@ -240,8 +242,8 @@ contract Customer is ICustomer, GasSender128, GasSender64 {
         return tvm.functionId(Customer.onCreateAsset);
     }
 
-    function getOnCreateServiceFunction() override external view returns(uint32) {
-        return tvm.functionId(Customer.onCreateService);
+    function getOnCreateSubscriptionFunction() override external view returns(uint32) {
+        return tvm.functionId(Customer.onCreateSubscription);
     }
 
 
@@ -254,10 +256,10 @@ contract Customer is ICustomer, GasSender128, GasSender64 {
                 delete _assetRoots[addr];
     }
 
-    function _clearServiceRoots() private {
-        for((address addr, Sender sender) : _serviceRoots)
+    function _clearSubscriptionRoots() private {
+        for((address addr, Sender sender) : _subscriptionRoots)
             if (sender.expireAt <= now)
-                delete _serviceRoots[addr];
+                delete _subscriptionRoots[addr];
     }
 
     /*
@@ -272,11 +274,11 @@ contract Customer is ICustomer, GasSender128, GasSender64 {
     }
 
     /*
-       root ....... Address of service root contract
+       root ....... Address of subscription root contract
      */
-    function _removeServiceRoot(address root) private {
-        if (_serviceRoots.exists(root))
-            delete _serviceRoots[root];
+    function _removeSubscriptionRoot(address root) private {
+        if (_subscriptionRoots.exists(root))
+            delete _subscriptionRoots[root];
         if (_assetRoots.exists(root))
             if (_assetRoots[root].count == 1)
                 delete _assetRoots[root];
@@ -296,13 +298,13 @@ contract Customer is ICustomer, GasSender128, GasSender64 {
     }
 
     /*
-       root ....... Address of service root contract
+       root ....... Address of subscription root contract
        timeout .... How long wait answer from root. Time in seconds
      */
-    function _addServiceRoot(address root, uint32 timeout) private {
+    function _addSubscriptionRoot(address root, uint32 timeout) private {
         uint32 expireAt = now + timeout;
-        _serviceRoots.getSet(root, Sender(0, expireAt));
-        _serviceRoots[root].count = _serviceRoots[root].count + 1;
-        _serviceRoots[root].expireAt = expireAt;
+        _subscriptionRoots.getSet(root, Sender(0, expireAt));
+        _subscriptionRoots[root].count = _subscriptionRoots[root].count + 1;
+        _subscriptionRoots[root].expireAt = expireAt;
     }
 }

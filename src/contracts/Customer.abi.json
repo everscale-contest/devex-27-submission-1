@@ -23,7 +23,7 @@
 			]
 		},
 		{
-			"name": "createService",
+			"name": "createSubscription",
 			"inputs": [
 				{"name":"root","type":"address"},
 				{"name":"payload","type":"cell"},
@@ -41,7 +41,7 @@
 			]
 		},
 		{
-			"name": "clearServiceRoots",
+			"name": "clearSubscriptionRoots",
 			"inputs": [
 				{"name":"gasReceiver","type":"address"}
 			],
@@ -58,9 +58,9 @@
 			]
 		},
 		{
-			"name": "addService",
+			"name": "addSubscription",
 			"inputs": [
-				{"name":"service","type":"address"},
+				{"name":"subscription","type":"address"},
 				{"name":"gasReceiver","type":"address"}
 			],
 			"outputs": [
@@ -76,9 +76,9 @@
 			]
 		},
 		{
-			"name": "removeService",
+			"name": "removeSubscription",
 			"inputs": [
-				{"name":"service","type":"address"},
+				{"name":"subscription","type":"address"},
 				{"name":"gasReceiver","type":"address"}
 			],
 			"outputs": [
@@ -95,9 +95,9 @@
 			]
 		},
 		{
-			"name": "callService",
+			"name": "callSubscription",
 			"inputs": [
-				{"name":"service","type":"address"},
+				{"name":"subscription","type":"address"},
 				{"name":"payload","type":"cell"},
 				{"name":"gasReceiver","type":"address"}
 			],
@@ -114,7 +114,7 @@
 			]
 		},
 		{
-			"name": "onCreateService",
+			"name": "onCreateSubscription",
 			"inputs": [
 				{"name":"addr","type":"address"},
 				{"name":"gasReceiver","type":"address"}
@@ -131,9 +131,9 @@
 				{"name":"demiurge","type":"address"},
 				{"name":"owner","type":"address"},
 				{"components":[{"name":"count","type":"uint16"},{"name":"expireAt","type":"uint32"}],"name":"assetRoots","type":"map(address,tuple)"},
-				{"components":[{"name":"count","type":"uint16"},{"name":"expireAt","type":"uint32"}],"name":"serviceRoots","type":"map(address,tuple)"},
+				{"components":[{"name":"count","type":"uint16"},{"name":"expireAt","type":"uint32"}],"name":"subscriptionRoots","type":"map(address,tuple)"},
 				{"name":"assets","type":"address[]"},
-				{"name":"services","type":"address[]"}
+				{"name":"subscriptions","type":"address[]"}
 			]
 		},
 		{
@@ -145,7 +145,7 @@
 			]
 		},
 		{
-			"name": "getOnCreateServiceFunction",
+			"name": "getOnCreateSubscriptionFunction",
 			"inputs": [
 			],
 			"outputs": [
@@ -182,8 +182,8 @@
 		{"name":"_demiurge","type":"address"},
 		{"name":"_owner","type":"address"},
 		{"components":[{"name":"count","type":"uint16"},{"name":"expireAt","type":"uint32"}],"name":"_assetRoots","type":"map(address,tuple)"},
-		{"components":[{"name":"count","type":"uint16"},{"name":"expireAt","type":"uint32"}],"name":"_serviceRoots","type":"map(address,tuple)"},
+		{"components":[{"name":"count","type":"uint16"},{"name":"expireAt","type":"uint32"}],"name":"_subscriptionRoots","type":"map(address,tuple)"},
 		{"name":"_assets","type":"map(address,bool)"},
-		{"name":"_services","type":"map(address,bool)"}
+		{"name":"_subscriptions","type":"map(address,bool)"}
 	]
 }

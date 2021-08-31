@@ -162,6 +162,7 @@ contract Vendor is IVendor, GasSender128, GasSender64 {
     /*
        asset ...... Address of asset
        payload .... Information for destination contract
+       gasReceiver .... Remaining balance receiver. msg.sender by default
      */
     function callAsset(address asset, TvmCell payload, address gasReceiver) override external onlyOwner {
         if (_assets.exists(asset))
@@ -172,7 +173,8 @@ contract Vendor is IVendor, GasSender128, GasSender64 {
 
     /*
        service .... Address of service
-       payload .... Information for destination contract
+       payload ......... Information for destination contract
+       gasReceiver .... Remaining balance receiver. msg.sender by default
      */
     function callService(address service, TvmCell payload, address gasReceiver) override external onlyOwner {
         if (_services.exists(service))

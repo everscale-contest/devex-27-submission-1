@@ -20,11 +20,11 @@ interface ICustomer {
     function createAsset(address root, TvmCell payload, uint32 timeout) external;
 
     /*
-       root ....... Address of service root contract
+       root ....... Address of subscription root contract
        payload .... Information for destination contract
        timeout .... How long wait answer from root. Time in seconds
      */
-    function createService(address root, TvmCell payload, uint32 timeout) external;
+    function createSubscription(address root, TvmCell payload, uint32 timeout) external;
 
     /*
        Call this if something with roots goes wrong.
@@ -36,7 +36,7 @@ interface ICustomer {
        Call this if something with roots goes wrong.
        gasReceiver .... Remaining balance receiver. msg.sender by default
      */
-    function clearServiceRoots(address gasReceiver) external;
+    function clearSubscriptionRoots(address gasReceiver) external;
 
     /*
        Call this if something with roots goes wrong.
@@ -47,10 +47,10 @@ interface ICustomer {
 
     /*
        Call this if something with roots goes wrong.
-       service ........ Address of service
-       gasReceiver .... Remaining balance receiver. msg.sender by default
+       subscription .... Address of subscription
+       gasReceiver ..... Remaining balance receiver. msg.sender by default
      */
-    function addService(address service, address gasReceiver) external;
+    function addSubscription(address subscription, address gasReceiver) external;
 
     /*
        asset .......... Address of asset
@@ -59,10 +59,10 @@ interface ICustomer {
     function removeAsset(address asset, address gasReceiver) external;
 
     /*
-       service ........ Address of service
-       gasReceiver .... Remaining balance receiver. msg.sender by default
+       subscription .... Address of subscription
+       gasReceiver ..... Remaining balance receiver. msg.sender by default
      */
-    function removeService(address service, address gasReceiver) external;
+    function removeSubscription(address subscription, address gasReceiver) external;
 
     /*
        asset ...... Address of asset
@@ -72,11 +72,11 @@ interface ICustomer {
     function callAsset(address asset, TvmCell payload, address gasReceiver) external;
 
     /*
-       service .... Address of service
-       payload .... Information for destination contract
+       subscription .... Address of subscription
+       payload ......... Information for destination contract
        gasReceiver .... Remaining balance receiver. msg.sender by default
      */
-    function callService(address service, TvmCell payload, address gasReceiver) external;
+    function callSubscription(address subscription, TvmCell payload, address gasReceiver) external;
 
 
     /******************************
@@ -89,14 +89,14 @@ interface ICustomer {
     function onCreateAsset(address addr, address gasReceiver) external;
 
 
-    /********************************
-     * EXTERNAL * ONLY SERVICE ROOT *
-     ********************************/
+    /*************************************
+     * EXTERNAL * ONLY SUBSCRIPTION ROOT *
+     *************************************/
     /*
        root ........... Address of asset
        gasReceiver .... Remaining balance receiver. msg.sender by default
      */
-    function onCreateService(address addr, address gasReceiver) external;
+    function onCreateSubscription(address addr, address gasReceiver) external;
 
 
     /***********
@@ -106,12 +106,12 @@ interface ICustomer {
             address demiurge,
             address owner,
             mapping(address => Sender) assetRoots,
-            mapping(address => Sender) serviceRoots,
+            mapping(address => Sender) subscriptionRoots,
             address[] assets,
-            address[] services
+            address[] subscription
         );
 
     function getOnCreateAssetFunction() external view returns(uint32);
 
-    function getOnCreateServiceFunction() external view returns(uint32);
+    function getOnCreateSubscriptionFunction() external view returns(uint32);
 }
