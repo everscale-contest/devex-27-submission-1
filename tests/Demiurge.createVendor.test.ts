@@ -25,7 +25,7 @@ const values = {
     safeMultisigWallet: {
         createVendor: {
             value: 0.5 * B,
-            deployValue: 0.4 * B,
+            deploymentValue: 0.4 * B,
             balanceAfterDeployment: config.contracts.vendor.requiredForDeployment * B
         }
     }
@@ -65,7 +65,7 @@ it('createVendor', async () => {
             {
                 publicKey: ZERO_UINT256,
                 owner: await safeMultisigWallet.address(),
-                deployValue: values.safeMultisigWallet.createVendor.deployValue,
+                deploymentValue: values.safeMultisigWallet.createVendor.deploymentValue,
                 balanceAfterDeployment: values.safeMultisigWallet.createVendor.balanceAfterDeployment,
                 gasReceiver: await safeMultisigWallet.address()
             }

@@ -34,7 +34,7 @@ const values = {
     broxusTip3AssetRoot: {
         create: {
             value: 0.8 * B,
-            deployValue: 0.7 * B,
+            deploymentValue: 0.7 * B,
             balanceAfterDeployment: 0.2 * B,
             deployEmptyWalletGrams: 0.1 * B
         }
@@ -139,7 +139,7 @@ it('create', async () => {
             {
                 ...ZERO_ANSWER_ID_V2,
                 tip3Root: await rootTokenContract.address(),
-                deployValue: values.broxusTip3AssetRoot.create.deployValue,
+                deploymentValue: values.broxusTip3AssetRoot.create.deploymentValue,
                 balanceAfterDeployment: values.broxusTip3AssetRoot.create.balanceAfterDeployment,
                 walletAddress: await customerTONTokenWallet.address(),
                 deployEmptyWalletGrams: values.broxusTip3AssetRoot.create.deployEmptyWalletGrams,
@@ -177,7 +177,7 @@ it('create', async () => {
         root: await broxusTip3AssetRoot.address(),
         value: values.broxusTip3AssetRoot.create.value,
         tip3Root: await rootTokenContract.address(),
-        deployValue: values.broxusTip3AssetRoot.create.deployValue,
+        deploymentValue: values.broxusTip3AssetRoot.create.deploymentValue,
         balanceAfterDeployment: values.broxusTip3AssetRoot.create.balanceAfterDeployment,
         walletAddress: await vendorTONTokenWallet.address(),
         deployEmptyWalletGrams: values.broxusTip3AssetRoot.create.deployEmptyWalletGrams,
@@ -270,6 +270,6 @@ it('create', async () => {
         )
     })
     await vendor.waitForTransaction()
-    expect((await vendorTONTokenWallet.getDetails()).balance).toBe(tokens)
+    expect((await vendorTONTokenWallet.getDetails()).balance).toBe(tokens.toString())
     client.close()
 }, testTimeout)

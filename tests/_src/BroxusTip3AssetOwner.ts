@@ -9,7 +9,7 @@ export interface CreateIn {
     root: string
     value: number | string
     tip3Root: string
-    deployValue: number | string
+    deploymentValue: number | string
     balanceAfterDeployment: number | string
     walletAddress: string
     deployEmptyWalletGrams: number | string

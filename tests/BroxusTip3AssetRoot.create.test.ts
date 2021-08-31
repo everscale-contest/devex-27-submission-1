@@ -22,7 +22,7 @@ const values = {
     broxusTip3AssetOwner: {
         create: {
             value: 0.8 * B,
-            deployValue: 0.7 * B,
+            deploymentValue: 0.7 * B,
             balanceAfterDeployment: 0.2 * B,
             deployEmptyWalletGrams: 0.1 * B
         },
@@ -105,7 +105,7 @@ it('create', async () => {
         root: await broxusTip3AssetRoot.address(),
         value: values.broxusTip3AssetOwner.create.value,
         tip3Root: await rootTokenContract.address(),
-        deployValue: values.broxusTip3AssetOwner.create.deployValue,
+        deploymentValue: values.broxusTip3AssetOwner.create.deploymentValue,
         balanceAfterDeployment: values.broxusTip3AssetOwner.create.balanceAfterDeployment,
         walletAddress: await tonTokenWallet.address(),
         deployEmptyWalletGrams: values.broxusTip3AssetOwner.create.deployEmptyWalletGrams,

@@ -13,6 +13,146 @@
 			]
 		},
 		{
+			"name": "createAsset",
+			"inputs": [
+				{"name":"root","type":"address"},
+				{"name":"payload","type":"cell"},
+				{"name":"timeout","type":"uint32"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "createService",
+			"inputs": [
+				{"name":"root","type":"address"},
+				{"name":"payload","type":"cell"},
+				{"name":"timeout","type":"uint32"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "clearAssetRoots",
+			"inputs": [
+				{"name":"gasReceiver","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "clearServiceRoots",
+			"inputs": [
+				{"name":"gasReceiver","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "addAsset",
+			"inputs": [
+				{"name":"asset","type":"address"},
+				{"name":"gasReceiver","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "addService",
+			"inputs": [
+				{"name":"service","type":"address"},
+				{"name":"gasReceiver","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "removeAsset",
+			"inputs": [
+				{"name":"asset","type":"address"},
+				{"name":"gasReceiver","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "removeService",
+			"inputs": [
+				{"name":"service","type":"address"},
+				{"name":"gasReceiver","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "callAsset",
+			"inputs": [
+				{"name":"asset","type":"address"},
+				{"name":"payload","type":"cell"},
+				{"name":"gasReceiver","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "callService",
+			"inputs": [
+				{"name":"service","type":"address"},
+				{"name":"payload","type":"cell"},
+				{"name":"gasReceiver","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "onCreateAsset",
+			"inputs": [
+				{"name":"addr","type":"address"},
+				{"name":"gasReceiver","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "onCreateService",
+			"inputs": [
+				{"name":"addr","type":"address"},
+				{"name":"gasReceiver","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "getDetails",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"demiurge","type":"address"},
+				{"name":"owner","type":"address"},
+				{"components":[{"name":"count","type":"uint16"},{"name":"expireAt","type":"uint32"}],"name":"assetRoots","type":"map(address,tuple)"},
+				{"components":[{"name":"count","type":"uint16"},{"name":"expireAt","type":"uint32"}],"name":"serviceRoots","type":"map(address,tuple)"},
+				{"name":"assets","type":"address[]"},
+				{"name":"services","type":"address[]"}
+			]
+		},
+		{
+			"name": "getOnCreateAssetFunction",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"value0","type":"uint32"}
+			]
+		},
+		{
+			"name": "getOnCreateServiceFunction",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"value0","type":"uint32"}
+			]
+		},
+		{
 			"name": "_demiurge",
 			"inputs": [
 			],
@@ -40,6 +180,10 @@
 		{"name":"_timestamp","type":"uint64"},
 		{"name":"_constructorFlag","type":"bool"},
 		{"name":"_demiurge","type":"address"},
-		{"name":"_owner","type":"address"}
+		{"name":"_owner","type":"address"},
+		{"components":[{"name":"count","type":"uint16"},{"name":"expireAt","type":"uint32"}],"name":"_assetRoots","type":"map(address,tuple)"},
+		{"components":[{"name":"count","type":"uint16"},{"name":"expireAt","type":"uint32"}],"name":"_serviceRoots","type":"map(address,tuple)"},
+		{"name":"_assets","type":"map(address,bool)"},
+		{"name":"_services","type":"map(address,bool)"}
 	]
 }

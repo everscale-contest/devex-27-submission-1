@@ -22,7 +22,7 @@ contract BroxusTip3AssetOwner is IVendorToService {
        root ...................... Address of asset root contract
        value ..................... How much crystals send total
        tip3Root .................. Address of TIP-3 root contract
-       deployValue ............... How much crystals send to asset on deployment
+       deploymentValue .......... How much crystals send to asset on deployment
        balanceAfterDeployment .... How much crystals will remain after deployment
        walletAddress ............. Address of TIP-3 wallet to be deployed
        deployEmptyWalletGrams .... How much crystals will remain on TIP-3 wallet after deployment
@@ -32,7 +32,7 @@ contract BroxusTip3AssetOwner is IVendorToService {
         address root,
         uint128 value,
         address tip3Root,
-        uint128 deployValue,
+        uint128 deploymentValue,
         uint128 balanceAfterDeployment,
         address walletAddress,
         uint128 deployEmptyWalletGrams,
@@ -43,7 +43,7 @@ contract BroxusTip3AssetOwner is IVendorToService {
         tvm.accept();
         IBroxusTip3AssetRoot(root).create{value: value, callback: BroxusTip3AssetOwner.onCreate}(
             tip3Root,
-            deployValue,
+            deploymentValue,
             balanceAfterDeployment,
             walletAddress,
             deployEmptyWalletGrams,

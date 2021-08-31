@@ -21,11 +21,11 @@ export interface Sender {
 }
 
 export interface GetDetailsOut {
-    demiurge: string,
-    owner: string,
-    assetRoots: {[address: string]: Sender},
-    serviceRoots: {[address: string]: Sender},
-    assets: string[],
+    demiurge: string
+    owner: string
+    assetRoots: {[address: string]: Sender}
+    serviceRoots: {[address: string]: Sender}
+    assets: string[]
     services: string[]
 }
 
@@ -68,5 +68,13 @@ export class Vendor extends Contract {
      ***********/
     public async getDetails(): Promise<GetDetailsOut> {
         return (await this.run('getDetails', ZERO_ANSWER_ID_V2)).value
+    }
+
+    public async getOnCreateAssetFunction(): Promise<string> {
+        return (await this.run('getOnCreateAssetFunction', ZERO_ANSWER_ID_V2)).value.value0
+    }
+
+    public async getOnCreateServiceFunction(): Promise<string> {
+        return (await this.run('getOnCreateServiceFunction', ZERO_ANSWER_ID_V2)).value.value0
     }
 }

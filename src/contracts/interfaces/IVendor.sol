@@ -102,7 +102,7 @@ interface IVendor {
     /***********
      * GETTERS *
      ***********/
-    function getDetails() external view returns(
+    function getDetails() external view responsible returns(
             address demiurge,
             address owner,
             mapping(address => Sender) assetRoots,
@@ -110,4 +110,8 @@ interface IVendor {
             address[] assets,
             address[] services
         );
+
+    function getOnCreateAssetFunction() external view returns(uint32);
+
+    function getOnCreateServiceFunction() external view returns(uint32);
 }

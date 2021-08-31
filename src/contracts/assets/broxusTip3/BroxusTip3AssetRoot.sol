@@ -17,7 +17,7 @@ contract BroxusTip3AssetRoot is IBroxusTip3AssetRoot {
     /*
        owner ..................... Address of asset owner
        tip3Root .................. Address of TIP-3 root contract
-       deployValue ............... How much crystals send to asset on deployment
+       deploymentValue .......... How much crystals send to asset on deployment
        balanceAfterDeployment .... How much crystals will remain after deployment
        walletAddress ............. Address of TIP-3 wallet to be deployed
        deployEmptyWalletGrams .... How much crystals will remain on TIP-3 wallet after deployment
@@ -25,7 +25,7 @@ contract BroxusTip3AssetRoot is IBroxusTip3AssetRoot {
      */
     function create(
         address tip3Root,
-        uint128 deployValue,
+        uint128 deploymentValue,
         uint128 balanceAfterDeployment,
         address walletAddress,
         uint128 deployEmptyWalletGrams,
@@ -54,7 +54,7 @@ contract BroxusTip3AssetRoot is IBroxusTip3AssetRoot {
         return { value: 0, bounce: false, flag: 128 } (
             new BroxusTip3Asset {
                 stateInit: stateInit,
-                value: deployValue,
+                value: deploymentValue,
                 wid: address(this).wid,
                 flag: 1
             } (balanceAfterDeployment, walletAddress, deployEmptyWalletGrams, gasReceiver),

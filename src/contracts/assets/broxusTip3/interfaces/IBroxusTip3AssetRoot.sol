@@ -6,7 +6,7 @@ interface IBroxusTip3AssetRoot {
      ************/
     /*
        tip3Root .................. Address of TIP-3 root contract
-       deployValue ............... How much crystals send to asset on deployment
+       deploymentValue .......... How much crystals send to asset on deployment
        balanceAfterDeployment .... How much crystals will remain after deployment
        walletAddress ............. Address of TIP-3 wallet to be deployed
        deployEmptyWalletGrams .... How much crystals will remain on TIP-3 wallet after deployment
@@ -14,7 +14,7 @@ interface IBroxusTip3AssetRoot {
      */
     function create(
         address tip3Root,
-        uint128 deployValue,
+        uint128 deploymentValue,
         uint128 balanceAfterDeployment,
         address walletAddress,
         uint128 deployEmptyWalletGrams,

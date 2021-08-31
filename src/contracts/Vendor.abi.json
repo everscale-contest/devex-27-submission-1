@@ -125,6 +125,7 @@
 		{
 			"name": "getDetails",
 			"inputs": [
+				{"name":"answerId","type":"uint32"}
 			],
 			"outputs": [
 				{"name":"demiurge","type":"address"},
@@ -133,6 +134,22 @@
 				{"components":[{"name":"count","type":"uint16"},{"name":"expireAt","type":"uint32"}],"name":"serviceRoots","type":"map(address,tuple)"},
 				{"name":"assets","type":"address[]"},
 				{"name":"services","type":"address[]"}
+			]
+		},
+		{
+			"name": "getOnCreateAssetFunction",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"value0","type":"uint32"}
+			]
+		},
+		{
+			"name": "getOnCreateServiceFunction",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"value0","type":"uint32"}
 			]
 		},
 		{

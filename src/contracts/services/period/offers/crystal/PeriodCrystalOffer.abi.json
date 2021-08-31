@@ -1,0 +1,80 @@
+{
+	"ABI version": 2,
+	"version": "2.1",
+	"header": ["time", "expire"],
+	"functions": [
+		{
+			"name": "constructor",
+			"inputs": [
+				{"name":"price","type":"uint128"},
+				{"name":"asset","type":"address"},
+				{"name":"balanceAfterDeployment","type":"uint128"},
+				{"name":"gasReceiver","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "getDetails",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"root","type":"address"},
+				{"name":"owner","type":"address"},
+				{"name":"price","type":"uint128"},
+				{"name":"asset","type":"address"}
+			]
+		},
+		{
+			"name": "getCode",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"value0","type":"cell"}
+			]
+		},
+		{
+			"name": "_root",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"_root","type":"address"}
+			]
+		},
+		{
+			"name": "_owner",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"_owner","type":"address"}
+			]
+		},
+		{
+			"name": "_code",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"_code","type":"cell"}
+			]
+		}
+	],
+	"data": [
+		{"key":1,"name":"_root","type":"address"},
+		{"key":2,"name":"_owner","type":"address"},
+		{"key":3,"name":"_code","type":"cell"}
+	],
+	"events": [
+	],
+	"fields": [
+		{"name":"_pubkey","type":"uint256"},
+		{"name":"_timestamp","type":"uint64"},
+		{"name":"_constructorFlag","type":"bool"},
+		{"name":"_root","type":"address"},
+		{"name":"_owner","type":"address"},
+		{"name":"_code","type":"cell"},
+		{"name":"_price","type":"uint128"},
+		{"name":"_asset","type":"address"}
+	]
+}

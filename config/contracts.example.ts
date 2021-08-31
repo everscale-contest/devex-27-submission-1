@@ -45,5 +45,11 @@ export const contracts: any = {
     },
     broxusTip3Asset: {
         requiredForDeployment: 0.03
+    },
+    periodServiceRoot: {
+        requiredForDeployment: 0.08
+    },
+    periodCrystalOfferRoot: {
+        requiredForDeployment: 0.1
     }
 }

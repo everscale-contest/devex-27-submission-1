@@ -9,7 +9,7 @@
 				{"name":"root","type":"address"},
 				{"name":"value","type":"uint128"},
 				{"name":"tip3Root","type":"address"},
-				{"name":"deployValue","type":"uint128"},
+				{"name":"deploymentValue","type":"uint128"},
 				{"name":"balanceAfterDeployment","type":"uint128"},
 				{"name":"walletAddress","type":"address"},
 				{"name":"deployEmptyWalletGrams","type":"uint128"},

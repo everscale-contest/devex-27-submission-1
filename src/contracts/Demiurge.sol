@@ -38,14 +38,14 @@ contract Demiurge is IDemiurge, GasSender, GasSender128 {
     /*
        publicKey ................. Public key of owner if the owner is external, zero otherwise
        owner ..................... Address of owner if the owner is internal, zero otherwise
-       deployValue ............... Value with which the contract will be deployed
+       deploymentValue .......... Value with which the contract will be deployed
        balanceAfterDeployment .... How much crystals will remain after deployment
        gasReceiver ............... Remaining balance receiver. msg.sender by default
      */
     function createVendor(
         uint256 publicKey,
         address owner,
-        uint128 deployValue,
+        uint128 deploymentValue,
         uint128 balanceAfterDeployment,
         address gasReceiver
     )
@@ -68,7 +68,7 @@ contract Demiurge is IDemiurge, GasSender, GasSender128 {
 
         address vendor = new Vendor{
             stateInit: stateInit,
-            value: deployValue,
+            value: deploymentValue,
             wid: address(this).wid,
             flag: 1
         } (balanceAfterDeployment, gasReceiver);
@@ -79,14 +79,14 @@ contract Demiurge is IDemiurge, GasSender, GasSender128 {
     /*
        publicKey ................. Public key of owner if the owner is external, zero otherwise
        owner ..................... Address of owner if the owner is internal, zero otherwise
-       deployValue ............... Value with which the contract will be deployed
+       deploymentValue .......... Value with which the contract will be deployed
        balanceAfterDeployment .... How much crystals will remain after deployment
        gasReceiver ............... Remaining balance receiver. msg.sender by default
      */
     function createCustomer(
         uint256 publicKey,
         address owner,
-        uint128 deployValue,
+        uint128 deploymentValue,
         uint128 balanceAfterDeployment,
         address gasReceiver
     )
@@ -109,7 +109,7 @@ contract Demiurge is IDemiurge, GasSender, GasSender128 {
 
         address customer = new Customer{
             stateInit: stateInit,
-            value: deployValue,
+            value: deploymentValue,
             wid: address(this).wid,
             flag: 1
         } (balanceAfterDeployment, gasReceiver);

@@ -213,7 +213,7 @@ contract Vendor is IVendor, GasSender128, GasSender64 {
     /***********
      * GETTERS *
      ***********/
-    function getDetails() override external view returns(
+    function getDetails() override external view responsible returns(
             address demiurge,
             address owner,
             mapping(address => Sender) assetRoots,
@@ -222,14 +222,26 @@ contract Vendor is IVendor, GasSender128, GasSender64 {
             address[] services
         )
     {
-        demiurge = _demiurge;
-        owner = _owner;
-        assetRoots = _assetRoots;
-        serviceRoots = _serviceRoots;
-        for((address addr, bool accept) : _assets)
+        for((address addr, ) : _assets)
             assets.push(addr);
-        for((address addr, bool accept) : _services)
+        for((address addr, ) : _services)
             services.push(addr);
+        return { value: 0, bounce: false, flag: 64 } (
+            _demiurge,
+            _owner,
+            _assetRoots,
+            _serviceRoots,
+            assets,
+            services
+        );
+    }
+
+    function getOnCreateAssetFunction() override external view returns(uint32) {
+        return tvm.functionId(Vendor.onCreateAsset);
+    }
+
+    function getOnCreateServiceFunction() override external view returns(uint32) {
+        return tvm.functionId(Vendor.onCreateService);
     }
 
 
@@ -249,11 +261,14 @@ contract Vendor is IVendor, GasSender128, GasSender64 {
     }
 
     /*
-       root ....... Address of service root contract
+       root ....... Address of asset root contract
      */
     function _removeAssetRoot(address root) private {
         if (_assetRoots.exists(root))
-            delete _assetRoots[root];
+            if (_assetRoots[root].count == 1)
+                delete _assetRoots[root];
+            else
+                _assetRoots[root].count == _assetRoots[root].count - 1;
     }
 
     /*
@@ -262,10 +277,15 @@ contract Vendor is IVendor, GasSender128, GasSender64 {
     function _removeServiceRoot(address root) private {
         if (_serviceRoots.exists(root))
             delete _serviceRoots[root];
+        if (_assetRoots.exists(root))
+            if (_assetRoots[root].count == 1)
+                delete _assetRoots[root];
+            else
+                _assetRoots[root].count == _assetRoots[root].count - 1;
     }
 
     /*
-       root ....... Address of service root contract
+       root ....... Address of asset root contract
        timeout .... How long wait answer from root. Time in seconds
      */
     function _addAssetRoot(address root, uint32 timeout) private {
