@@ -1,5 +1,5 @@
 # Subscription sustem
-![img](./docs/images/cover.svg)
+![img](./docs/images/cover.png)
 
 ## Requirements
 ![requirements](./docs/images/requirements.svg)
